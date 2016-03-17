@@ -1,0 +1,124 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body
+{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100vh;
+	font-family: "Open Sans", sans-serif;
+}
+
+.home
+{
+	background-image: url("../images/bg.png");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+
+/* TODO: WIJZIGEN NAAR AFBEELDING*/
+
+.logo
+{
+	width: 100%;
+	text-align: center;
+	color: white;
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+/* END TODO */
+
+.overlay
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(52,146,247,1);
+	background: -moz-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(52,146,247,1)), color-stop(100%, rgba(217,230,39,1)));
+	background: -webkit-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -o-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -ms-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: linear-gradient(135deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3492f7', endColorstr='#d9e627', GradientType=1 );
+	opacity: 0.5;
+	height: 100%;
+	width: 100%;
+}
+
+.login
+{
+	width: 400px;
+	height: 200px;
+	position: relative;
+	z-index: 99999;
+	margin: 0 auto;
+	display: block;
+}
+
+.login label
+{
+	font-size: 1.0rem;
+	color: white;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+
+.login .button
+{
+	width: 100%;
+}
+
+.textfield
+{
+	display: block;
+	box-shadow: none;
+	background: none ;
+	border: none;
+	border-bottom: 3px solid white;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 15px 20px;
+	margin-bottom: 30px;
+	font-size: 1.1rem;
+	text-align: center;
+}
+
+.button
+{
+	padding: 20px;
+	text-align: center;
+	background-color: transparent;
+	box-shadow: none;
+	font-family: "Open Sans", sans-serif;
+	font-size: 1.0rem;
+	color: white;
+	border: 2px solid white;
+	border-radius: 50px;
+	text-transform: uppercase;
+}
+
+.button:hover
+{
+	background-color: white;
+	color: gray;
+}
+
+.grid
+{
+	display: flex;
+	width: 100%;
+}
+
+.col
+{
+
+}
+
+
