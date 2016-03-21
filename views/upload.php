@@ -13,9 +13,16 @@
 	<body>
 		<?php 
 			$photo = new Photo();
-			
-			
-			
+			$photo->uploadPhoto();
 		?>
+
+		<form action="" method="post" enctype="multipart/form-data">
+
+		<input type="file" name="image" >
+		<textarea name="description"></textarea>
+		<input type="submit" value="Upload">
+
+		</form>
+
 	</body>
 </html>
