@@ -53,7 +53,7 @@ body
 
 .login
 {
-	width: 35vw;
+	width: 45vw;
 	height: 100vh;
 	padding: 50px;
 	position: absolute;
@@ -100,16 +100,18 @@ body
 	box-shadow: none;
 	background: none ;
 	border: none;
-	border-bottom: 5px solid white;
+	border-bottom: 2px solid white;
 	width: 100%;
 	box-sizing: border-box;
 	padding: 15px 20px;
 	margin-bottom: 30px;
 	font-size: 1.1rem;
 	color: white;
+    outline: none;
 }
 
-::-webkit-input-placeholder {
+::-webkit-input-placeholder 
+{
    color: white;
    opacity: 0.8;
 }
@@ -121,18 +123,18 @@ body
 	background-color: transparent;
 	box-shadow: none;
 	font-family: "Open Sans", sans-serif;
-	font-size: 1.0rem;
-	color: blue;
-	border: 2px solid blue;
-	border-radius: 50px;
+	font-size: 1.4rem;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: 40px;
 	text-transform: uppercase;
 	min-width: 200px;
 }
 
 .button:hover
 {
-	background-color: white;
-	color: gray;
+	background-color: #fff;
+	color: #323232;
 }
 
 .grid
