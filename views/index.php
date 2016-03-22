@@ -8,7 +8,15 @@
 	<body class="home">
 		<div class="overlay"></div>
 		<div class="login">
+
+
+
+
+
+
 			
+
+
 			<form action="" method="post">
 				<label for="email">E-mail</label>
 				<input type="text" name="login_email" class="textfield" placeholder="E-mail">
