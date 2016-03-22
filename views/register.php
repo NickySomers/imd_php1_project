@@ -1,17 +1,17 @@
 <?php 
 
-    include_once("classes/User.class.php");
+    include_once("../classes/User.class.php");
 
     if(!empty($_POST))
     {
         try
-        {
+        {   
             $user = new User();
             $user->FullName = $_POST['full_name'];
             $user->Email = $_POST['register_email'];
-            $user->Password = $_POST['register_password'];
-            $user->ConfirmPassword = $_POST['confirm_register_password'];
-            $user->Register();
+            $password = $_POST['register_password'];
+            $confirm_password = $_POST['confirm_register_password'];
+            $user->Register($password, $confirm_password);
         }
         catch(exception $e)
         {
