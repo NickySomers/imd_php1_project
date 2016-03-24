@@ -1,4 +1,6 @@
 <?php
+	session_start();
+
 	//Include all classes
 	spl_autoload_register(function ($class) {
 		include '../classes/' . $class . '.class.php';
@@ -13,7 +15,13 @@
 	<body>
 		<?php 
 			$photo = new Photo();
+
 			$photo->uploadPhoto();
+
+			if(!empty($_SESSION['feedback'])){
+				echo $_SESSION['feedback'];
+				unset($_SESSION['feedback']);
+			}
 		?>
 
 		<form action="" method="post" enctype="multipart/form-data">
