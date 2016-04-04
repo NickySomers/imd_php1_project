@@ -21,33 +21,48 @@
         </header>
         <div class="container">
 
-
             <?php 
                 $photo = new Photo();
 
-                $photo->uploadPhoto();
+                $image = $photo->showPhoto();
+            
+                
 
                 if(!empty($_SESSION['feedback'])){
                     echo $_SESSION['feedback'];
                     unset($_SESSION['feedback']);
                 }
-		  ?>
+            ?>
+           
             <div class="upload-form">
-               <h1>Upload your photo</h1>
-                <form action="" method="post" enctype="multipart/form-data">
+              
+                <?php if(!empty($image)): ?>
             
-                <input type="file" name="image">
-                <textarea name="description"></textarea>
-                <input type="submit" value="Upload">
-
-            </form>
+                   <div class="image" style="background-image: url(<?php echo $image ?>)"></div>
+                
+                <?php endif; ?>
+                
+               <h1>Upload your photo</h1>
+               <form action="" method="post" enctype="multipart/form-data">
+                   
+                   <input type="file" name="image" >
+                   <textarea name="description"></textarea>
+                   <input type="submit" value="Upload">
+                   
+               </form>
+    
             </div>
             
         </div>
         
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>  
+        <script>
+        
+
+        
+        </script>
     </body>
 
     </html>

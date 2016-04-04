@@ -174,3 +174,10 @@ header
     box-sizing: border-box;
     background-color: white;
 }
+
+.upload-form .image{
+    width: 100%;
+    height: 600px;
+    background-position: center;
+    background-size: cover;
+}

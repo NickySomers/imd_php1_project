@@ -49,7 +49,15 @@
 		public function uploadPhoto()
 		{
 
-			if(!empty($_FILES["image"]["tmp_name"])){
+			
+		
+		}
+        
+        
+        public function showPhoto()
+        {
+            
+            if(!empty($_FILES["image"]["tmp_name"])){
 
 
 				$target_dir = "../public/uploads/";
@@ -58,19 +66,19 @@
 			    $check = getimagesize($_FILES["image"]["tmp_name"]);
 
 			    if($check !== false) {
+                    
+                    return "data:" . $check['mime'] . ";base64," . base64_encode(file_get_contents($_FILES["image"]["tmp_name"]));
+                    
 
-			        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-				        $_SESSION['feedback'] = "Hooray! Your picture is uploaded.";
-				    } 
-
-			    } else {
-
-			        $_SESSION['feedback'] = "There was an error!";
-
-			    }
-			}
-		
-		}
+			     }else{
+                    $_SESSION['feedback'] = "Test";
+                }
+            }
+            
+            
+            
+            
+        }
 	
 	}
 
