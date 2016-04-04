@@ -41,13 +41,14 @@
                     <div class="image-container">
 
                         <?php if(empty($image)): ?>
+                           <div class="wrapper">
+                                <h1>Upload your photo</h1>
+                                <form action="" method="post" enctype="multipart/form-data" id="form-upload">
 
-                            <form action="" method="post" enctype="multipart/form-data" id="form-upload">
+                                    <input type="file" id="file" name="image" accept=".jpg,.png">
 
-                                <input type="file" id="file" name="image" accept=".jpg,.png">
-
-                            </form>
-
+                                </form>
+                            </div>
                             <?php else: ?>
 
                                 <img class="image" src="<?php echo $image ?>">
