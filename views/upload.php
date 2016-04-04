@@ -6,31 +6,48 @@
 		include '../classes/' . $class . '.class.php';
 	});
 ?>
-<html>
-	<head>
-		<title>IMDstagram</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="../css/style.css">
-	</head>
-	<body>
-		<?php 
-			$photo = new Photo();
+    <html>
 
-			$photo->uploadPhoto();
+    <head>
+        <title>IMDstagram</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/style.css">
+        <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 
-			if(!empty($_SESSION['feedback'])){
-				echo $_SESSION['feedback'];
-				unset($_SESSION['feedback']);
-			}
-		?>
+    <body>
+        <header>
+            <div class="logo"></div>
+        </header>
+        <div class="container">
 
-		<form action="" method="post" enctype="multipart/form-data">
 
-		<input type="file" name="image" >
-		<textarea name="description"></textarea>
-		<input type="submit" value="Upload">
+            <?php 
+                $photo = new Photo();
 
-		</form>
+                $photo->uploadPhoto();
 
-	</body>
-</html>
+                if(!empty($_SESSION['feedback'])){
+                    echo $_SESSION['feedback'];
+                    unset($_SESSION['feedback']);
+                }
+		  ?>
+            <div class="upload-form">
+               <h1>Upload your photo</h1>
+                <form action="" method="post" enctype="multipart/form-data">
+            
+                <input type="file" name="image">
+                <textarea name="description"></textarea>
+                <input type="submit" value="Upload">
+
+            </form>
+            </div>
+            
+        </div>
+        
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    </body>
+
+    </html>
