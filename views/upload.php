@@ -37,7 +37,7 @@
                 $image = $photo->showPhoto();
             
                 if(!empty($_POST['description'])){
-                    $photo->publish();
+                    $photo->upload();
                 }
 
                 if(!empty($_SESSION['feedback'])){
@@ -63,25 +63,24 @@
                                 <img class="image" src="<?php echo $image ?>">
                                 <div class="image-background" style="background-image: url(<?php echo $image; ?>)"></div>
 
-                            <?php endif; ?>
+                                <?php endif; ?>
 
                     </div>
 
                     <div class="col-md-4 add-image-info">
                         <?php if(!empty($image)): ?>
 
-                            <form action="" method="post">
+                            <form action="" method="post" id="publish-form">
                                 <input type="text" name="image" hidden value="<?php echo $image; ?>">
                                 <label for="description">Description:</label>
                                 <textarea name="description" class="image-description-field"></textarea>
-                                <input type="submit" value="publish">
 
                             </form>
                             <div class="button-group">
-                           
-                                <a href="" class="custom-button gray">Another photo</a>
-<!--                                <a href="" class="custom-button">Publish</a>-->
-    
+
+                                <button type="button" class="custom-button">Select another photo</button>
+                                <button type="button" id="publish" class="custom-button">Publish</button>
+
                             </div>
 
                             <?php endif; ?>
@@ -95,9 +94,29 @@
 
 
         <script>
-            document.getElementById("file").onchange = function () {
-                document.getElementById("form-upload").submit();
-            };
+            
+            $("#publish").click(function(){
+            
+                $("#publish-form").submit();
+                
+            })
+            
+            $('#form-upload').submit(function () {
+                var queryString = new FormData($('form')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: 'upload.php',
+                    data: queryString,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {},
+                    success: function () {}
+                });
+            });
+
+            $("#file").change(function () {
+                $("#form-upload").submit();
+            });
         </script>
     </body>
 

@@ -204,7 +204,6 @@ header
 
 .image
 {
-    width: 500px;
     height: 500px;
     display: block;
     margin: 0 auto;
@@ -293,6 +292,8 @@ input
     text-align: center;
     color: white;
     text-transform: uppercase;
+    box-shadow: none;
+    border: none;
 }
 
 .gray

@@ -46,22 +46,22 @@
 			}
 		} 
 
-		public function publish()
+		public function upload()
 		{
 
 
-$img = $_REQUEST['image'];
-preg_match('~data:(.*?);~', $img, $output);
-            
-            
-$extension = explode("/", $output[1]);
-            
-$img = str_replace('data:'.$output[1].';base64,', '', $img);
-$img = str_replace(' ', '+', $img);
-$data = base64_decode($img);
-           $date = date("c");
+            $img = $_REQUEST['image'];
+            preg_match('~data:(.*?);~', $img, $output);
 
-$success = file_put_contents("../public/uploads/".$date."." . $extension[1], $data);
+
+            $extension = explode("/", $output[1]);
+
+            $img = str_replace('data:'.$output[1].';base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            $data = base64_decode($img);
+                       $date = date("c");
+
+            $success = file_put_contents("../public/uploads/".$date."." . $extension[1], $data);
 
              
         }
