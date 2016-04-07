@@ -244,8 +244,7 @@ input {
     display: block;
 }
 
-.upload-form
-{
+.upload-form {
     position: relative;
     z-index: 9999999;
     text-align: center;
@@ -269,15 +268,13 @@ input {
     display: flex;
 }
 
-.add-image-info .button-group .button
-{
-    margin: 1%;   
+.add-image-info .button-group .button {
+    margin: 1%;
 }
 
 .add-image-info .content {
     width: 50%;
 }
-
 
 .content {
     width: 80%;
@@ -300,9 +297,7 @@ input[type=file] {
     display: block;
 }
 
-
-.feedback
-{
+.feedback {
     position: fixed;
     z-index: 999;
     top: 60px;
@@ -315,31 +310,99 @@ input[type=file] {
     -webkit-animation: showFeedback 0.3s linear forwards, hideFeedback 0.3s 2s linear forwards;
 }
 
-
-@-webkit-keyframes showFeedback
-{
-    
-    0%
-    {
+@-webkit-keyframes showFeedback {
+    0% {
         -webkit-transform: translateY(-100px);
         opacity: 0;
     }
-    
-    100%
-    {
+    100% {
         -webkit-transform: translateY(0);
         opacity: 1;
     }
-    
 }
 
-@-webkit-keyframes hideFeedback
-{
-    
-    100%
-    {
+@-webkit-keyframes hideFeedback {
+    100% {
         -webkit-transform: translateY(-100px);
         opacity: 0;
     }
-    
+}
+
+.profile-header {
+    height: 50vh;
+    width: 100%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    padding-top: 70px;
+    background-image: url("../images/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.profile-header .wrapper
+{
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 999;
+    flex-wrap: wrap;
+}
+
+.profile-header h1
+{
+    color: white;
+    font-size: 2.8rem;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+}
+
+.profile-header h2
+{
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.6rem;
+    font-weight: 300;
+    margin-top: 10px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.profile-header .overlay
+{
+    background: #272727 !important;
+}
+
+.profile-picture {
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    background-color: red;
+    margin-right: 30px;
+    background-image: url("../images/avatar.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.profile-grid
+{
+    padding-top: 150px !important;
+    padding-bottom: 150px !important;
+}
+
+.profile-grid-image
+{
+    height: 300px;
+    width: 100%;
+    background-image: url("../public/uploads/2016-04-04T17:30:00+02:00.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.profile-grid-image-container
+{
+    padding: 20px;
+    box-sizing: border-box;
 }
