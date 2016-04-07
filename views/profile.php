@@ -22,7 +22,20 @@
                 <h2>@SomersNicky</h2>
             </div>
         </div>
-
+        <div class="profile-information">
+            <div class="profile-information-item">
+                <span>Photos</span>
+                <span class="amount">7</span>
+            </div>
+            <div class="profile-information-item">
+                <span>Followers</span>
+                <span class="amount">130</span>
+            </div>
+            <div class="profile-information-item">
+                <span>Following</span>
+                <span class="amount">192</span>
+            </div>
+        </div>
         <div class="overlay"></div>
     </div>
     <div class="profile-grid container-fluid">
