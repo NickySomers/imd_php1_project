@@ -19,6 +19,7 @@
         <header>
             <div class="logo"></div>
         </header>
+        
         <div>
 
             <?php 
@@ -38,10 +39,13 @@
 
 
                 <div class="container-fluid">
-                    <div class="image-container">
+                   
+                    <div class="upload-container">
 
                         <?php if(empty($image)): ?>
-                           <div class="wrapper">
+                        
+                           <!-- Photo upload screen -->
+                           <div class="wrapper upload-form">
                                 <h1>Upload your photo</h1>
                                 <form action="" method="post" enctype="multipart/form-data" id="form-upload">
 
@@ -49,40 +53,39 @@
 
                                 </form>
                             </div>
-                            <?php else: ?>
-
+                            
+                        <?php else: ?>
+                                
+                            <!-- Uploaded image preview -->
+                            <div class="image-container">
                                 <img class="image" src="<?php echo $image ?>">
-                                <div class="add-image-info">
-                                    <div class="content">
-                                        <form action="" method="post" id="publish-form">
-                                            <input type="text" name="image" hidden value="<?php echo $image; ?>">
-                                            <label for="description">Description</label>
-                                            <textarea name="description" class="image-description-field"></textarea>
+                            </div>
 
-                                        </form>
-                                        <div class="button-group">
+                            <!-- Form to add a description to your uploaded photo -->
+                            <div class="add-image-info">
+                                <div class="content">
+                                    <form action="" method="post" id="publish-form">
+                                        <input type="text" name="image" hidden value="<?php echo $image; ?>">
+                                        <textarea name="description" class="image-description-field"></textarea>
 
-                                            <button type="button" class="custom-button gray">Another photo</button>
-                                            <button type="button" id="publish" class="custom-button">Publish</button>
+                                    </form>
+                                    <div class="button-group">
 
-                                        </div>
+                                        <button type="button" id="anotherPhoto" class=" button custom-button">Cancel</button>
+                                        <button type="button" id="publish" class="button custom-button">Publish</button>
+
                                     </div>
                                 </div>
+                            </div>
 
-
-                                <div class="image-background" style="background-image: url(<?php echo $image; ?>)">
-
-
-
-
-
-
-
-                                </div>
-
-
-
-                                <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        <!-- Blurry background of the uploaded image -->
+                        <?php if(empty($image)): ?>
+                            <div class="image-background"></div>
+                        <?php else: ?>
+                            <div class="image-background" style="background-image: url(<?php echo $image; ?>)"></div>
+                        <?php endif; ?>
 
                     </div>
 
@@ -98,7 +101,12 @@
 
                 $("#publish-form").submit();
 
-            })
+            });
+            
+            $("#anotherPhoto").click(function () {
+
+                location.href="index.php";
+            });
 
             $('#form-upload').submit(function () {
                 var queryString = new FormData($('form')[0]);
