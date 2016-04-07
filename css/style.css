@@ -299,3 +299,47 @@ input[type=file] {
     margin: 0 auto !important;
     display: block;
 }
+
+
+.feedback
+{
+    position: fixed;
+    z-index: 999;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #DFF2BF;
+    border-bottom: 2px solid #a4bf76;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -webkit-animation: showFeedback 0.3s linear forwards, hideFeedback 0.3s 2s linear forwards;
+}
+
+
+@-webkit-keyframes showFeedback
+{
+    
+    0%
+    {
+        -webkit-transform: translateY(-100px);
+        opacity: 0;
+    }
+    
+    100%
+    {
+        -webkit-transform: translateY(0);
+        opacity: 1;
+    }
+    
+}
+
+@-webkit-keyframes hideFeedback
+{
+    
+    100%
+    {
+        -webkit-transform: translateY(-100px);
+        opacity: 0;
+    }
+    
+}

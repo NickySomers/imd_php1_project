@@ -49,7 +49,6 @@
 		public function upload()
 		{
 
-
             $img = $_REQUEST['image'];
             preg_match('~data:(.*?);~', $img, $output);
 
@@ -59,11 +58,19 @@
             $img = str_replace('data:'.$output[1].';base64,', '', $img);
             $img = str_replace(' ', '+', $img);
             $data = base64_decode($img);
-                       $date = date("c");
-
-            $success = file_put_contents("../public/uploads/".$date."." . $extension[1], $data);
-
+            
+            $date = date("c");
+            
+            $path = "../public/uploads/".$date."." . $extension[1];
+            
+            
+            
+            $success = file_put_contents($path, $data);
+            
+            $this->addToDatabase($path, $_POST["description"]);
              
+            $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
+            
         }
         
         
@@ -87,9 +94,21 @@
                     $_SESSION['feedback'] = "Test";
                 }
             }
+             
+        }
+        
+        
+        public function addToDatabase($path, $description){
             
-            
-            
+            try {
+              
+				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			    $data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', 1)");
+
+			} catch(PDOException $e) {
+			    echo 'ERROR: ' . $e->getMessage();
+			}
             
         }
 	
