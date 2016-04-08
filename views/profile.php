@@ -27,6 +27,9 @@
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $data = $conn->query("SELECT * FROM posts WHERE userId = ".$_GET['id']." ORDER BY date DESC"); 
         $userdata = $conn->query("SELECT * FROM users WHERE id = ".$_GET['id']); 
+        $followingdata = $conn->query("SELECT * FROM users_followers WHERE userId = ".$_GET['id']); 
+        $followersdata = $conn->query("SELECT * FROM users_followers WHERE followUserId = ".$_GET['id']); 
+        
         foreach ($userdata as $row) {
 
             $name = $row['firstname'] . " " . $row['lastname'];
@@ -35,8 +38,8 @@
             
         }
         $count_photos = $data->rowCount();
-        $count_followers = 120;
-        $count_following = 100;
+        $count_followers = $followersdata->rowCount();
+        $count_following = $followingdata->rowCount();
 
     } catch(PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
