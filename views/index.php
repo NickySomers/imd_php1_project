@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+<?php
+include_once("../classes/login.class.php");
+	session_start();
+if (!empty($_POST)) {
+	$login = new login;
+	$username = strip_tags($_POST['login_email']);
+	$password = strip_tags($_POST['login_password']);
+
+	$username = stripslashes($username);
+	$password = stripslashes($password);
+
+
+	$login -> CanLogin($username,$password);
+
+}
+?><!DOCTYPE html>
 <html>
 	<head>
 		<title>IMDstagram</title>
@@ -8,14 +23,6 @@
 	<body class="home">
 		<div class="overlay"></div>
 		<div class="login">
-
-
-
-
-
-
-			
-
 
 			<form action="" method="post">
 				<label for="email">E-mail</label>
