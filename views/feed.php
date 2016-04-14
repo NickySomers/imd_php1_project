@@ -13,9 +13,14 @@
                 <div class="logo"></div>
             </header>
 
-            <div class="wrap-photo">
-                <div class="header-photo">
-                    
+            <div class="container">
+                <div class="wrap-photo">
+                    <div class="header-photo">
+                        <div class="profile-pic"></div>
+                        <div class="profile-name">tester</div>
+                        <div class="minutes-posted">50 m.</div>
+                    </div>
+                    <img src="../public/uploads/test.jpeg" alt="Photo" width="100%">
                 </div>
             </div>
             
