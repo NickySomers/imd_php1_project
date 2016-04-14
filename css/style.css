@@ -33,6 +33,7 @@ body {
 
 /* END TODO */
 
+<<<<<<< HEAD
 .overlay {
     position: absolute;
     top: 0;
@@ -274,6 +275,115 @@ input {
 
 .add-image-info .content {
     width: 50%;
+=======
+.overlay
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(52,146,247,1);
+	background: -moz-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(52,146,247,1)), color-stop(100%, rgba(217,230,39,1)));
+	background: -webkit-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -o-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: -ms-linear-gradient(-45deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	background: linear-gradient(135deg, rgba(52,146,247,1) 0%, rgba(217,230,39,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3492f7', endColorstr='#d9e627', GradientType=1 );
+	opacity: 0.5;
+	height: 100%;
+	width: 100%;
+}
+
+.login
+{
+	width: 35vw;
+	height: 100vh;
+	padding: 50px;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	z-index: 99999;
+	top: 0;
+	right: 0;
+	/*background-color: white;*/
+}
+
+.login label
+{
+	font-size: 1.0rem;
+	color: white;
+	margin-bottom: 10px;
+	opacity: 0.6;
+}
+
+
+.login .grid .col
+{
+	text-align: center;
+	width: 50%;
+}
+
+.login .grid .col a
+{
+	color: white;
+	width: 100%;
+}
+
+.login form
+{
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+}
+
+.textfield
+{
+	display: block;
+	box-shadow: none;
+	background: none ;
+	border: none;
+	border-bottom: 2px solid white;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 15px 20px;
+	margin-bottom: 30px;
+	font-size: 1.1rem;
+	color: white;
+    outline: none;
+}
+
+::-webkit-input-placeholder 
+{
+   color: white;
+   opacity: 0.8;
+}
+
+.button
+{
+	padding: 15px;
+	text-align: center;
+	background-color: transparent;
+	box-shadow: none;
+	font-family: "Open Sans", sans-serif;
+	font-size: 1.4rem;
+	color: #fff;
+	border: 2px solid #fff;
+	border-radius: 40px;
+	text-transform: uppercase;
+	min-width: 200px;
+}
+
+.button:hover
+{
+	background-color: #fff;
+	color: #323232;
+}
+
+.button:focus
+{
+	outline: none;
+>>>>>>> register
 }
 
 .content {
@@ -345,6 +455,7 @@ input[type=file] {
     box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
 }
 
+<<<<<<< HEAD
 .profile-header .wrapper {
     display: flex;
     align-items: center;
@@ -448,4 +559,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 .profile-grid-image-container {
     padding: 20px;
     box-sizing: border-box;
+=======
+.error
+{
+    font-family: "Open Sans", sans-serif;
+	font-size: 1.2rem;
+	color: darkred;
+    margin-bottom: 30px;
+>>>>>>> register
 }
