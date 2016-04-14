@@ -1,8 +1,8 @@
 <?php
-include_once("../classes/login.class.php");
+include_once("../classes/User.class.php");
 	session_start();
 if (!empty($_POST)) {
-	$login = new login;
+	$login = new User();
 	$username = strip_tags($_POST['login_email']);
 	$password = strip_tags($_POST['login_password']);
 
