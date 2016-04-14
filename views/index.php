@@ -30,6 +30,16 @@ if (!empty($_POST)) {
 				<label for="login_password">Password</label>
 				<input type="password" name="login_password" class="textfield" placeholder="Password">
 				<input type="submit" class="button" value="Log in">
+				<div class="container-fluid">
+				
+				    <div class="col-md-6">
+				        LOGIN WITH FACEBOOK
+				    </div>
+				    <div class="col-md-6">
+				        <a href="register.php">REGISTER</a>
+				    </div>
+				
+				</div>
 			</form>
 	
 		</div>
