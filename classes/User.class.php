@@ -119,9 +119,21 @@
                 $this->Firstname = $row['firstname'];
                 $this->Lastname = $row['lastname'];
                 $this->Username = $row['username'];
+                $this->Email = $row['email'];
                 
             }
             
+            
+        }
+        
+        
+        public function changeProfile($user, $email)
+        {
+            $this->Email = $email;
+            
+            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $conn->query("UPDATE users SET email='".$email."' WHERE id='".$user."'"); 
             
         }
     }
