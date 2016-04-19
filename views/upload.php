@@ -1,15 +1,22 @@
 <?php
+
 	session_start();
+    if(empty($_SESSION['user']))
+    {
+        header("Location: index.php");
+    }
 
 	//Include all classes
 	spl_autoload_register(function ($class) {
 		include '../classes/' . $class . '.class.php';
 	});
+
 ?>
-    <html>
+
+<html>
 
     <head>
-        <title>IMDstagram</title>
+        <title>Upload | IMDstagram</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="../css/style.css">
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +35,7 @@
                 $image = $photo->showPhoto();
             
                 if(!empty($_POST['description'])){
-                    $photo->upload();
+                    $photo->upload($_POST["description"], $_SESSION['user']);
                 }
 
                 if(!empty($_SESSION['feedback'])){

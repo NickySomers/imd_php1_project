@@ -1,6 +1,12 @@
 <?php
 include_once("../classes/User.class.php");
 	session_start();
+
+if(!empty($_SESSION['user']))
+{
+    header("Location: feed.php");
+}
+
 if (!empty($_POST)) {
 	$login = new User();
 	$username = strip_tags($_POST['login_email']);
@@ -10,7 +16,7 @@ if (!empty($_POST)) {
 	$password = stripslashes($password);
 
 
-	$login -> CanLogin($username,$password);
+	$login -> canLogin($username,$password);
 
 }
 ?><!DOCTYPE html>
