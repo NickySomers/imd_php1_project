@@ -699,6 +699,7 @@ input[type=file] {
 .comment::-webkit-input-placeholder 
 {
     color: #000;
+    -webkit-transition: all 0.2s ease-in-out;
 }
 
 .comment:focus::-webkit-input-placeholder 
