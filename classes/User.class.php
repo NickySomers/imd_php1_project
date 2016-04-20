@@ -75,5 +75,7 @@
                 throw new Exception("Please fill in all fields and two correct passwords");
             }
         }
-
+        
+    }
+        
 ?>

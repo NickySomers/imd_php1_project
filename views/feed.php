@@ -13,16 +13,32 @@
                 <div class="logo"></div>
             </header>
 
-            <div class="container">
-                <div class="wrap-photo">
-                    <div class="header-photo">
-                        <div class="profile-pic"></div>
-                        <div class="profile-name">tester</div>
-                        <div class="minutes-posted">50 m.</div>
+            <?php
+            
+                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $posts = $conn->query("SELECT * FROM posts");
+            
+            ?>
+            
+            <?php foreach($posts as $post): ?>
+                
+               <?php //$followers = $conn->query("SELECT * FROM posts"); ?>
+                
+                <div class="container">
+                    <div class="wrap-photo">
+                        <div class="header-photo">
+                            <div class="profile-pic"></div>
+                            <div class="profile-name">tester</div>
+                            <div class="minutes-posted">50 m.</div>
+                        </div>
+                        <img src="<?php echo $post['picturePath']; ?>" alt="Photo" width="100%" height="auto">
                     </div>
-                    <img src="../public/uploads/test.jpeg" alt="Photo" width="100%">
                 </div>
-            </div>
+                
+            <?php endforeach; ?>
+            
             
         </body>
 
