@@ -83,7 +83,7 @@ class User
 		//$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if (!empty($p_sEmail) && !empty($p_sPassword)/*!$conn->connect_errno*/)
 		{
-			$conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "");
+			$conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
 			//$hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
 			//$query = "SELECT * FROM users WHERE email = '" :email "' AND password = '" . $conn->quote($hashedPw) . "' ";
 
@@ -96,32 +96,15 @@ class User
 			$result = $query -> fetch(PDO::FETCH_ASSOC);
 			//var_dump($result);
 
-
-
 			if (password_verify($p_sPassword, $result['password']))
 			{
-				$_SESSION['user'] = $result['id'];
-				header('Location: feed.php');
-				$userData= [
-					'id' => $result['id'],
-					'userName'=> $result['username'],
-					'firstName'=> $result['firstname'],
-					'lastName'=> $result['lastname'],
-					'profilePicture' => $result['profilePicture'],
-					'birthdate' => $result['birthdate']
-				];
 				session_start();
-				$_SESSION['loggedIn'] = $userData;
+				$_SESSION['user'] = $result['id'];
 
-
-
-
-
+                header('Location: feed.php');
 			}
 			else
 			{
-			//	throw new Exception("Invalid password or username.");
-
 				echo 'fout';
 			}
 		}
