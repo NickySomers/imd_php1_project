@@ -1,21 +1,10 @@
 <?php 
 
-    session_start();
-    if(empty($_SESSION['user']))
-    {
-        header("Location: ../index.php");
-    }
-
     if(empty($_GET['id'])){
         
         header("Location: index.php");
         
     }
-
-    include_once("../classes/User.class.php");
-
-    $user = new User();
-    $user->getDataFromDatabase($_SESSION['user']);
 
 ?>
 
@@ -25,7 +14,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <title><?php echo $user->Firstname . " " . $user->Lastname; ?> | IMDstagram</title>
+        <title>IMDstagram</title>
         <link rel="stylesheet" href="../css/style.css">
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
@@ -48,7 +37,6 @@
             $profile = $row['profilePicture'];
             
         }
-        
         $count_photos = $data->rowCount();
         $count_followers = $followersdata->rowCount();
         $count_following = $followingdata->rowCount();
@@ -69,8 +57,8 @@
 
                     <div class="profile-picture" style="background-image: url(<?php echo $profile; ?>)"></div>
                     <div>
-                        <h1><?php echo $user->Firstname . " " . $user->Lastname; ?></h1>
-                        <h2>@<?php  echo $user->Username; ?></h2>
+                        <h1><?php echo $name; ?></h1>
+                        <h2>@<?php echo $username; ?></h2>
                     </div>
                 </div>
                 <div class="profile-information">

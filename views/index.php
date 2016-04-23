@@ -1,4 +1,5 @@
 <?php
+
 include_once("../classes/User.class.php");
 	session_start();
 
@@ -9,6 +10,7 @@ if(!empty($_SESSION['user']))
 
 if (!empty($_POST)) {
 	$login = new User();
+
 	$username = strip_tags($_POST['login_email']);
 	$password = strip_tags($_POST['login_password']);
 
@@ -16,7 +18,8 @@ if (!empty($_POST)) {
 	$password = stripslashes($password);
 
 
-	$login -> canLogin($username,$password);
+
+	$login -> CanLogin($username,$password);
 
 }
 ?><!DOCTYPE html>

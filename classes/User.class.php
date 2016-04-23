@@ -1,5 +1,4 @@
 <?php
-
     class User
 	{
         private $m_iId;
@@ -134,27 +133,37 @@
         }
 
 
-        //TODO: Change mysqli to PDO because it's safer.
-        function canLogin($username, $password)
+        
+        public function canLogin($p_sEmail, $p_sPassword)
         {
-            $conn = new mysqli("localhost", "root", "root", "imdstagram");
 
-            if (!$conn->connect_errno) {
-                $query = "SELECT * FROM users WHERE email = '" . $conn->real_escape_string($username) . "'";
-                $result = $conn->query($query);
-                $row_hash = $result->fetch_array();
-                if (password_verify($password, $row_hash['password'])) {
-                    $_SESSION['user'] = $row_hash['id'];
-                    
+            //$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            if (!empty($p_sEmail) && !empty($p_sPassword)/*!$conn->connect_errno*/)
+            {
+                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+                //$hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
+                //$query = "SELECT * FROM users WHERE email = '" :email "' AND password = '" . $conn->quote($hashedPw) . "' ";
+
+                //$result = $conn->query($query);
+                //$row_hash = $result->fetch(PDO::FETCH_ASSOC);
+
+                $query = $conn->prepare('SELECT * FROM users WHERE email = :email');
+                $query->bindParam(':email', $p_sEmail);
+                $query->execute();
+                $result = $query -> fetch(PDO::FETCH_ASSOC);
+                //var_dump($result);
+
+                if (password_verify($p_sPassword, $result['password']))
+                {
+                    session_start();
+                    $_SESSION['user'] = $result['id'];
+
                     header('Location: feed.php');
-                } else {
-                    $message = "Username and/or Password incorrect.\\nTry again.";
-                    
-                    //TODO:  Change this because an alert is a not done!
-                    echo "<script type='text/javascript'>alert('$message');</script>";
                 }
-
-
+                else
+                {
+                    echo 'fout';
+                }
             }
         }
         
@@ -318,4 +327,5 @@
 
     }
 
+}
 ?>
