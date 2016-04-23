@@ -15,7 +15,16 @@
     $user->getDataFromDatabase($_SESSION['user']);
 
     if(!empty($_POST)){
-        $user->changeProfile($_SESSION['user'], $_POST['email']);
+
+        if(!isset($_POST['private'])){
+            $_POST['private'] = null;
+        }
+
+        $user->changeProfile($_SESSION['user'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['website'], $_POST['phone'], $_POST['private'], $_POST['birthdate_day'], $_POST['birthdate_month'], $_POST['birthdate_year'], $_POST['gender'], $_POST['description'], $_FILES['profilePicture']);
+    }
+
+    if(!empty($_GET)){
+        $user->deleteAccount();
     }
 
 ?>
@@ -36,8 +45,14 @@
             <div class="wrapper">
                 <h1>Settings</h1>
 
-
-                <form action="" method="post">
+                <div class="alert alert-warning save-warning" role="alert">
+                    You have unsaved changes. Be sure to save this form before leaving.
+                </div>
+                <?php if(!empty($_POST) && $user->showFeedback()): ?>
+                    <?php echo $user->showFeedback(); ?>
+                <?php endif; ?>
+    
+                <form action="" method="post" enctype="multipart/form-data">
                     <h2>Personal data</h2>
                     <label for="email">E-mail</label>
                     <input type="text" name="email" placeholder="E-mail" value="<?php echo $user->Email; ?>" class="form-control">
@@ -48,8 +63,64 @@
                     <label for="lastname">Lastname</label>
                     <input type="text" name="lastname" placeholder="Lastname" value="<?php echo $user->Lastname; ?>" class="form-control">
                     
+                    <label for="username">Username</label>
+                    <input type="text" name="username" placeholder="Username" value="<?php echo $user->Username; ?>" class="form-control">
+                    
+                   
+                    <?php $date = explode("-", $user->Birthdate); ?>
+                    
                     <label for="birthdate">Birthdate</label>
-                    <input type="date" name="birthdate" placeholder="Birthdate" value="<?php echo $user->Birthdate; ?>" class="form-control">
+                    <label for="birthdate_day">Day</label>
+                    <select name="birthdate_day">
+                        <?php for($i = 1; $i <= 31; $i++): ?>
+                            <?php 
+                                $selected = null;
+                                if($date[2] == $i)
+                                {
+                                    $selected = 'selected';
+                                }
+                            ?>
+                            <?php if($i < 10): ?>
+                                <option value="<?php echo $i; ?>" <?php echo $selected; ?>>0<?php echo $i; ?></option>
+                            <?php else: ?>
+                                <option value="<?php echo $i; ?>" <?php echo $selected; ?>><?php echo $i; ?></option>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </select>
+
+                    <label for="birthdate_month">Month</label>
+                    <select name="birthdate_month">
+                        <?php for($i = 1; $i <= 12; $i++): ?>
+                           <?php 
+                                $selected = null;
+                                if($date[1] == $i)
+                                {
+                                    $selected = 'selected';
+                                }
+                            ?>
+                            <?php if($i < 10): ?>
+                                <option value="<?php echo $i; ?>" <?php echo $selected; ?>>0<?php echo $i; ?></option>
+                            <?php else: ?>
+                                <option value="<?php echo $i; ?>" <?php echo $selected; ?>><?php echo $i; ?></option>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </select>
+
+                    <label for="birthdate_year">Year</label>
+                    <select name="birthdate_year">
+                        <?php for($i = 2000; $i >= 1900; $i--): ?>
+                            <?php 
+                                $selected = null;
+                                if($date[0] == $i)
+                                {
+                                    $selected = 'selected';
+                                }
+                            ?>
+                            <option value="<?php echo $i; ?>" <?php echo $selected; ?>><?php echo $i; ?></option>  
+                        <?php endfor; ?>
+                    </select>
+
+                    <br>
                     
                     <label for="gender">Gender</label>
                     <select name="gender">
@@ -58,9 +129,11 @@
                     </select>
 
                     <label for="description">Description</label>
-                    <textarea name="decription" class="form-control" placeholder="Description">
-                        <?php echo $user->Description; ?>
-                    </textarea>
+                    <textarea name="description" class="form-control" placeholder="Description"><?php echo trim($user->Description); ?></textarea>
+                    
+                    <img src="../public/users/<?php echo $user->Id; ?>.png" class="profile-picture">
+                    <label for="profilePicture">Profile picture</label>
+                    <input type="file" name="profilePicture" id="profilePicture">
 
                     <h2>Contact</h2>
                     <label for="lastname">Website</label>
@@ -71,14 +144,40 @@
                     
                     
                     <h2>Danger zone</h2>
-                    <input type="checkbox" name="private"> Private account
+
+                    <?php if($user->Private): ?>
+                        <input type="checkbox" name="private" checked> Private account
+                    <?php else: ?>
+                        <input type="checkbox" name="private"> Private account
+                    <?php endif; ?>
                     
                     
-                    <button type="button" class="btn btn-danger">Delete account</button>
+                    
+                    <button type="button" id="deleteAccount" class="btn btn-danger">Delete account</button>
                     
                     <button type="submit" class="btn btn-primary btn-lg">Update settings</button>
                 </form>
+
+                <form action="" method="get" class="deleteAccountForm">
+                    <input type="text" value="DELETING ACCOUNT" name="deleteAccount" hidden>
+                    <input type="submit" class="btn btn-danger" value="DELETE ACCOUNT NOW">
+                </form>
             </div>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script>
+            $(".save-warning").hide();
+            $('input').change(function(){
+
+                $(".save-warning").fadeIn();
+
+            });
+
+            $(".deleteAccountForm").hide();
+            $("#deleteAccount").click(function(){
+                $(".deleteAccountForm").fadeIn();
+            });
+        </script>
 
 
     </body>

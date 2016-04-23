@@ -251,12 +251,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
     height: 100px;
     width: 100px;
     border-radius: 100px;
-    background-color: red;
     margin-right: 30px;
-    background-image: url("../images/avatar.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .profile-information {
