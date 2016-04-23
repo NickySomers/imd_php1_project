@@ -155,14 +155,13 @@
 
                 if (password_verify($p_sPassword, $result['password']))
                 {
-                    session_start();
                     $_SESSION['user'] = $result['id'];
 
-                    header('Location: feed.php');
+                    return true;
                 }
                 else
                 {
-                    echo 'fout';
+                    return false;
                 }
             }
         }
@@ -322,10 +321,6 @@
             header("Location: index.php");
         }
 
-
-
-
-    }
 
 }
 ?>

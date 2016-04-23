@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include_once("../classes/User.class.php");
-	session_start();
+	
 
 if(!empty($_SESSION['user']))
 {
@@ -19,7 +19,11 @@ if (!empty($_POST)) {
 
 
 
-	$login -> CanLogin($username,$password);
+	if($login->CanLogin($username,$password)){
+		header('Location: feed.php');
+	}else{
+		echo "Error";
+	}
 
 }
 ?><!DOCTYPE html>
