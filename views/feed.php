@@ -1,8 +1,12 @@
 <?php
-            
+      
+    session_start();
+
     $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $posts = $conn->query("SELECT p . * , u . * FROM posts p, users_followers u WHERE p.userId = u.followUserId");
+
+    $userN = $_SESSION['user'];
+    $posts = $conn->query("SELECT p . * , uf . * , u . * FROM posts p, users_followers uf, users u WHERE p.userId = uf.followUserId AND uf.userId = u.id AND u.id = '$userN'");
             
 ?><!DOCTYPE html>
 <html lang="en">
@@ -27,14 +31,14 @@
                 <div class="wrap-photo">
                     <div class="header-photo">
                         <div class="profile-pic"></div>
-                        <div class="profile-name">arnodedecker</div>
+                        <div class="profile-name"><?php echo $row['username']; ?></div>
                         <div class="minutes-posted"><?php echo $row['date']; ?></div>
                     </div>
                     <img src="<?php echo $row['picturePath']; ?>" alt="Photo" width="100%" height="auto">
                     <div class="footer-photo">
                         <div class="likes"><?php echo $row['description']; ?></div>
                         <div class="wrap-description">
-                            <div class="description-username">arnodedecker</div>
+                            <div class="description-username"><?php echo $row['username']; ?></div>
                             <div class="description-text"><?php echo $row['description']; ?></div>
                         </div>
                         <div class="line"></div>
