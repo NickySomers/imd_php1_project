@@ -6,7 +6,7 @@
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $userN = $_SESSION['user'];
-    $posts = $conn->query("SELECT p . *, u . *, p.description pdescription FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.date desc");
+    $posts = $conn->query("SELECT p . *, u . *, p.description pdescription FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.date desc LIMIT 20");
             
 ?><!DOCTYPE html>
 <html lang="en">
