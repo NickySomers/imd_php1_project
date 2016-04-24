@@ -6,7 +6,7 @@
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $userN = $_SESSION['user'];
-    $posts = $conn->query("SELECT p . * , uf . * , u . * FROM posts p, users_followers uf, users u WHERE p.userId = uf.followUserId AND uf.userId = u.id AND u.id = '$userN'");
+    $posts = $conn->query("SELECT p . *, u . *, p.description pdescription FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.date desc");
             
 ?><!DOCTYPE html>
 <html lang="en">
@@ -36,10 +36,10 @@
                     </div>
                     <img src="<?php echo $row['picturePath']; ?>" alt="Photo" width="100%" height="auto">
                     <div class="footer-photo">
-                        <div class="likes"><?php echo $row['description']; ?></div>
+                        <div class="likes">test</div>
                         <div class="wrap-description">
                             <div class="description-username"><?php echo $row['username']; ?></div>
-                            <div class="description-text"><?php echo $row['description']; ?></div>
+                            <div class="description-text"><?php echo $row['pdescription']; ?></div>
                         </div>
                         <div class="line"></div>
                         <div class="wrap-liken">
