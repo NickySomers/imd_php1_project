@@ -318,3 +318,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	color: darkred;
     margin-bottom: 30px;
 }
+
+
+.fb-login-button
+{
+    position: relative;
+    top: 20px;
+    left: 20px;
+    z-index: 99999999;
+}

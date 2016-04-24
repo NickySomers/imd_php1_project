@@ -124,7 +124,7 @@
                 $hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
 
                 $data = $conn->query("INSERT INTO users(firstname, lastname, email, password) VALUES(" . $conn->quote($p_sFirstname) . ", ". $conn->quote($p_sLastname) .",". $conn->quote($p_sEmail) .",". $conn->quote($hashedPw) .")");
-                header("Location: index.php");
+                header("Location: register-complete.php");
             } 
             else
             {
@@ -319,6 +319,84 @@
             $statement->execute(array($this->Id));
             session_destroy();
             header("Location: index.php");
+        }
+
+
+        public function signUpWithFb(){
+            //require_once  '../src/Facebook/autoload.php';
+  
+              $fb = new Facebook\Facebook([
+                'app_id' => '1020966631330308', // Replace {app-id} with your app id
+                'app_secret' => '6f73476c36bb5ffb9b12aa99fe57b42a',
+                'default_graph_version' => 'v2.2',
+                ]);
+
+            $helper = $fb->getRedirectLoginHelper();
+
+            try {
+
+              $accessToken = $helper->getAccessToken();
+               $response = $fb->get('/me?fields=id,name,email', $accessToken);
+
+            } catch(Facebook\Exceptions\FacebookResponseException $e) {
+              // When Graph returns an error
+              echo 'Graph returned an error: ' . $e->getMessage();
+              exit;
+            } catch(Facebook\Exceptions\FacebookSDKException $e) {
+              // When validation fails or other local issues
+              echo 'Facebook SDK returned an error: ' . $e->getMessage();
+              exit;
+            }
+
+            if (! isset($accessToken)) {
+              if ($helper->getError()) {
+                header('HTTP/1.0 401 Unauthorized');
+                echo "Error: " . $helper->getError() . "\n";
+                echo "Error Code: " . $helper->getErrorCode() . "\n";
+                echo "Error Reason: " . $helper->getErrorReason() . "\n";
+                echo "Error Description: " . $helper->getErrorDescription() . "\n";
+              } else {
+                header('HTTP/1.0 400 Bad Request');
+                echo 'Bad request';
+              }
+              exit;
+            }
+
+            // The OAuth 2.0 client handler helps us manage access tokens
+            $oAuth2Client = $fb->getOAuth2Client();
+
+            // Get the access token metadata from /debug_token
+            $tokenMetadata = $oAuth2Client->debugToken($accessToken);
+
+            // Validation (these will throw FacebookSDKException's when they fail)
+            $tokenMetadata->validateAppId('1020966631330308'); // Replace {app-id} with your app id
+            // If you know the user ID this access token belongs to, you can validate it here
+            //$tokenMetadata->validateUserId('123');
+            $tokenMetadata->validateExpiration();
+
+            if (! $accessToken->isLongLived()) {
+              // Exchanges a short-lived access token for a long-lived one
+              try {
+                $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+              } catch (Facebook\Exceptions\FacebookSDKException $e) {
+                echo "<p>Error getting long-lived access token: " . $helper->getMessage() . "</p>\n\n";
+                exit;
+              }
+            }
+
+            $_SESSION['fb_access_token'] = (string) $accessToken;
+
+            $user = $response->getGraphUser();
+
+            $output['email'] = $user['email'];
+
+            $name = explode(" ", $user['name']);
+
+            $output['email'] = $user['email'];
+            $output['firstname'] = $name[0];
+            $output['lastname'] = $name[1];
+            
+            return $output;
         }
 
 

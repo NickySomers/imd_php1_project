@@ -2,6 +2,24 @@
 session_start();
 include_once("../classes/User.class.php");
 	
+	//FACEBOOK LOGIN TEST
+	
+	require_once  '../src/Facebook/autoload.php';
+	
+	$fb = new Facebook\Facebook([
+	  'app_id' => '1020966631330308', // Replace {app-id} with your app id
+	  'app_secret' => '6f73476c36bb5ffb9b12aa99fe57b42a',
+	  'default_graph_version' => 'v2.2',
+	  ]);
+
+	$helper = $fb->getRedirectLoginHelper();
+
+	$permissions = ['email']; // Optional permissions
+	$loginUrl = $helper->getLoginUrl('http://localhost:8888/views/fb-callback.php', $permissions);
+
+	
+
+
 
 if(!empty($_SESSION['user']))
 {
@@ -46,7 +64,7 @@ if (!empty($_POST)) {
 				<div class="container-fluid">
 				
 				    <div class="col-md-6">
-				        LOGIN WITH FACEBOOK
+				        <?php echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>'; ?>
 				    </div>
 				    <div class="col-md-6">
 				        <a href="register.php">REGISTER</a>
