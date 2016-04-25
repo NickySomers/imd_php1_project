@@ -7,13 +7,13 @@ $(document).ready(function(){
     
     /* LAZY LOADING FEED PAGE */
     $(document).on('click','.show_more',function(){
-        var ID = $(this).attr('date');
+        var ID = $(this).attr('id');
         $('.show_more').hide();
         $('.loding').show();
         $.ajax({
             type:'POST',
             url:'feed.php',
-            data:'date='+ID,
+            data:'id='+ID,
             success:function(html){
                 $('#show_more_main'+ID).remove();
                 $('.wrap-photo').append(html);

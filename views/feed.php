@@ -108,17 +108,17 @@
           
             
                 <?php
-                if(isset($_POST["date"]) && !empty($_POST["date"]))
+                if(isset($_POST["id"]) && !empty($_POST["id"]))
                 {
                     //count all rows except already displayed
-                    $queryAll = $conn->query("SELECT COUNT(*) as num_rows FROM posts WHERE date < ".$_POST['date']." ORDER BY date DESC");
+                    $queryAll = $conn->query("SELECT COUNT(*) as num_rows FROM posts WHERE id < '".$_POST['id']."' ORDER BY id DESC");
                     $row = $queryAll->fetch(PDO::FETCH_ASSOC);
                     $allRows = $row['num_rows'];
 
                     $showLimit = 1;
-
+                    
                     //get rows query
-                    $posts = $conn->query("SELECT * FROM posts WHERE date < ".$_POST['date']." ORDER BY date DESC LIMIT ".$showLimit);
+                    $posts = $conn->query("SELECT * FROM posts WHERE id < '".$_POST['id']."' ORDER BY id DESC LIMIT ".$showLimit);
 
                     //number of rows
                     $rowCount = $posts->rowCount();
