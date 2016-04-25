@@ -38,8 +38,8 @@
             
         }
         $count_photos = $data->rowCount();
-        $count_followers = $followersdata->rowCount();
-        $count_following = $followingdata->rowCount();
+        $count_followers = $followingdata->rowCount();
+        $count_following = $followersdata->rowCount();
 
     } catch(PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
@@ -80,11 +80,11 @@
             <div class="profile-grid container-fluid">
                 <div class="wrapper">
 
-                    <?php
+                <?php
 
                     foreach ($data as $row) {
                         
-                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')">Test</div></div>';
+                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></div>';
                     }
                 
                 ?>
