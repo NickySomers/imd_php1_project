@@ -7,7 +7,7 @@ $(document).ready(function(){
     
     /* LAZY LOADING FEED PAGE */
     $(document).on('click','.show_more',function(){
-        var ID = $(this).attr('id');
+        var ID = $(this).attr('date');
         $('.show_more').hide();
         $('.loding').show();
         $.ajax({
