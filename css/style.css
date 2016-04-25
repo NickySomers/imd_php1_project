@@ -721,3 +721,46 @@ input[type=file] {
     cursor: pointer;
     position: absolute;
 }
+
+
+
+
+
+.show_more_main {
+margin: 15px 25px;
+}
+.show_more {
+background-color: #f8f8f8;
+background-image: -webkit-linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+background-image: linear-gradient(top,#fcfcfc 0,#f8f8f8 100%);
+border: 1px solid;
+border-color: #d3d3d3;
+color: #333;
+font-size: 12px;
+outline: 0;
+}
+.show_more {
+cursor: pointer;
+display: block;
+padding: 10px 0;
+text-align: center;
+font-weight:bold;
+}
+.loding {
+background-color: #e9e9e9;
+border: 1px solid;
+border-color: #c6c6c6;
+color: #333;
+font-size: 12px;
+display: block;
+text-align: center;
+padding: 10px 0;
+outline: 0;
+font-weight:bold;
+}
+.loding_txt {
+border: 0;
+display: inline-block;
+height: 16px;
+padding-left: 20px;
+}
