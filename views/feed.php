@@ -72,7 +72,7 @@
                     { 
                         while($row = $posts->fetch(PDO::FETCH_ASSOC))
                         { 
-                            $tutorial_id = $row['date'];
+                            $tutorial_id = $row['id'];
                     ?>
                         <div class="wrap-photo">
                             <div class="header-photo">
