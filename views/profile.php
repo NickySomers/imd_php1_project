@@ -25,7 +25,7 @@
 
         $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $data = $conn->query("SELECT * FROM posts WHERE userId = ".$_GET['id']." ORDER BY date DESC"); 
+        $data = $conn->query("SELECT * FROM posts WHERE userId = ".$_GET['id']." ORDER BY date DESC LIMIT 20"); 
         $userdata = $conn->query("SELECT * FROM users WHERE id = ".$_GET['id']); 
         $followingdata = $conn->query("SELECT * FROM users_followers WHERE userId = ".$_GET['id']); 
         $followersdata = $conn->query("SELECT * FROM users_followers WHERE followUserId = ".$_GET['id']); 
