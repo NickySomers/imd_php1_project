@@ -48,9 +48,9 @@
 ?>
 
         <body>
-            <header>
-                <div class="logo"></div>
-            </header>
+            <?php
+                include_once("header.php");
+            ?>
 
             <div class="profile-header">
                 <div class="wrapper">

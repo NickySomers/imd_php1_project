@@ -23,9 +23,7 @@
     </head>
 
     <body>
-        <header>
-            <div class="logo"></div>
-        </header>
+        <?php include_once("header.php"); ?>
         
         <div>
 

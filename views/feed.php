@@ -10,7 +10,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hallo</h1>
-        <a href = logout.php>logout</a>
+    <?php include_once("header.php"); ?>
 </body>
 </html>

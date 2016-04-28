@@ -368,3 +368,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 {
 	margin: 0;
 }
+
+.navbar
+{
+    margin: 0 !important;
+}
