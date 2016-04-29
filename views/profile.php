@@ -38,8 +38,8 @@
             
         }
         $count_photos = $data->rowCount();
-        $count_followers = $followersdata->rowCount();
-        $count_following = $followingdata->rowCount();
+        $count_following = $followersdata->rowCount();
+        $count_followers = $followingdata->rowCount();
 
     } catch(PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
@@ -52,46 +52,47 @@
                 include_once("header.php");
             ?>
 
-            <div class="profile-header">
-                <div class="wrapper">
+            <div class="wrap-blur">
+                <div class="profile-header">
+                    <div class="wrapper">
 
-                    <div class="profile-picture" style="background-image: url(<?php echo $profile; ?>)"></div>
-                    <div>
-                        <h1><?php echo $name; ?></h1>
-                        <h2>@<?php echo $username; ?></h2>
+                        <div class="profile-picture" style="background-image: url(<?php echo $profile; ?>)"></div>
+                        <div>
+                            <h1><?php echo $name; ?></h1>
+                            <h2>@<?php echo $username; ?></h2>
+                        </div>
+                    </div>
+                    <div class="profile-information">
+                        <div class="profile-information-item">
+                            <span>Photos</span>
+                            <span class="amount"><?php echo $count_photos; ?></span>
+                        </div>
+                        <div class="profile-information-item">
+                            <span>Followers</span>
+                            <span class="amount"><?php echo $count_followers; ?></span>
+                        </div>
+                        <div class="profile-information-item">
+                            <span>Following</span>
+                            <span class="amount"><?php echo $count_following; ?></span>
+                        </div>
+                    </div>
+                    <div class="overlay"></div>
+                </div>
+                <div class="profile-grid container-fluid">
+                    <div class="wrapper">
+
+                        <?php
+
+                        foreach ($data as $row) {
+
+                            echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></div>';
+                        }
+
+                    ?>
+
                     </div>
                 </div>
-                <div class="profile-information">
-                    <div class="profile-information-item">
-                        <span>Photos</span>
-                        <span class="amount"><?php echo $count_photos; ?></span>
-                    </div>
-                    <div class="profile-information-item">
-                        <span>Followers</span>
-                        <span class="amount"><?php echo $count_followers; ?></span>
-                    </div>
-                    <div class="profile-information-item">
-                        <span>Following</span>
-                        <span class="amount"><?php echo $count_following; ?></span>
-                    </div>
-                </div>
-                <div class="overlay"></div>
             </div>
-            <div class="profile-grid container-fluid">
-                <div class="wrapper">
-
-                    <?php
-
-                    foreach ($data as $row) {
-                        
-                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')">Test</div></div>';
-                    }
-                
-                ?>
-
-                </div>
-
-            </div>
+            
         </body>
-
     </html>
