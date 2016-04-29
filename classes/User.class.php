@@ -13,22 +13,58 @@
         {
             switch($p_sProperty)
             {
-                case 'Firstname':
-                    $this->m_sFirstname = $p_vValue;
+                    
+                case "Firstname":
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sFirstname = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Firstname cannot be empty");
+                    }
                 break;
                 case 'Lastname':
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sLastname = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Lastname cannot be empty");
+                    }
                     $this->m_sLastname = $p_vValue;
                 break;
                 case 'Email':
-                    $this->m_sEmail = $p_vValue;
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sEmail = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Email cannot be empty");
+                    }
                 break;
                 case 'Password':
-                    $this->m_sPassword = $p_vValue;
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sPassword = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Password cannot be empty");
+                    }
                 break;
                 case 'ConfirmPassword':
-				    $this->m_sConfirm_password = $p_vValue;
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sConfirm_password = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Confirm password cannot be empty");
+                    }
 				break;
-                    
 				default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -52,29 +88,50 @@
                 break;
                 case 'ConfirmPassword':
                     return($this->m_sConfirm_password);
-                break;
-                    
+                break; 
                 default: echo("Not existing property: " . $p_sProperty);
             }
         }
 
-		public function register($p_sFirstname, $p_sLastname, $p_sEmail, $p_sPassword, $p_sConfirm_password)
+		public function register()
         {
-            if(!empty($p_sFirstname) && !empty($p_sLastname) && !empty($p_sEmail) && !empty($p_sPassword) && !empty($p_sConfirm_password) && $p_sPassword == $p_sConfirm_password)
+            if($this->m_sPassword != $this->m_sConfirm_password || !$this->checkEmail())
             {
-				$conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                $hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
-
-                $data = $conn->query("INSERT INTO users(firstname, lastname, email, password) VALUES(" . $conn->quote($p_sFirstname) . ", ". $conn->quote($p_sLastname) .",". $conn->quote($p_sEmail) .",". $conn->quote($hashedPw) .")");
-                header("Location: index.php");
+                throw new Exception("Please fill in all fields and two correct passwords");
             } 
             else
             {
-                throw new Exception("Please fill in all fields and two correct passwords");
+                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $hashedPw = password_hash($this->m_sPassword, PASSWORD_DEFAULT);
+
+                $data = $conn->query("INSERT INTO users(firstname, lastname, email, password) VALUES(" . $conn->quote($this->m_sFirstname) . ", ". $conn->quote($this->m_sLastname) .",". $conn->quote($this->m_sEmail) .",". $conn->quote($hashedPw) .")");
+                header("Location: index.php");
             }
 		}
+        
+        function checkEmail()
+        {
+            $email = $this->m_sEmail;
+            
+            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $query = $conn->query("SELECT email FROM users WHERE email = '". $email ."'");
+                
+            $count = $query->rowCount();
+        
+            if($count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("The email you entered is already in use");
+                return false;
+            }
+        }
 	}
 
 ?>
