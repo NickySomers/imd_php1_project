@@ -63,3 +63,8 @@ $(".input-search").keyup(function () {
     }
     
 });
+
+$(".cancel").click(function(){
+    $(".wrap-suggestions").css("display", "none");
+    $(".input-search").val("");
+});

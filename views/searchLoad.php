@@ -8,8 +8,6 @@
     $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    /*$user = $conn->query("SELECT *, (SELECT COUNT(*) FROM users_followers WHERE userId = u.id) AS followers FROM users u WHERE username LIKE '%{$key}%' OR firstname LIKE '%{$key}%' OR lastname LIKE '%{$key}%' ORDER BY followers DESC LIMIT 10");*/
-
     $user = $conn->query("SELECT *, (SELECT COUNT(*) FROM users_followers WHERE userId = u.id) AS followers FROM users u WHERE username LIKE '%{$key}%' OR firstname LIKE '%{$key}%' OR lastname LIKE '%{$key}%' ORDER BY followers DESC LIMIT 10");
 
     $tag = $conn->query("SELECT * FROM posts_tags WHERE tag LIKE '%{$key}%' LIMIT 10");

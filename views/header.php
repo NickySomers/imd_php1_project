@@ -11,7 +11,10 @@
             </ul>
             <input type="text" name="search" class="input-search" placeholder="Search">
             <div class="wrap-suggestions">
-                <div class="suggestions"></div>
+                <div class="wrap-cancel">
+                    <div class="cancel"><img src="../images/cancel.svg" alt="Cancel"></div>
+                    <div class="suggestions"></div>
+                </div>
             </div>
         </div>
     </div>
