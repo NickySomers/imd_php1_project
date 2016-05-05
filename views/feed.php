@@ -2,11 +2,15 @@
       
     session_start();
 
+    if(empty($_SESSION['user'])){
+        header("Location: index.php");
+    }
+
     $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $userN = $_SESSION['user'];
-    $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.date DESC LIMIT 2");
+    $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
             
 ?>
 <!DOCTYPE html>
@@ -30,17 +34,15 @@
                     <?php
                     //number of rows
                     $rowCount = $posts->rowCount();
-                    $lastId = 0;
+                    
                    
                         while($row = $posts->fetch(PDO::FETCH_ASSOC))
                         { 
 
-                            if($lastId < $row['pid']){
-                                $lastId = $row['pid'];
-                            }
+                            $id = $row['pid'];
 
                     ?>
-                        <div class="wrap-photo">
+                        <div class="wrap-photo" data-index="<?php echo $row['pid']; ?>">
                             <div class="header-photo">
                                 <div class="profile-pic"></div>
                                 <div class="profile-name"><?php echo $row['username']; ?></div>
@@ -65,7 +67,7 @@
                     <?php } ?>
 
                     <div class="show_more_main" id="show_more_main">
-                        <span data-index="<?php echo $lastId; ?>" class="show_more" title="Load more posts">Show more</span>
+                        <span data-index="<?php echo $id; ?>" class="show_more" title="Load more posts">Show more</span>
                         <span class="loding" style="display: none;"><span class="loding_txt">Loading....</span></span>
                     </div>
 
