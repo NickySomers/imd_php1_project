@@ -71,7 +71,7 @@
                      }
                  } 
                  
-
+                 $item[] = $row['pid'];
                 $posts[] = $item;
                 $lastIndex = $row['pid'];
             }

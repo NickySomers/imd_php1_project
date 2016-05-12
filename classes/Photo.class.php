@@ -8,6 +8,8 @@
 		private $m_sDescription;
 		private $m_sPath;
 		private $m_sDate;
+		private $m_bLiked;
+		private $m_iLikesCount;
 
 		public function __set( $p_sProperty, $p_vValue )
 	    {
@@ -30,6 +32,12 @@
 				break;
 				case 'Date':
 			 		$this->m_sDate = $p_vValue;
+				break;
+				case 'Liked':
+			 		$this->m_bLiked = $p_vValue;
+				break;
+				case 'LikesCount':
+			 		$this->m_iLikesCount = $p_vValue;
 				break;
 			} 
 	    }
@@ -55,6 +63,12 @@
 				break;
 				case 'Date':
 					return($this->m_sDate);
+				break;
+				case 'Liked':
+					return($this->m_bLiked);
+				break;
+				case 'LikesCount':
+					return($this->m_iLikesCount);
 				break;
 			}
 		} 
@@ -148,7 +162,7 @@
 
 	        echo '<div class="minutes-posted">'.$date.'</div></div>';
             echo '<img src="'.$this->Path.'" alt="Photo" width="100%" height="auto">';  
-            echo '<div class="footer-photo"><div class="likes">... likes</div><div class="wrap-description">';              
+            echo '<div class="footer-photo"><div class="likes"><span class="likesCount">'.$this->LikesCount.'</span> likes</div><div class="wrap-description">';              
             echo '<div class="description-username">'.$user->Username.'</div>';
             $description = "";
             $tagword = "";
@@ -177,8 +191,15 @@
                 }
             }     
                                 
-      		echo '<div class="description-text">'.$description.'</div></div><div class="line"></div>';
-      		echo '<div class="wrap-liken"><div class="liken"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="dots"></div></div></div></div>';
+      		echo '<div class="description-text">'.$description.'</div></div><div class="line"></div><div class="wrap-liken">';
+
+      		if($this->Liked == true){
+      			echo '<div class="liken liked"></div>';
+      		}else{
+      			echo '<div class="liken"></div>';
+      		}
+
+      		echo '<input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="dots"></div></div></div></div>';
 
         }
 	

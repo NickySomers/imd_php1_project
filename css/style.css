@@ -684,6 +684,11 @@ input[type=file] {
     cursor: pointer;
 }
 
+.liked
+{
+    background-image: url("../images/heart-fill.svg");
+}
+
 .comment
 {
     font-family: "Open Sans", sans-serif;

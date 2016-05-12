@@ -67,6 +67,7 @@
                 case 'Avatar':
                     return($this->m_sAvatar);
                 break;
+
                     
                 default: echo("Not existing property: " . $p_sProperty);
             }
@@ -137,7 +138,11 @@
 
             $userN = $_SESSION['user'];
             $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
-                    
+            //LIKES
+
+
+
+
             $rowCount = $posts->rowCount();
                     
             while($row = $posts->fetch(PDO::FETCH_ASSOC))
@@ -148,6 +153,17 @@
                 $photo->User = $row['id'];
                 $photo->Id = $row['pid'];
                 $photo->Date = $row['date'];
+
+                $like = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."' AND userId = '".$_SESSION['user']."'" );
+                if($like->rowCount() == 0){
+                    $photo->Liked = false;
+                }else{
+                    $photo->Liked = true;
+                }
+
+                $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."'" );
+                $photo->LikesCount = $allLikes->rowCount();
+
                 $data[] = $photo;
             }
 
