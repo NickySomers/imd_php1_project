@@ -1,4 +1,7 @@
 <?php
+
+    include_once("Photo.class.php");
+
     class User
 	{
         private $m_iId;
@@ -14,7 +17,9 @@
 		private $m_sBirthdate;
 		private $m_bGender;
         private $m_aErrors;
-        
+        private $m_sConfirm_password;
+        private $m_sAvatar;
+
 
         // SETTER
         public function __set( $p_sProperty, $p_vValue )
@@ -60,7 +65,12 @@
                 case 'Errors':
                     $this->m_aErrors[] = $p_vValue;
                 break;
-     
+                case 'ConfirmPassword':
+				    $this->m_sConfirm_password = $p_vValue;
+				break;
+                case 'Avatar':
+                    $this->m_sAvatar = $p_vValue;
+                break;
 				default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -109,6 +119,10 @@
                 case 'Errors':
                     return($this->m_aErrors);
                 break;
+                case 'Avatar':
+                    return($this->m_sAvatar);
+                break;
+
                     
                 default: echo("Not existing property: " . $p_sProperty);
             }
@@ -269,6 +283,7 @@
                     }
                 }
             }
+
             
             $this->Website = $website;
             $this->Phone = $phone;
@@ -309,6 +324,47 @@
                 $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$profilePicturePath."' WHERE id='".$user."'"); 
             
             } 
+
+        }
+
+        function loadFeed(){
+
+            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $userN = $_SESSION['user'];
+            $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
+            //LIKES
+
+
+
+
+            $rowCount = $posts->rowCount();
+                    
+            while($row = $posts->fetch(PDO::FETCH_ASSOC))
+            { 
+                $photo = new Photo();
+                $photo->Path = $row['picturePath'];
+                $photo->Description = $row['pdescription'];
+                $photo->User = $row['id'];
+                $photo->Id = $row['pid'];
+                $photo->Date = $row['date'];
+
+                $like = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."' AND userId = '".$_SESSION['user']."'" );
+                if($like->rowCount() == 0){
+                    $photo->Liked = false;
+                }else{
+                    $photo->Liked = true;
+                }
+
+                $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."'" );
+                $photo->LikesCount = $allLikes->rowCount();
+
+                $data[] = $photo;
+            }
+
+            return $data;
+
         }
 
         public function deleteAccount(){
@@ -320,7 +376,5 @@
             session_destroy();
             header("Location: index.php");
         }
-
-
 }
 ?>
