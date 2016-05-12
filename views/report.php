@@ -26,8 +26,15 @@
         <?php
 
             foreach ($reports as $row) 
-            {            
-                echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['reportPath'].')"></div></div>';
+            {
+                if($row['reportCount'] == 3)
+                {
+                    echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['reportPath'].')"></div></div>';   
+                }
+                else
+                {
+                    
+                }
             }
                 
         ?>

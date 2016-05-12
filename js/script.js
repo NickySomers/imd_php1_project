@@ -56,7 +56,7 @@ $(document).ready(function(){
     });
     
     /* REPORT PHOTO */
-    $('.flag').click(function(){
+    /*$('.flag').click(function(){
         
         $(".container-report").css("display", "block");
         
@@ -76,8 +76,7 @@ $(document).ready(function(){
         
     });
     
-    var count;
-    $(this).find('.report').click(function(){
+    $('.report').click(function(){
         
         $(".container-report").css("display", "none");
             
@@ -85,15 +84,64 @@ $(document).ready(function(){
             'overflow': 'auto'
         });
         
-        if(count.attr('data-size') == 2) 
-        {
-            alert("test");
-        } 
-        else
-        {
-            count.attr('data-size', i + 1);
-        }
+        $.post("../ajax/insertReport.php", data, function(response) {
+            var data = $.parseJSON(response);
+        })
 
+    });*/
+    
+    
+    
+    
+    $('a.click-report').click(function(event){
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('href'),
+            data: dataString,
+            dataType: "json",
+            success: function (data) 
+            {
+                if (data.error == -1) 
+                {
+                    // Not logged in, redirect to login page.
+                    window.location = 'index.php';
+                } 
+                else if (data.flagged == 1 && data.count != -1) 
+                {
+                    // Success! With a count too.
+                    alert('Comment flagged ('+data.count+' times flagged).');
+                } 
+                else 
+                {
+                    switch(data.error) 
+                    {
+                        case 1:
+                            alert('Comment not found');
+                        break;
+                        case 2:
+                            alert('Comment not flagged due to an update error.');
+                        break;
+                        case 3:
+                            alert('Comment flagged but count not returned.');
+                        break;
+                        default:
+                            alert('There was a general error flagging the comment.');
+                        break;
+                    }
+                }
+            },
+            error: function(){
+                alert('Comment not flagged; general send error.');
+            }
+        });
+
+        // Call these to prevent the a tag from redirecting
+        // the browser to the a-tags href url.
+        event.preventDefault();
+        return false;
     });
+    
+    
+    
 
 });

@@ -37,9 +37,5 @@
         $data[0] = "TEST";
         echo json_encode($data);
     }
-
-   
-
-
             
 ?>
