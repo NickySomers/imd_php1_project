@@ -16,14 +16,61 @@
     $posts = array();
     $count = $query->rowCount();
 
-    if($count > 0){
+    if($count >= 0){
          while($row = $query->fetch(PDO::FETCH_ASSOC)){
                 $item = array();
                 $item[] = $row['picturePath'];
 
-                $item[] = $row['pdescription'];
+                
+
+                //Getting hashtags from description
+            
+                $strlen = strlen($row['pdescription']);
+                $description = "";
+                $tag = false;
+                for( $i = 0; $i <= $strlen; $i++ ) {
+                    $char = substr( $row['pdescription'], $i, 1 );
+
+                    if($char == "#"){
+                        $description .= '<a href="">';
+                        $description .= $char;
+                        $tag = true;
+                    }else{
+                        if($tag == true){
+                            if($char == " "){
+                                $description .= '</a>';
+                                $tag = false;
+                            }else{
+                                $description .= $char;
+                            }
+                        }else{
+                            $description .= $char;
+                        }
+                        
+
+                    }
+                }
+
+                $item[] = $description;
+
+
                 $item[] = $row['username'];
-                $item[] = $row['date'];
+                
+
+                $now = time(); // or your date as well
+                 $your_date = strtotime($row['date']);
+                 $datediff = $now - $your_date;
+                 $amount = floor($datediff/(60*60*24));
+                 if($amount == 0){
+                    $item[] = "Today";
+                 }else{
+                    if($amount == 1){
+                        $item[] = "Yesterday";
+                     }else{
+                        $item[] = $amount . " days ago";
+                     }
+                 } 
+                 
 
                 $posts[] = $item;
                 $lastIndex = $row['pid'];
