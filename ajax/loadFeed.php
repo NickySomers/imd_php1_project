@@ -70,8 +70,20 @@
                         $item[] = $amount . " days ago";
                      }
                  } 
+
+                $item[] = $row['pid'];
+
+                $like = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$row['pid']."' AND userId = '".$_SESSION['user']."'" );
+                if($like->rowCount() == 0){
+                    $item[] = false;
+                }else{
+                    $item[] = true;
+                }
+
+                $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$row['pid']."'" );
+                $item[] = $allLikes->rowCount();
                  
-                 $item[] = $row['pid'];
+               
                 $posts[] = $item;
                 $lastIndex = $row['pid'];
             }
