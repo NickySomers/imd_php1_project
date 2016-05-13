@@ -52,21 +52,37 @@ if(isset($_POST['commentId'])){
 
                         foreach($posts as $post)
                         {
-                            echo '<div class="minutes-posted">'.$post['date'].'</div></div>';
+					echo'<div class="wrap-photo"> <div class="header-photo">';
+                            echo'<div class="profile-pic"></div>';
+                            echo'<div class="profile-name"> Naam</div>';
+                            echo'<div class="minutes-posted"><?php echo '.$post['date'].'; ?></div>';
+                   echo'</div>';
+                            echo '<div class="minutes-posted">'.$post['date'].'</div>';
                             echo '<img src="' . $post['picturePath'] . '" alt="Photo" width="100%" height="auto">';
-                            echo '<div class="footer-photo"><div class="likes"><span class="likesCount">Likescount</span> likes</div><div class="wrap-description">';
-                            echo '<div class="description-username">Username</div>';
-                            //echo '<form action="" method="post"> <div class="photo-comment"> test <input type="button" name="deleteComment" value="delete comment"> </div></form>';
+
+                            echo '<div class="footer-photo">
+                                  <div class="likes"><span class="likesCount">Likescount</span> likes</div>
+                            <div class="wrap-description">';
+                            echo '<div class="description-username">Username</div> ';
+                   echo '<div class="description-text">' . $post['description'] . '</div>';
+                            echo '</div>';
+            //echo '<form action="" method="post"> <div class="photo-comment"> test <input type="button" name="deleteComment" value="delete comment"> </div></form>';
 
                             $comments = Photo::getCommentsByPostId($post['id']);
-
+                          echo '<div class="line"></div>
+                                <div class="wrap-liken">
+                                <div class="liken"></div>';
                             foreach($comments as $c)
                             {
                                 echo '<form action="" method="post">
                                         <div class="photo-comment">' . $c['comment'] . '<input type="text" name="commentId" hidden value="'. $c['id'] . '"><button type="submit">Delete</button> </div></form>';
                             }
-                            echo '<form action="" method="post"><input type="text" name="comment" class="comment" placeholder="Add a comment..."> <input type="text" name="postId" value="'.$post['id'].'" hidden ><input type="submit" name="oke" value="oke"></form> <div class="dots"></div>';
+                            echo '<form action="" method="post"><input type="text" name="comment" class="comment" placeholder="Add a comment..."> <input type="text" name="postId" value="'.$post['id'].'" hidden >
+                            <input type="submit" name="oke" value="oke"></form>
+                            <div class="dots"></div>';
 
+						//echo '</div>';
+                            echo '</div> </div>';
 
                         }
 
@@ -86,7 +102,7 @@ if(isset($_POST['commentId'])){
 
                             $photo->display();
                         }*/
-                        
+
                     ?>
 
                     <div class="show_more_main" id="show_more_main">

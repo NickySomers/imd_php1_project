@@ -226,9 +226,12 @@
 			$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$data = $conn->query("SELECT * FROM posts");
-			$res = $data->fetchAll(PDO::FETCH_ASSOC);
 
+			$res = $data->fetchAll(PDO::FETCH_ASSOC);
+			//$user = new User();
+			//$user->getDataFromDatabase(user);
 			return $res;
+
 
 			/*$sth = $dbh->prepare('SELECT name, colour, calories
     FROM fruit
