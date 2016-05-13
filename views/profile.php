@@ -116,7 +116,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     foreach ($data as $row) {
                         
-                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')">Test</div></div>';
+                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"> test <input type="submit" value="delete Photo" name="deletePic"></div></div>';
                     }
                 
                 ?>

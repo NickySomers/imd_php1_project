@@ -132,7 +132,7 @@
         {
             if(!empty($p_sFirstname) && !empty($p_sLastname) && !empty($p_sEmail) && !empty($p_sPassword) && !empty($p_sConfirm_password) && $p_sPassword == $p_sConfirm_password)
             {
-				$conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+				$conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "");
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
@@ -154,7 +154,7 @@
             //$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             if (!empty($p_sEmail) && !empty($p_sPassword)/*!$conn->connect_errno*/)
             {
-                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "");
                 //$hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
                 //$query = "SELECT * FROM users WHERE email = '" :email "' AND password = '" . $conn->quote($hashedPw) . "' ";
 
@@ -182,7 +182,7 @@
         
         function getDataFromDatabase($id)
         {
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $data = $conn->query("SELECT * FROM users WHERE id = '".$id."'"); 
             
@@ -204,7 +204,7 @@
         }
 
         public function checkInDatabase($column, $data){
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $data = $conn->query("SELECT ".$column." FROM users"); 
 
@@ -319,7 +319,7 @@
             if(count($this->Errors) == 0){
 
                 //TODO: Change query to $this->PROPERTY
-                $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+                $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$profilePicturePath."' WHERE id='".$user."'"); 
             
@@ -329,7 +329,7 @@
 
         function loadFeed(){
 
-            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $userN = $_SESSION['user'];
@@ -369,7 +369,7 @@
 
         public function deleteAccount(){
 
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
             
             $statement = $conn->prepare("DELETE FROM users WHERE id = ?");
             $statement->execute(array($this->Id));

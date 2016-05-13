@@ -1,5 +1,6 @@
 <?php
 	include_once("User.class.php");
+	include_once('../classes/comment.classs.php');
 	class Photo
 	{
 		private $m_iId;
@@ -10,6 +11,7 @@
 		private $m_sDate;
 		private $m_bLiked;
 		private $m_iLikesCount;
+		private $m_sComments;
 
 		public function __set( $p_sProperty, $p_vValue )
 	    {
@@ -38,6 +40,9 @@
 				break;
 				case 'LikesCount':
 			 		$this->m_iLikesCount = $p_vValue;
+				break;
+				case 'Comment':
+					$this->m_sComments = $p_vValue;
 				break;
 			} 
 	    }
@@ -70,6 +75,9 @@
 				case 'LikesCount':
 					return($this->m_iLikesCount);
 				break;
+				case 'Comment':
+					return($this->m_sComments);
+					break;
 			}
 		} 
 
@@ -128,7 +136,7 @@
             
             try {
               
-				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
+				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			    $data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', '".$user."')");
 
@@ -158,12 +166,23 @@
 	            }else{
 	                $date = $amount . " days ago";
 	            }
-	        } 
+	        }
+
+			/*if(isset($_POST['deletComment'])){
+				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$data = $conn->query("DELETE FROM posts_comments WHERE comment = $this->m_sComments");
+			}*/
+			$comment = new comment();
+			$commentstring = $comment->showComment(4);
+			//$stringComment = (string)$comment;
+			var_dump($commentstring);
 
 	        echo '<div class="minutes-posted">'.$date.'</div></div>';
             echo '<img src="'.$this->Path.'" alt="Photo" width="100%" height="auto">';  
             echo '<div class="footer-photo"><div class="likes"><span class="likesCount">'.$this->LikesCount.'</span> likes</div><div class="wrap-description">';              
             echo '<div class="description-username">'.$user->Username.'</div>';
+			echo '<form action="" method="post"> <div class="photo-comment"> test <input type="button" name="deleteComment" value="delete comment"> </div></form>';
             $description = "";
             $tagword = "";
             if(!empty($this->Description)){
@@ -199,9 +218,38 @@
       			echo '<div class="liken"></div>';
       		}
 
-      		echo '<input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="dots"></div></div></div></div>';
+      		echo '<form action="" method="post"><input type="text" name="comment" class="comment" placeholder="Add a comment..."> <input type="text" name="postId" value="'.$this->Id.'"  ><input type="submit" name="oke" value="oke"></form> <div class="dots"></div></div></div></div>';
 
         }
+
+		public function getPosts() {
+			$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$data = $conn->query("SELECT * FROM posts");
+			$res = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			return $res;
+
+			/*$sth = $dbh->prepare('SELECT name, colour, calories
+    FROM fruit
+    WHERE calories < :calories AND colour = :colour');
+			$sth->bindValue(':calories', $calories, PDO::PARAM_INT);
+			$sth->bindValue(':colour', $colour, PDO::PARAM_STR);
+			$sth->execute();*/
+		}
+
+		public function getCommentsByPostId($p){
+			$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$data = $conn->query("SELECT comment , id FROM posts_comments WHERE postId = '$p' ");
+			$res = $data->fetchAll(PDO::FETCH_ASSOC);
+
+			return $res;
+
+		}
+
+
 	
 	}
 
