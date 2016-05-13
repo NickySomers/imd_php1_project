@@ -42,6 +42,12 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $profile = $row['profilePicture'];
             
         }
+        if(isset($_POST['DeletePhoto'])){
+            $PhotoPath= $_POST['DeletePhoto'];
+            $deletePhoto = new Photo();
+            $deletePhoto->deletePhotoByPath($PhotoPath);
+        }
+
         $count_photos = $data->rowCount();
         $count_followers = $followersdata->rowCount();
         $count_following = $followingdata->rowCount();
@@ -49,6 +55,8 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch(PDOException $e) {
         echo 'ERROR: ' . $e->getMessage();
     }
+
+
     
 ?>
 
@@ -116,7 +124,16 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                     foreach ($data as $row) {
                         
-                        echo '<div class="col-md-4 profile-grid-image-container"><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"> test <input type="submit" value="delete Photo" name="deletePic"></div></div>';
+                        echo '<div class="col-md-4 profile-grid-image-container">
+                                <div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"> test
+
+                                <form action="" method="post"><input type="text" name="DeletePhoto" hidden value="'. $row['picturePath'] . '"><button type="submit">Delete</button> </form>
+                               </div>
+                              </div>';
+
+
+
+
                     }
                 
                 ?>

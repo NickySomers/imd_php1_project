@@ -251,6 +251,12 @@
 			return $res;
 
 		}
+		public function deletePhotoByPath($path){
+			$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$conn->query("DELETE FROM posts WHERE picturePath = '$path' ");
+
+		}
 
 
 	
