@@ -9,7 +9,7 @@ session_start();
 
 include_once("../classes/User.class.php");
 
-$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ?>
 
@@ -28,7 +28,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //CHANGE TO FUNCTION IN USER CLASS
     try {
 
-        $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "");
+        $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $data = $conn->query("SELECT * FROM posts WHERE userId = ".$_GET['id']." ORDER BY date DESC"); 
         $userdata = $conn->query("SELECT * FROM users WHERE id = ".$_GET['id']); 
