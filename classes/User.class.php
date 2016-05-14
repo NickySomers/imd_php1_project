@@ -199,6 +199,7 @@
                 $this->Phone = $row['phone'];
                 $this->Private = $row['privateAccount'];
                 $this->Birthdate = $row['birthdate'];
+                $this->Avatar = $row['profilePicture'];
                 
             } 
         }
@@ -334,9 +335,6 @@
 
             $userN = $_SESSION['user'];
             $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
-            //LIKES
-
-
 
 
             $rowCount = $posts->rowCount();
@@ -345,11 +343,60 @@
             { 
                 $photo = new Photo();
                 $photo->Path = $row['picturePath'];
-                $photo->Description = $row['pdescription'];
+                
+
+                //Change hashtags to links
+                $strlen = strlen($row['pdescription']);
+                $description = "";
+                $tag = false;
+                for( $i = 0; $i <= $strlen; $i++ ) {
+                    $char = substr( $row['pdescription'], $i, 1 );
+
+                    if($char == "#"){
+                        $tag = true;
+                        $tagname = "";
+                    }else{
+                        if($tag == true){
+
+                            if($char == " " || $char == ""){
+
+                                $description .= '<a href="search.php?q='.$tagname.'">#'.$tagname.'</a>';
+                                $tag = false;
+                                $tagname = "";
+
+                            }else{
+                                $tagname .= $char;
+                            }
+                        }else{
+                            $description .= $char;
+                        }
+                    }
+                }
+
+                $photo->Description = $description;
                 $photo->User = $row['id'];
                 $photo->Id = $row['pid'];
-                $photo->Date = $row['date'];
 
+
+                // Calculate how many days ago posted
+                $now = time(); 
+                $date = strtotime($row['date']);
+                $datediff = $now - $date;
+                $days = floor($datediff/(60*60*24));
+
+                if($days == 0){
+                    $daysPosted = "Today";
+                }else{
+                    if($days == 1){
+                        $daysPosted = "Yesterday";
+                    }else{
+                        $daysPosted = $days . " days ago";
+                    }
+                } 
+
+                $photo->Date = $daysPosted;
+
+                // Check if the current post is already liked by the user
                 $like = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."' AND userId = '".$_SESSION['user']."'" );
                 if($like->rowCount() == 0){
                     $photo->Liked = false;
@@ -357,6 +404,7 @@
                     $photo->Liked = true;
                 }
 
+                // Count all the likes of this post
                 $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."'" );
                 $photo->LikesCount = $allLikes->rowCount();
 

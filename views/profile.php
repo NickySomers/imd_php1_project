@@ -54,9 +54,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         <body>
         <?php include_once("header.php"); ?>
-            <header>
-                <div class="logo"></div>
-            </header>
+
 
             <div class="profile-header">
                 <div class="wrapper">

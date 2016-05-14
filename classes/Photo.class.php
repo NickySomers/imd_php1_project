@@ -1,5 +1,7 @@
 <?php
 	include_once("User.class.php");
+	include_once("Db.class.php");
+
 	class Photo
 	{
 		private $m_iId;
@@ -126,81 +128,19 @@
         
         public function addToDatabase($path, $description, $user){
             
-            try {
-              
-				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			    $data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', '".$user."')");
-
-			} catch(PDOException $e) {
-			    echo 'ERROR: ' . $e->getMessage();
-			}
+            $db = new Db();
+        	$conn = $db->connect();
+			$data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', '".$user."')");
             
         }
 
-        public function display(){
-        	$user = new User();
-        	$user->getDataFromDatabase($this->User);
-
-        	echo '<div class="wrap-photo" data-index="'.$this->Id.'">';
-        	echo '<div class="header-photo"><div class="profile-pic" style="background-image: url('.$user->Avatar.');"></div>';
-        	echo '<div class="profile-name">'.$user->Username.'</div>';
-
-        	$now = time();
-	        $your_date = strtotime($this->Date);
-	        $datediff = $now - $your_date;
-	        $amount = floor($datediff/(60*60*24));
-	        if($amount == 0){
-	            $date = "Today";
-	        }else{
-	            if($amount == 1){
-	            	$date = "Yesterday";
-	            }else{
-	                $date = $amount . " days ago";
-	            }
-	        } 
-
-	        echo '<div class="minutes-posted">'.$date.'</div></div>';
-            echo '<img src="'.$this->Path.'" alt="Photo" width="100%" height="auto">';  
-            echo '<div class="footer-photo"><div class="likes"><span class="likesCount">'.$this->LikesCount.'</span> likes</div><div class="wrap-description">';              
-            echo '<div class="description-username">'.$user->Username.'</div>';
-            $description = "";
-            $tagword = "";
-            if(!empty($this->Description)){
-                 $strlen = strlen($this->Description);
-                
-                $tag = false;
-                for( $i = 0; $i <= $strlen; $i++ ) {
-                    $char = substr( $this->Description, $i, 1 );
-
-                    if($char == "#"){
-                        $tag = true;
-                    }else{
-                        if($tag == true){
-                            if($char == " " || $char == ""){
-                                $description .= ' <a href="search.php?q='.$tagword.'">#'.$tagword.'</a> ';
-                                $tagword="";
-                                $tag = false;
-                            }else{
-                                $tagword .= $char;
-                            }
-                        }else{
-                            $description .= $char;
-                        }
-                    }
-                }
-            }     
-                                
-      		echo '<div class="description-text">'.$description.'</div></div><div class="line"></div><div class="wrap-liken">';
-
-      		if($this->Liked == true){
-      			echo '<div class="liken liked"></div>';
-      		}else{
-      			echo '<div class="liken"></div>';
-      		}
-
-      		echo '<input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="dots"></div></div></div></div>';
-
+        public function getDataFromDatabase($id)
+        {
+			$db = new Db();
+        	$conn = $db->connect();
+			$query = $conn->query("SELECT * FROM posts WHERE id = " . $id );
+			$data = $query->fetch(PDO::FETCH_ASSOC);
+			return $data;
         }
 	
 	}
