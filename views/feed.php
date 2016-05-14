@@ -76,8 +76,7 @@
             <?php endfor; endif; ?>
 
             <div class="show_more_main" id="show_more_main">
-                <span data-index="<?php echo $id; ?>" class="show_more" title="Load more posts">Show more</span>
-                <span class="loding" style="display: none;"><span class="loding_txt">Loading....</span></span>
+                <span data-index="<?php echo $id; ?>" class="show_more" title="Load more posts">LOADING MORE POSTS</span>
             </div>
 
         </div>
