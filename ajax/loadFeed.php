@@ -11,7 +11,7 @@
     $data[] = 0;
     $data = array();
 
-    $query = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid, TIMEDIFF(NOW(), date) FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id AND p.id < '$id' ORDER BY p.id DESC LIMIT 2");	
+    $query = $conn->query("SELECT DISTINCT p . *, u . *, p.description pdescription, p.id pid, TIMEDIFF(NOW(), date) FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id AND p.id < '$id' ORDER BY p.id DESC LIMIT 2");	
 
     $posts = array();
     $count = $query->rowCount();
@@ -83,6 +83,14 @@
                 $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$row['pid']."'" );
                 $item[] = $allLikes->rowCount();
                  
+                if(!empty($row['location'])){
+                    
+                    $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$row['location'].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
+                    $json = file_get_contents($url);
+                    $data = json_decode($json, TRUE);
+                    $item[] = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];                
+                }
+
                
                 $posts[] = $item;
                 $lastIndex = $row['pid'];

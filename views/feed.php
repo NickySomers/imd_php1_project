@@ -42,26 +42,26 @@
 
             <?php 
                 else:
-
                     for($i = 0; $i < count($posts); $i++):
 
                         $postUser = new User();
                         $id = $posts[$i]->Id;
-
-                        $postUser->getDataFromDatabase($posts[$i]->User);
+                        $postUser->Id = $posts[$i]->User;
+                        $postUser->getDataFromDatabase();
 
             ?>
                 <div class="wrap-photo" data-index="<?php echo $id; ?>">
                     <div class="header-photo">
                         <div class="profile-pic" style="background-image: url(<?php echo $postUser->Avatar; ?>)"></div>
-                        <div class="profile-name"><?php echo $postUser->Username; ?> </div>
+                        <div class="profile-name"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                         <div class="minutes-posted"><?php echo $posts[$i]->Date; ?></div>
                     </div>
                     <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                    <div class="photo-location"><?php echo $posts[$i]->Location; ?></div>
                     <div class="footer-photo">
                         <div class="likes"><span class="likesCount"><?php echo $posts[$i]->LikesCount; ?></span> likes</div>
                         <div class="wrap-description">
-                            <div class="description-username"><?php echo $postUser->Username;  ?></div>
+                            <div class="description-username"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username;  ?></a></div>
                             <div class="description-text"><?php echo $posts[$i]->Description; ?></div>
                         </div>
                         <div class="line"></div>

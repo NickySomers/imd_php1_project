@@ -12,6 +12,7 @@
 		private $m_sDate;
 		private $m_bLiked;
 		private $m_iLikesCount;
+		private $m_sLocation;
 
 		public function __set( $p_sProperty, $p_vValue )
 	    {
@@ -40,6 +41,9 @@
 				break;
 				case 'LikesCount':
 			 		$this->m_iLikesCount = $p_vValue;
+				break;
+				case 'Location':
+			 		$this->m_sLocation = $p_vValue;
 				break;
 			} 
 	    }
@@ -70,7 +74,13 @@
 					return($this->m_bLiked);
 				break;
 				case 'LikesCount':
-					return($this->m_iLikesCount);
+					$db = new Db();
+					$conn = $db->connect();
+					$allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$this->Id."'" );
+					return($allLikes->rowCount());
+				break;
+				case 'Location':
+					return($this->m_sLocation);
 				break;
 			}
 		} 
@@ -130,17 +140,33 @@
             
             $db = new Db();
         	$conn = $db->connect();
-			$data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', '".$user."')");
+			$data = $conn->query("INSERT INTO posts(picturePath, description, userId, location) VALUES ('".$path."', '".$description."', '".$user."', '".$this->Location."')");
             
         }
 
-        public function getDataFromDatabase($id)
+        public function getDataFromDatabase()
         {
 			$db = new Db();
         	$conn = $db->connect();
-			$query = $conn->query("SELECT * FROM posts WHERE id = " . $id );
-			$data = $query->fetch(PDO::FETCH_ASSOC);
-			return $data;
+			$query = $conn->query("SELECT * FROM posts WHERE id = " . $this->Id );
+			
+			while($row = $query->fetch(PDO::FETCH_ASSOC)){
+				$this->Path = $row['picturePath'];
+				$this->User = $row['userId'];
+			}
+        }
+
+        public function getLocation()
+        {
+        	$db = new Db();
+        	$conn = $db->connect();
+			$query = $conn->query("SELECT location FROM posts WHERE id = " . $this->Id );
+			
+			$coords = $query->fetch(PDO::FETCH_NUM);
+			$url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$coords[0].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
+            $json = file_get_contents($url);
+            $data = json_decode($json, TRUE);
+            $this->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];
         }
 	
 	}

@@ -19,6 +19,9 @@
         private $m_aErrors;
         private $m_sConfirm_password;
         private $m_sAvatar;
+        private $m_iPhotosCount;
+        private $m_iFollowersCount;
+        private $m_iFollowingCount;
 
 
         // SETTER
@@ -71,6 +74,15 @@
                 case 'Avatar':
                     $this->m_sAvatar = $p_vValue;
                 break;
+                case 'PhotosCount':
+                    $this->m_iPhotosCount = $p_vValue;
+                break;
+                case 'FollowingCount':
+                    $this->m_iFollowingCount = $p_vValue;
+                break;
+                case 'FollowersCount':
+                    $this->m_iFollowersCount = $p_vValue;
+                break;
 				default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -121,6 +133,15 @@
                 break;
                 case 'Avatar':
                     return($this->m_sAvatar);
+                break;
+                case 'PhotosCount':
+                    return($this->m_iPhotosCount);
+                break;
+                case 'FollowersCount':
+                    return($this->m_iFollowersCount);
+                break;
+                case 'FollowingCount':
+                    return($this->m_iFollowingCount);
                 break;
 
                     
@@ -180,15 +201,14 @@
             }
         }
         
-        function getDataFromDatabase($id)
+        function getDataFromDatabase()
         {
             $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $data = $conn->query("SELECT * FROM users WHERE id = '".$id."'"); 
+            $data = $conn->query("SELECT * FROM users WHERE id = '".$this->Id."'"); 
             
             foreach ($data as $row) {
                 
-                $this->Id = $row['id'];
                 $this->Firstname = $row['firstname'];
                 $this->Lastname = $row['lastname'];
                 $this->Username = $row['username'];
@@ -200,6 +220,19 @@
                 $this->Private = $row['privateAccount'];
                 $this->Birthdate = $row['birthdate'];
                 $this->Avatar = $row['profilePicture'];
+
+                $query = $conn->query("SELECT * FROM posts WHERE userId = '".$this->Id."'"); 
+                $count = $query->rowCount();
+                $this->PhotosCount = $count;
+
+                $query = $conn->query("SELECT * FROM users_followers WHERE followUserId = '".$this->Id."'"); 
+                $count = $query->rowCount();
+                $this->FollowersCount = $count;
+
+                $query = $conn->query("SELECT * FROM users_followers WHERE userId = '".$this->Id."'"); 
+                $count = $query->rowCount();
+                $this->FollowingCount = $count;
+
                 
             } 
         }
@@ -334,7 +367,7 @@
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $userN = $_SESSION['user'];
-            $posts = $conn->query("SELECT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
+            $posts = $conn->query("SELECT DISTINCT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
 
 
             $rowCount = $posts->rowCount();
@@ -404,15 +437,115 @@
                     $photo->Liked = true;
                 }
 
-                // Count all the likes of this post
-                $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."'" );
-                $photo->LikesCount = $allLikes->rowCount();
+                if(!empty($row['location'])){
+                    
+                    $photo->getLocation();
+                                    
+                }
+                
 
                 $data[] = $photo;
             }
 
             return $data;
 
+        }
+
+        public function loadProfile()
+        {
+
+            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $posts = $conn->query("SELECT * FROM posts WHERE userId = " . $this->Id . " ORDER BY id DESC");
+
+            $rowCount = $posts->rowCount();
+                    
+            while($row = $posts->fetch(PDO::FETCH_ASSOC))
+            { 
+
+            $photo = new Photo();
+            $photo->Path = $row['picturePath'];
+                
+
+                //Change hashtags to links
+                $strlen = strlen($row['description']);
+                $description = "";
+                $tag = false;
+                for( $i = 0; $i <= $strlen; $i++ ) {
+                    $char = substr( $row['description'], $i, 1 );
+
+                    if($char == "#"){
+                        $tag = true;
+                        $tagname = "";
+                    }else{
+                        if($tag == true){
+
+                            if($char == " " || $char == ""){
+
+                                $description .= '<a href="search.php?q='.$tagname.'">#'.$tagname.'</a>';
+                                $tag = false;
+                                $tagname = "";
+
+                            }else{
+                                $tagname .= $char;
+                            }
+                        }else{
+                            $description .= $char;
+                        }
+                    }
+                }
+
+                $photo->Description = $description;
+                $photo->User = $row['userId'];
+                $photo->Id = $row['id'];
+
+
+                // Calculate how many days ago posted
+                $now = time(); 
+                $date = strtotime($row['date']);
+                $datediff = $now - $date;
+                $days = floor($datediff/(60*60*24));
+
+                if($days == 0){
+                    $daysPosted = "Today";
+                }else{
+                    if($days == 1){
+                        $daysPosted = "Yesterday";
+                    }else{
+                        $daysPosted = $days . " days ago";
+                    }
+                } 
+
+                $photo->Date = $daysPosted;
+
+                // Check if the current post is already liked by the user
+                $like = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$photo->Id."' AND userId = '".$_SESSION['user']."'" );
+                if($like->rowCount() == 0){
+                    $photo->Liked = false;
+                }else{
+                    $photo->Liked = true;
+                }
+
+                // Count all the likes of this post
+                $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$this->Id."'" );
+                $photo->LikesCount = $allLikes->rowCount();
+
+                if(!empty($row['location'])){
+                    
+                    $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$row['location'].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
+                    $json = file_get_contents($url);
+                    $data = json_decode($json, TRUE);
+                    $photo->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];                
+                }
+
+                $data[] = $photo;
+            }
+
+            if(!empty($data)){
+                return $data;
+            }
+            
         }
 
         public function deleteAccount(){
@@ -423,6 +556,32 @@
             $statement->execute(array($this->Id));
             session_destroy();
             header("Location: index.php");
+        }
+
+        public function checkFollow()
+        {
+            $db = new Db();
+            $conn = $db->connect();
+            $followed = $conn->query("SELECT COUNT(*) As count FROM users_followers WHERE userId = ".$_SESSION['user']." AND followUserId = ".$this->Id);
+            $result= $followed->fetch(PDO::FETCH_ASSOC);
+            if($result['count'] == 0){
+               return true;
+            }elseif($result['count'] == 1){
+                return false;
+                echo '<input id="unfollow" name="following" type="submit" value="following">';
+                echo'<input id="follow" name="follow" type="submit" value="follow" style="display: none">';
+            }
+        }
+
+        public function checkIfUserExists(){
+            $db = new Db();
+            $conn = $db->connect();
+            $data = $conn->query("SELECT * FROM users WHERE id = ". $this->Id);
+            if($data->rowCount() == 0){
+                return false;
+            }else{
+                return true;
+            }
         }
 }
 ?>

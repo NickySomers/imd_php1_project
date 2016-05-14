@@ -35,7 +35,9 @@
                 $image = $photo->showPhoto();
             
                 if(!empty($_POST['description'])){
+                    $photo->Location = $_POST['coordinates'];
                     $photo->upload($_POST["description"], $_SESSION['user']);
+
                 }
 
                 if(!empty($_SESSION['feedback'])){
@@ -74,6 +76,7 @@
                                     <form action="" method="post" id="publish-form">
                                         <input type="text" name="image" hidden value="<?php echo $image; ?>">
                                         <textarea name="description" class="image-description-field"></textarea>
+                                         <input type="text" name="coordinates" id="coords" >
 
                                     </form>
                                     <div class="button-group">
@@ -131,6 +134,20 @@
             $("#file").change(function () {
                 $("#form-upload").submit();
             });
+
+
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+
+function showPosition(position) {
+    var coordinates = position.coords.latitude + ","+ position.coords.longitude; 
+    $("#coords").val(coordinates);
+}
+
         </script>
     </body>
 

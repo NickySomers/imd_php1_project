@@ -760,3 +760,26 @@ display: inline-block;
 height: 16px;
 padding-left: 20px;
 }
+
+
+
+
+.post-detail
+{
+    display: none;
+    background-color: white;
+    width: 80%;
+    height: 500px;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    z-index: 9999999;
+}
+
+.post-detail .picture
+{
+    height: 500px;
+    width: 500px;
+    background-size: cover;
+    background-position: center;
+}
