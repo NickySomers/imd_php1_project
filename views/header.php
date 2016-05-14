@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-static-top navbar-inverse">
    
-    <div class="container">
+    <div class="wrapper">
         <a class="navbar-brand" href="#">IMDstagram</a>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">

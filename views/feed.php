@@ -56,7 +56,17 @@
                         <div class="profile-name"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                         <div class="minutes-posted"><?php echo $posts[$i]->Date; ?></div>
                     </div>
-                    <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                    <?php if(!empty($posts[$i]->Filter)): ?>
+                        
+                        <figure class="<?php echo $posts[$i]->Filter ?>">
+                            <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                        </figure>
+                        
+                    <?php else: ?>
+                       
+                            <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                    
+                    <?php endif; ?>
                     <div class="photo-location"><?php echo $posts[$i]->Location; ?></div>
                     <div class="footer-photo">
                         <div class="likes"><span class="likesCount"><?php echo $posts[$i]->LikesCount; ?></span> likes</div>
