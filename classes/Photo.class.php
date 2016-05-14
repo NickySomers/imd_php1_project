@@ -10,6 +10,7 @@
 		private $m_sDate;
 		private $m_bLiked;
 		private $m_iLikesCount;
+        private $m_sFilter;
 
 		public function __set( $p_sProperty, $p_vValue )
 	    {
@@ -38,6 +39,9 @@
 				break;
 				case 'LikesCount':
 			 		$this->m_iLikesCount = $p_vValue;
+				break;
+                case 'Filter':
+			 		$this->m_sFilter = $p_vValue;
 				break;
 			} 
 	    }
@@ -70,6 +74,9 @@
 				case 'LikesCount':
 					return($this->m_iLikesCount);
 				break;
+                case 'Filter':
+			 		return($this->m_sFilter);
+				break;
 			}
 		} 
 
@@ -93,7 +100,9 @@
             
             $success = file_put_contents($path, $data);
             
-            $this->addToDatabase($path, $description, $user);
+            $filter = $this->m_sFilter;
+            
+            $this->addToDatabase($path, $description, $user, $filter);
              
             $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
             
@@ -124,18 +133,18 @@
         }
         
         
-        public function addToDatabase($path, $description, $user){
-            
-            try {
-              
+        public function addToDatabase($path, $description, $user, $filter)
+        { 
+            try 
+            {
 				$conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			    $data = $conn->query("INSERT INTO posts(picturePath, description, userId) VALUES ('".$path."', '".$description."', '".$user."')");
-
-			} catch(PDOException $e) {
+			    $data = $conn->query("INSERT INTO posts(picturePath, description, userId, filter) VALUES ('".$path."', '".$description."', '".$user."', '".$filter."')");
+			} 
+            catch(PDOException $e) 
+            {
 			    echo 'ERROR: ' . $e->getMessage();
-			}
-            
+			}   
         }
 
         public function display(){
