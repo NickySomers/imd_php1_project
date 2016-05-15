@@ -115,7 +115,7 @@
                     
 	            $date = date("c");
 	            
-	            $path = "../public/uploads/".$date."." . $extension[1];
+	            $path = "../public/uploads/".$date.".png";
 	            
 	            $success = file_put_contents($path, $data);
 	            

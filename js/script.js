@@ -41,26 +41,15 @@ $(document).ready(function(){
                     for(var i = 0; i < data[1].length; i++)
                     {
 
-                    var header_content = '<div class="profile-pic" style="background-image: url('+data[1][i][9]+')"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
-                    var header = '<div class="header-photo">'+header_content+'</div>';
-                    
-                    if(data[1][i][8] != ""){
-                        var image = '<figure class="'+data[1][i][8]+'"><img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto"></figure>';
-                    }else{
-                        var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
-                    }
-                    
-
-
-                        var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
+                        var header_content = '<div class="profile-pic" style="background-image: url('+data[1][i][9]+')"></div><div class="profile-name"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="minutes-posted">'+data[1][i][3]+'</div>';
                         var header = '<div class="header-photo">'+header_content+'</div>';
-                        if(data[1][i][8] != "")
-                        {
+                        
+                        if(data[1][i][8] != ""){
                             var image = '<figure class="'+data[1][i][8]+'"><img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto"></figure>';
                         }else{
                             var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
                         }
-
+                    
                         
                         var liked = "";
                         
@@ -73,7 +62,7 @@ $(document).ready(function(){
                             liked = "";
                         }
 
-                        var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username">'+data[1][i][2]+'</div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="flag"></div></div>';
+                        var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="flag"></div></div>';
                         var footer = '<div class="footer-photo">'+footer_content+'</div>';
                         var post = '<div class="wrap-photo" data-index="' + data[1][i][4] + '">' + header + image + footer + '</div>';            
 
@@ -81,7 +70,7 @@ $(document).ready(function(){
 
                     }
 
-                    var showmore = '<div class="show_more_main" id="show_more_main"><span data-index="'+data[0]+'" class="show_more" title="Load more posts">Show more</span><span class="loding" style="display: none;"><span class="loding_txt">Loading....</span></span></div>';
+                    var showmore = '<div class="show_more_main" id="show_more_main"><div data-index="'+data[0]+'" class="spinner show_more"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>';
                     $('.container').append(showmore);
 
                 })
@@ -245,6 +234,22 @@ $("#file").change(function(){
             'overflow': 'auto'
         });
         
+    });
+
+    $('.user-profile').click(function(){
+        $('.user-profile-options').toggle();
+    });
+
+    $(".input-search").click(function(){
+
+        $(".search-overlay").fadeIn();
+
+    });
+
+    $(".search-overlay").click(function(){
+
+        $(".search-overlay").fadeToggle();
+
     });
     
 });

@@ -18,17 +18,17 @@
 
     while($u = $user->fetch(PDO::FETCH_ASSOC))
     {
-        $users[] = "<div class='container-block'><a href='profile.php?id=".$u['id']."'><div class='wrap-item'><div class='utext-left'><div class='utext-width'><div class='search-pic' style='background-image: url(".$u['profilePicture'].")'></div></div><div class='utext utext-width'>".$u['username']."</div></div><div class='utext utext-right'>".$u['firstname']." ".$u['lastname']."</div></div></a></div>";
+        $users[] = "<a href='profile.php?id=".$u['id']."'><div class='container-block'><div class='wrap-item'><div class='search-pic' style='background-image: url(".$u['profilePicture'].")'></div><div class='utext'><p class='name'>".$u['firstname']." ".$u['lastname']."</p><p>@".$u['username']."</p></div></div></a>";
     }
 
     while($t = $tag->fetch(PDO::FETCH_ASSOC))
     {
-        $tags[] = "<div class='container-block2'><a href='tag.php?id=".$t['id']."'><div class='wrap-item2'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
+        $tags[] = "<div class='container-block'><a href='tag.php?id=".$t['id']."'><div class='wrap-item full-width'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
     }
 
     while($l = $location->fetch(PDO::FETCH_ASSOC))
     {
-        $locations[] = "<div class='container-block3'><a href='tag.php?id=".$l['id']."'><div class='wrap-item3'><div class='locationtext'>".$l['location']."</div></div></a></div>";
+        $locations[] = "<div class='container-block'><a href='tag.php?id=".$l['id']."'><div class='wrap-item full-width'><div class='locationtext'>".$l['location']."</div></div></a></div>";
     }
 
     $data = array($users, $tags, $locations);

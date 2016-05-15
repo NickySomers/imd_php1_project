@@ -36,25 +36,22 @@ if (!empty($_POST)) {
 	<body class="home">
 		<div class="overlay"></div>
 		<div class="login">
-
+			<div class="logo"></div>
 			<form action="" method="post">
 				<label for="login_email">E-mail</label>
 				<input type="text" name="login_email" class="textfield" placeholder="E-mail">
 				<label for="login_password">Password</label>
 				<input type="password" name="login_password" class="textfield" placeholder="Password">
-				<input type="submit" class="button" value="Log in">
-				<div class="container-fluid">
-				
-				    <div class="col-md-6">
-				        LOGIN WITH FACEBOOK
-				    </div>
-				    <div class="col-md-6">
-				        <a href="register.php">REGISTER</a>
-				    </div>
-				
+				<div class="button-group">
+					<div class="grid">
+						<input type="submit" class="button" value="Log in">
+						<a href="" class="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Login with facebook</a>
+					</div>
+					<a href="register.php" class="button" >Sign up</a>
 				</div>
 			</form>
 	
 		</div>
+		<script src="https://use.fontawesome.com/124768e08b.js"></script>
 	</body>
 </html>

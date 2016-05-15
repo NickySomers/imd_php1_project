@@ -134,21 +134,21 @@
 
         </div> <!-- END upload-container -->
 
-<script>
+    <script>
 
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
 
-function showPosition(position) {
-    var coordinates = position.coords.latitude + ","+ position.coords.longitude; 
-    $("#coords").val(coordinates);
-}
+        function showPosition(position) {
+            var coordinates = position.coords.latitude + ","+ position.coords.longitude; 
+            $("#coords").val(coordinates);
+        }
 
-</script>
+    </script>
 
     <!-- JAVASCRIPT AND JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

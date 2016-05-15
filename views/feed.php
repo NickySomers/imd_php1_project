@@ -56,19 +56,20 @@
                         <div class="profile-name"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                         <div class="minutes-posted"><?php echo $posts[$i]->Date; ?></div>
                     </div>
-
-                    <?php  $filter = $posts[$i]->Filter; if(!empty($filter)): ?>
-                        
-                        <figure class="<?php echo $posts[$i]->Filter; ?>">
+                    <div class="photo">
+                        <?php  $filter = $posts[$i]->Filter; if(!empty($filter)): ?>
+                            
+                            <figure class="<?php echo $posts[$i]->Filter; ?>">
+                                <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                            </figure>
+                            
+                        <?php else: ?>
+                           
                             <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
-                        </figure>
-                        
-                    <?php else: ?>
-                       
-                        <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
-                        
-                    <?php endif; ?>
-                    <div class="photo-location"><?php echo $posts[$i]->Location; ?></div>
+                            
+                        <?php endif; ?>
+                        <div class="photo-location"><i class="fa fa-map-marker" aria-hidden="true"></i><?php echo $posts[$i]->Location; ?></div>
+                    </div>
                     <div class="footer-photo">
                         <div class="likes"><span class="likesCount"><?php echo $posts[$i]->LikesCount; ?></span> likes</div>
                         <div class="wrap-description">
@@ -101,13 +102,18 @@
             <?php endfor; endif; ?>
                         
             <div class="show_more_main" id="show_more_main">
-                <span data-index="<?php echo $id; ?>" class="show_more" title="Load more posts">LOADING MORE POSTS</span>
+                <div data-index="<?php echo $id; ?>" class="spinner show_more">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
             </div>
 
         </div>
         
         <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
         <script src="../js/script.js"></script>
+        
             
     </body>
 </html>

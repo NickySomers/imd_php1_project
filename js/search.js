@@ -15,44 +15,38 @@ $(".input-search").keyup(function () {
             
             if(data[0].length > 0)
             {
-                $(".suggestions").append("<p>Users</p>");
-                
-                $(".suggestions").append("<ul>");
+                $(".suggestions").append("<h2 class='search-title'>Users</h2>");
+                var users = "";
+;
                     for (var i = 0; i < data[0].length; i++) 
                     {
-                        $(".suggestions").append("<li>");
-                        $(".suggestions").append(data[0][i]);
-                        $(".suggestions").append("</li>");
+                        users += "<li>" + data[0][i] + "</li>";
                     }
-                $(".suggestions").append("</ul>");
+                $(".suggestions").append("<ul class='grid'>"+users+"</ul>");
             }
             
             if(data[1].length > 0)
             {
-                $(".suggestions").append("<p>Tags</p>");
-                
-                $(".suggestions").append("<ul>");
+                $(".suggestions").append("<h2 class='search-title'>Hashtags</h2>");
+                var tags = "";
+;
                     for (var i = 0; i < data[1].length; i++) 
                     {
-                        $(".suggestions").append("<li>");
-                        $(".suggestions").append(data[1][i]);
-                        $(".suggestions").append("</li>");
+                        tags += "<li>" + data[1][i] + "</li>";
                     }
-                $(".suggestions").append("</ul>");
+                $(".suggestions").append("<ul>"+tags+"</ul>");
             }
             
             if(data[2].length > 0)
             {
-                $(".suggestions").append("<p>Locations</p>");
-                
-                $(".suggestions").append("<ul>");
+                (".suggestions").append("<h2 class='search-title'>Locations</h2>");
+                var locations = "";
+;
                     for (var i = 0; i < data[2].length; i++) 
                     {
-                        $(".suggestions").append("<li>");
-                        $(".suggestions").append(data[2][i]);
-                        $(".suggestions").append("</li>");
+                        locations += "<li>" + data[2][i] + "</li>";
                     }
-                $(".suggestions").append("</ul>");
+                $(".suggestions").append("<ul>"+locations+"</ul>");
             }
             
             if(data[0].length == 0 && data[1].length == 0 && data[2].length == 0)
@@ -81,4 +75,5 @@ $(".input-search").keyup(function () {
 $(".cancel").click(function(){
     $(".wrap-suggestions").css("display", "none");
     $(".input-search").val("");
+    $(".search-overlay").fadeOut();
 });
