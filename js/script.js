@@ -202,11 +202,19 @@ $(document).ready(function(){
     $('.report').click(function () {
         
         var dataReport = {
-            postId: $(this).closest('.wrap-photo').attr("data-index"),
-            feedbackLimit: "You can only report a photo once" 
+            postId: $(this).closest('.wrap-photo').attr("data-index")
         }
 
-        $.post('../ajax/insertReport.php', dataReport);
+        //$.post('../ajax/insertReport.php', dataReport);
+        
+        var like = $(this);
+        $.post('../ajax/insertReport.php', dataReport, function(response) {
+            if(response == true)
+            {
+                var feedbackLimit = '<div class="feedback-limit">You can only report a photo once</div>';
+                like.closest('.wrap-limit').append(feedbackLimit);
+            }     
+        });
         
         $(".container-report").css("display", "none");
         

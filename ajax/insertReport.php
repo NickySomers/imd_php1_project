@@ -25,7 +25,7 @@
     }
     else
     {
-        echo $_POST['feedbackLimit'];
+        echo true;
     }
 
  	

@@ -83,13 +83,16 @@
                                 <div class="liken"></div>
                             <?php endif; ?>
                             <input type="text" name="comment" class="comment" placeholder="Add a comment...">
+                            
                             <div class="flag"></div>
+                            <div class="wrap-limit"></div>
                             <div class="container-report">
                                 <div class="wrap-report">
                                     <div class="report">Report</div>
                                     <div class="report-cancel">Cancel</div>
                                 </div>   
                             </div>
+                            
                         </div>
                     </div>
                 </div>

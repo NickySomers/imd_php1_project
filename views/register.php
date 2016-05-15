@@ -1,7 +1,4 @@
-
 <?php 
-
-    session_start();
 
     include_once("../classes/User.class.php");
 
@@ -12,6 +9,7 @@
             $user = new User();
             $user->Firstname = $_POST['firstname'];
             $user->Lastname = $_POST['lastname'];
+            $user->Username = $_POST['username'];
             $user->Email = $_POST['register_email'];
             $user->Password = $_POST['register_password'];
             $user->ConfirmPassword = $_POST['confirm_register_password'];
@@ -32,18 +30,17 @@
 	</head>
 	<body class="home">
 		<div class="overlay"></div>
-        
 		<div class="login">
 			<form action="" method="post">
                 <?php if(isset($error) && !empty($error)): ?>
-            <div class="error">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
+                    <div class="error"><?php echo $error; ?></div>
+                <?php endif; ?>
                 <label for="firstname">First name</label>
 				<input type="text" name="firstname" class="textfield" placeholder="First name">
                 <label for="lastname">Last name</label>
 				<input type="text" name="lastname" class="textfield" placeholder="Last name">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="textfield" placeholder="Username">
 				<label for="register_email">E-mail</label>
 				<input type="text" name="register_email" class="textfield" placeholder="E-mail">
 				<label for="register_password">Password</label>

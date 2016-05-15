@@ -53,10 +53,16 @@
                     {
                         throw new Exception("Lastname cannot be empty");
                     }
-                    $this->m_sLastname = $p_vValue;
                 break;
                 case 'Username':
-                    $this->m_sUsername = $p_vValue;
+                    if(!empty($p_vValue))
+                    {
+                        $this->m_sUsername = $p_vValue;
+                    }
+                    else
+                    {
+                        throw new Exception("Username cannot be empty");
+                    }
                 break;
                 case 'Email':
                     if(!empty($p_vValue))
@@ -198,7 +204,7 @@
 
                 $hashedPw = password_hash($this->m_sPassword, PASSWORD_DEFAULT);
 
-                $data = $conn->query("INSERT INTO users(firstname, lastname, email, password) VALUES(" . $conn->quote($this->m_sFirstname) . ", ". $conn->quote($this->m_sLastname) .",". $conn->quote($this->m_sEmail) .",". $conn->quote($hashedPw) .")");
+                $data = $conn->query("INSERT INTO users(firstname, lastname, username, email, password) VALUES(" . $conn->quote($this->m_sFirstname) . ", ". $conn->quote($this->m_sLastname) .",". $conn->quote($this->m_sUsername) .",". $conn->quote($this->m_sEmail) .",". $conn->quote($hashedPw) .")");
                 header("Location: index.php");
             }
 		}
