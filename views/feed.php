@@ -86,20 +86,19 @@
                             <?php endif; ?>
                             <input type="text" name="comment" class="comment" placeholder="Add a comment...">
                             <div class="flag"></div>
+                            <div class="container-report">
+                                <div class="wrap-report">
+                                    <div class="report" data-index="<?php echo $id; ?>">Report</div>
+                                    <div class="report-cancel">Cancel</div>
+                                </div>   
+                            </div>
                         </div>
                     </div>
-                    
-                        <div class="container-report">
-                            <div class="wrap-report">
-                                <div class="report">Report</div>
-                                <div class="report-cancel">Cancel</div>
-                            </div>   
-                        </div>
-                    </div>
+                </div>
                 
 
             <?php endfor; endif; ?>
-
+                        
             <div class="show_more_main" id="show_more_main">
                 <span data-index="<?php echo $id; ?>" class="show_more" title="Load more posts">LOADING MORE POSTS</span>
             </div>

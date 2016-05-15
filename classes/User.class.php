@@ -392,7 +392,6 @@
                         if($tag == true){
 
                             if($char == " " || $char == ""){
-
                                 $description .= '<a href="search.php?q='.$tagname.'">#'.$tagname.'</a>';
                                 $tag = false;
                                 $tagname = "";

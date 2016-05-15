@@ -42,7 +42,7 @@ $(document).ready(function(){
                     for(var i = 0; i < data[1].length; i++)
                     {
 
-                    var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
+                    var header_content = '<div class="profile-pic" style="background-image: url('+data[1][i][9]+')"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
                     var header = '<div class="header-photo">'+header_content+'</div>';
                     
                     if(data[1][i][8] != ""){
@@ -55,7 +55,14 @@ $(document).ready(function(){
 
                         var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
                         var header = '<div class="header-photo">'+header_content+'</div>';
-                        var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                        if(data[1][i][8] != "")
+                        {
+                            var image = '<figure class="'+data[1][i][8]+'"><img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto"></figure>';
+                        }else{
+                            var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                        }
+
+                        
                         var liked = "";
                         
                         if(data[1][i][5] == true)
@@ -185,7 +192,7 @@ $(document).ready(function(){
     /* REPORT PHOTO */
     $('.flag').click(function() {
         
-        $(".container-report").css("display", "block");
+        $(this).closest(".wrap-photo").find(".container-report").css("display", "block");
         
         $('html, body').css({
             'overflow': 'hidden'
@@ -196,14 +203,11 @@ $(document).ready(function(){
     $('.report').click(function () {
         
         var dataReport = {
-            postId: $(this).closest(".wrap-photo").attr("data-index")
+            postId: $(this).closest('.wrap-photo').attr("data-index")
         }
         
-        $.ajax({
-            type: "POST",
-            url: '../ajax/insertReport.php',
-            data: dataReport
-        });
+
+        $.post('../ajax/insertReport.php', dataReport);
         
         $(".container-report").css("display", "none");
         

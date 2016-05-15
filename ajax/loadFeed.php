@@ -93,6 +93,7 @@
                 }
 
                 $item[] = $row['filter'];
+                $item[] = $row['profilePicture'];
 
                
                 $posts[] = $item;

@@ -10,12 +10,14 @@
 
  	$posts_strike = $conn->query("SELECT * FROM posts_strike WHERE postId = '".$postId."'");
 
-    $posts = $conn->query("SELECT id FROM posts WHERE id = '".$postId."'");
+    //SELECT -> posts_strike -> postId = $postId AND userId = $user
+    // -> IF -> rowCount -> == 0 -> Reporten
+    // -> ELSE -> Niet reporten -> Echo foutmelding
 
  	if($posts_strike->rowCount() >= 2)
     {
  		$conn->query("DELETE FROM posts_strike WHERE userId = '".$user."' AND postId = '".$postId."'");
-        $conn->query("DELETE FROM posts WHERE userId = '".$userId."' AND id = '".$posts['id']."'");
+        $conn->query("DELETE FROM posts WHERE id = '".$postId."'");
  	}
     else
     {

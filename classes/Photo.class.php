@@ -117,7 +117,7 @@
             
             $this->addToDatabase($path, $description, $user, $filter);
              
-            $_SESSION['feedback'] = "Hooray! Your photo is uploaded." . $this->Filter;
+            $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
             
         }
         
@@ -151,6 +151,42 @@
             
             $db = new Db();
         	$conn = $db->connect();
+
+        	
+
+        	$strlen = strlen($description);
+                $output = "";
+                $tag = false;
+                for( $i = 0; $i <= $strlen; $i++ ) {
+                    $char = substr( $description, $i, 1 );
+
+                    if($char == "#"){
+                        $tag = true;
+                        $tagname = "";
+                    }else{
+                        if($tag == true){
+
+                            if($char == " " || $char == ""){
+
+                            	$check = $conn->query("SELECT * FROM posts_tags WHERE tag = '".$tagname."'");
+                            	if($check->rowCount() == 0){
+                            		$conn->query("INSERT INTO posts_tags(tag) VALUES ('".$tagname."')");
+                            	}
+
+                                $tag = false;
+                                $tagname = "";
+
+                            }else{
+                                $tagname .= $char;
+                            }
+                        }else{
+                            $output .= $char;
+                        }
+                    }
+                }
+
+
+
 			$data = $conn->query("INSERT INTO posts(picturePath, description, userId, location, filter) VALUES ('".$path."', '".$description."', '".$user."', '".$this->Location."', '".$this->Filter."')");
 
         }
