@@ -46,6 +46,7 @@
 				break;
 				case 'Location':
 			 		$this->m_sLocation = $p_vValue;
+			 	break;
                 case 'Filter':
 			 		$this->m_sFilter = $p_vValue;
 				break;
@@ -116,7 +117,7 @@
             
             $this->addToDatabase($path, $description, $user, $filter);
              
-            $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
+            $_SESSION['feedback'] = "Hooray! Your photo is uploaded." . $this->Filter;
             
         }
         
@@ -163,6 +164,7 @@
 			while($row = $query->fetch(PDO::FETCH_ASSOC)){
 				$this->Path = $row['picturePath'];
 				$this->User = $row['userId'];
+				$this->Filter = $row['filter'];
 			}
         }
 

@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../css/cssgram.min.css">
 </head>
 <body>
-        
+
     <?php include_once("header.php"); ?>
 
     <?php 
@@ -31,16 +31,11 @@
 
     $image = $photo->showPhoto();
     
-    if(!empty($_POST['filter']))
-    {
+    if(!empty($_POST['description'])){
+        $photo->Location = $_POST['coordinates'];
         $photo->Filter = $_POST['filter'];
+        $photo->upload($_POST["description"], $_SESSION['user']);
     }
-            
-                if(!empty($_POST['description'])){
-                    $photo->Location = $_POST['coordinates'];
-                    $photo->upload($_POST["description"], $_SESSION['user']);
-
-                }
 
 
     if(!empty($_SESSION['feedback']))
@@ -49,7 +44,7 @@
         unset($_SESSION['feedback']);
     }
         
-    ?>
+?>
 
 
     <div class="container-fluid">
@@ -138,6 +133,7 @@
                     <form action="" method="post" id="publish-form">
                         <input type="text" name="image" hidden value="<?php echo $image; ?>">
                         <input class="input-filter" type="text" name="filter" hidden value="">
+                        <input type="text" name="coordinates" id="coords" hidden>
                         <textarea name="description" class="image-description-field"></textarea>
                     </form>
                     <div class="button-group">
@@ -158,7 +154,8 @@
 
         </div> <!-- END upload-container -->
 
-        <script>
+<script>
+
             $("#file").change(function () {
                 $("#form-upload").submit();
             });

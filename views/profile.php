@@ -2,7 +2,6 @@
       
     session_start();
 
-
     if(empty($_SESSION['user'])){
         header("Location: index.php");
     }else{
@@ -29,6 +28,7 @@
         <title>IMDstagram</title>
         <link rel="stylesheet" href="../css/style.css">
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/cssgram.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -87,8 +87,13 @@
                 else: 
 
                 for($i = 0; $i < count($posts); $i++):
-
-                    echo '<div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div>';
+                    $filter = $posts[$i]->Filter;
+                    if(!empty($filter)){
+                        echo '<div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><figure class="'.$filter.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></figure></div>';
+                    }else{
+                        echo '<div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div>';
+                    }
+                    
 
 
                 endfor; endif;
@@ -145,12 +150,13 @@
                     data: data
                 }).done(function(res) {
                     var data = $.parseJSON(res);
-                    $(".post-detail").show();
+                    $(".post-detail").css("display", "flex");
                     $(".post-detail .picture").css("background-image", "url("+data["path"]+")");
                     $(".post-detail .username").text(data["username"]);
                     $(".post-detail .likesCount").text(data["likes"]);
                 });
             });
+
         </script>
 </body>
 
