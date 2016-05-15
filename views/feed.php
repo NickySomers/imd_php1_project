@@ -28,7 +28,7 @@
     <div class="container">
 
         <?php
-
+        
         //number of rows
         $rowCount = $posts->rowCount();
 
@@ -38,6 +38,7 @@
 
         ?>
             <div class="wrap-photo" data-index="<?php echo $row['pid']; ?>">
+                
                 <div class="header-photo">
                     <div class="profile-pic"></div>
                     <div class="profile-name"><?php echo $row['username']; ?></div>
@@ -66,9 +67,17 @@
                     <div class="wrap-liken">
                         <div class="liken"></div>
                         <input type="text" name="comment" class="comment" placeholder="Add a comment...">
-                        <div class="dots"></div>
+                        <div class="flag"></div>
                     </div>
                 </div>
+            
+                <div class="container-report">
+                    <div class="wrap-report">
+                        <div class="report">Report</div>
+                        <div class="report-cancel">Cancel</div>
+                    </div>   
+                </div>
+            
             </div>
 
         <?php 

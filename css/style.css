@@ -735,6 +735,7 @@ input[type=file] {
 {
     color: #000;
     -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .comment:focus::-webkit-input-placeholder 
@@ -742,18 +743,104 @@ input[type=file] {
     opacity: 0.4;
 }
 
-.dots
+.flag
 {
-    background-image: url("../images/dots.svg");
+    background-image: url("../images/flag-map-marker.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
     right: 0;
     margin-right: 5%;
     cursor: pointer;
     position: absolute;
+    opacity: 0.6;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.flag:hover
+{
+    opacity: 1;
+}
+
+.container-report
+{
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.wrap-report
+{
+    position: absolute;
+    width: 40%;
+    height: 150px;
+    top: 0;
+    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+    box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+}
+
+.report
+{
+    font-family: "Open Sans", sans-serif;
+	font-size: 2.4rem;
+    color: #323232;
+    text-align: center;
+    line-height: 75px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #323232;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.report:hover
+{
+    background-color: #edeeee;
+}
+
+.report-cancel
+{
+    font-family: "Open Sans", sans-serif;
+	font-size: 2.4rem;
+    color: #323232;
+    text-align: center;
+    line-height: 75px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border: none;
+    border-top: 1px solid #323232;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.report-cancel:hover
+{
+    background-color: #edeeee;
 }
 
 .show_more_main {

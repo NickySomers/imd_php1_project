@@ -22,94 +22,56 @@ $(document).ready(function(){
     
     /* LAZY LOADING FEED PAGE */
     $(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-        setTimeout(function(){
-        var data = {
-            index: $(".show_more").attr('data-index')
-        }
-
-        $.post("../ajax/loadFeed.php", data, function(response) {
+        
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
             
+            setTimeout(function(){
 
-            $('.show_more_main').remove();
+                var data = {
+                    index: $(".show_more").attr('data-index')
+                }
 
-            var data = $.parseJSON(response);
-       
+                $.post("../ajax/loadFeed.php", data, function(response) {
 
 
-                for(var i = 0; i < data[1].length; i++){
+                    $('.show_more_main').remove();
 
-                    var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
-                    var header = '<div class="header-photo">'+header_content+'</div>';
-                    
-                    var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                    var data = $.parseJSON(response);
 
-                    var liked = "";
-                    if(data[1][i][5] == true){
-                        liked = "liked";
-                    }else{
-                        liked = "";
+                    for(var i = 0; i < data[1].length; i++)
+                    {
+
+                        var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
+                        var header = '<div class="header-photo">'+header_content+'</div>';
+                        var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                        var liked = "";
+                        
+                        if(data[1][i][5] == true)
+                        {
+                            liked = "liked";
+                        }
+                        else
+                        {
+                            liked = "";
+                        }
+
+                        var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username">'+data[1][i][2]+'</div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="flag"></div></div>';
+                        var footer = '<div class="footer-photo">'+footer_content+'</div>';
+                        var post = '<div class="wrap-photo" data-index="' + data[1][i][4] + '">' + header + image + footer + '</div>';            
+
+                        $('.container').append(post);
+
                     }
 
-                    var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username">'+data[1][i][2]+'</div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="dots"></div></div>';
-                    var footer = '<div class="footer-photo">'+footer_content+'</div>';
-
-                    var post = '<div class="wrap-photo" data-index="' + data[1][i][4] + '">' + header + image + footer + '</div>';            
-      
-                    $('.container').append(post);
-
-                }
-            
-
-                // if($(".show_more").attr('data-index') == null){
-                //     alert("Test");
-                // }else{
                     var showmore = '<div class="show_more_main" id="show_more_main"><span data-index="'+data[0]+'" class="show_more" title="Load more posts">Show more</span><span class="loding" style="display: none;"><span class="loding_txt">Loading....</span></span></div>';
                     $('.container').append(showmore);
-                    
-                // }
-            
-        })
-        
-        }, 1000);
-    }
-    });
 
-
-    /* REPORT PHOTO */
-    /*$('.flag').click(function(){
+                })
         
-        $(".container-report").css("display", "block");
-        
-        $('html, body').css({
-            'overflow': 'hidden'
-        });
+            }, 1000);
+        }
         
     });
-    
-    $('.report-cancel').click(function(){
-        
-        $(".container-report").css("display", "none");
-        
-        $('html, body').css({
-            'overflow': 'auto'
-        });
-        
-    });
-    
-    $('.report').click(function(){
-        
-        $(".container-report").css("display", "none");
-            
-        $('html, body').css({
-            'overflow': 'auto'
-        });
-        
-        $.post("../ajax/insertReport.php", data, function(response) {
-            var data = $.parseJSON(response);
-        })
-    });*/
-    
     
     /* UPLOAD PAGE + FILTERS */
     $('.filter-1').click(function () {
@@ -206,6 +168,47 @@ $(document).ready(function(){
 
     $("#file").change(function () {
         $("#form-upload").submit();
+    });
+    
+    /* REPORT PHOTO */
+    $('.flag').click(function() {
+        
+        $(".container-report").css("display", "block");
+        
+        $('html, body').css({
+            'overflow': 'hidden'
+        });
+        
+    });
+    
+    $('.report').click(function () {
+        
+        var dataReport = {
+            postId: $(this).closest(".wrap-photo").attr("data-index")
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: '../ajax/insertReport.php',
+            data: dataReport
+        });
+        
+        $(".container-report").css("display", "none");
+        
+        $('html, body').css({
+            'overflow': 'auto'
+        });
+        
+    });
+    
+    $('.report-cancel').click(function() {
+        
+        $(".container-report").css("display", "none");
+        
+        $('html, body').css({
+            'overflow': 'auto'
+        });
+        
     });
     
 });
