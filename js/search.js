@@ -41,7 +41,21 @@ $(".input-search").keyup(function () {
                 $(".suggestions").append("</ul>");
             }
             
-            if(data[0].length == 0 && data[1].length == 0)
+            if(data[2].length > 0)
+            {
+                $(".suggestions").append("<p>Locations</p>");
+                
+                $(".suggestions").append("<ul>");
+                    for (var i = 0; i < data[2].length; i++) 
+                    {
+                        $(".suggestions").append("<li>");
+                        $(".suggestions").append(data[2][i]);
+                        $(".suggestions").append("</li>");
+                    }
+                $(".suggestions").append("</ul>");
+            }
+            
+            if(data[0].length == 0 && data[1].length == 0 && data[2].length == 0)
             {
                 $(".suggestions").css("display", "none");
                 $('.wrap-blur').removeClass("blur-all");
