@@ -22,6 +22,7 @@
         private $m_iPhotosCount;
         private $m_iFollowersCount;
         private $m_iFollowingCount;
+        private $m_sHeader;
 
 
         // SETTER
@@ -106,6 +107,9 @@
                 case 'Avatar':
                     $this->m_sAvatar = $p_vValue;
                 break;
+                case 'Errors':
+                    $this->m_aErrors = $p_vValue;
+                break;
                 case 'PhotosCount':
                     $this->m_iPhotosCount = $p_vValue;
                 break;
@@ -117,6 +121,9 @@
                 break;
                 case 'Private':
                     $this->m_bPrivate = $p_vValue;
+                break;
+                case 'Header':
+                    $this->m_sHeader = $p_vValue;
                 break;
 				default: echo("Not existing property: " . $p_sProperty);
             } 
@@ -181,6 +188,9 @@
                 case 'ConfirmPassword':
                     return($this->m_sConfirm_password);
                 break; 
+                case 'Header':
+                    return($this->m_sHeader);
+                break; 
                 default: echo("Not existing property: " . $p_sProperty);
             }
         }
@@ -227,23 +237,13 @@
         
         public function canLogin($p_sEmail, $p_sPassword)
         {
-
-            //$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            if (!empty($p_sEmail) && !empty($p_sPassword)/*!$conn->connect_errno*/)
+            if (!empty($p_sEmail) && !empty($p_sPassword))
             {
                 $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-                //$hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
-                //$query = "SELECT * FROM users WHERE email = '" :email "' AND password = '" . $conn->quote($hashedPw) . "' ";
-
-                //$result = $conn->query($query);
-                //$row_hash = $result->fetch(PDO::FETCH_ASSOC);
-
                 $query = $conn->prepare('SELECT * FROM users WHERE email = :email');
                 $query->bindParam(':email', $p_sEmail);
                 $query->execute();
                 $result = $query -> fetch(PDO::FETCH_ASSOC);
-                //var_dump($result);
-
                 if (password_verify($p_sPassword, $result['password']))
                 {
                     $_SESSION['user'] = $result['id'];
@@ -283,11 +283,14 @@
 
                 $query = $conn->query("SELECT * FROM users_followers WHERE followUserId = '".$this->Id."'"); 
                 $count = $query->rowCount();
-                $this->FollowersCount = $count;
+                $this->FollowingCount = $count;
 
                 $query = $conn->query("SELECT * FROM users_followers WHERE userId = '".$this->Id."'"); 
                 $count = $query->rowCount();
-                $this->FollowingCount = $count;
+                $this->FollowersCount = $count;
+                
+
+                $this->Header = $row['header'];
 
                 
             } 
@@ -331,7 +334,7 @@
         }
         
         
-        public function changeProfile($user, $email, $firstname, $lastname, $username, $website, $phone, $private, $birthdate_day, $birthdate_month, $birthdate_year, $gender, $description, $picture)
+        public function changeProfile($user, $email, $firstname, $lastname, $username, $website, $phone, $private, $birthdate_day, $birthdate_month, $birthdate_year, $gender, $description, $picture, $header, $password, $password_confirm)
         {
             if($this->Email !== $email){
                 if(!empty($email)){
@@ -405,13 +408,32 @@
                 }
             }
 
+            if(!empty($header)){
+                $headerPath = "../public/users/" . $this->Id . "/header.png";
+
+                if ($header["size"] > 500000) {
+                    $this->Errors = "The size of your profile picture is too big. The maximum file size is 50MB.";
+                }else{
+                    //TODO: MODIFY IF SO THERE IS NO EMPTY IF STATEMENT
+                    if (move_uploaded_file($header["tmp_name"], $headerPath)) {
+
+                    } 
+                }
+            }
+
+            if($password == $password_confirm){
+
+                $hashedPw = password_hash($password, PASSWORD_DEFAULT);
+
+            }
+
 
             if(count($this->Errors) == 0){
 
                 //TODO: Change query to $this->PROPERTY
                 $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$profilePicturePath."' WHERE id='".$user."'"); 
+                $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', password = '".$hashedPw."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$profilePicturePath."', header = '".$headerPath."' WHERE id='".$user."'"); 
             
             } 
 
@@ -619,14 +641,12 @@
         {
             $db = new Db();
             $conn = $db->connect();
-            $followed = $conn->query("SELECT COUNT(*) As count FROM users_followers WHERE userId = ".$_SESSION['user']." AND followUserId = ".$this->Id);
+            $followed = $conn->query("SELECT * FROM users_followers WHERE userId = ".$this->Id." AND followUserId = ".$_SESSION['user']);
             $result= $followed->fetch(PDO::FETCH_ASSOC);
-            if($result['count'] == 0){
-               return true;
-            }elseif($result['count'] == 1){
+            if($followed->rowCount() == 0){
+                return true;
+            }else{
                 return false;
-                echo '<input id="unfollow" name="following" type="submit" value="following">';
-                echo'<input id="follow" name="follow" type="submit" value="follow" style="display: none">';
             }
         }
 

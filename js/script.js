@@ -185,10 +185,23 @@ $(document).ready(function(){
         });
     });
 
-    $("#file").change(function () {
-        $("#form-upload").submit();
-    });
-    
+$("#file").change(function(){
+    var input = this;
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $(".upload-form").hide();
+            $(".image-background").css("background-image", "url("+e.target.result+")");
+            $(".image-filter").css("background-image", "url("+e.target.result+")");
+            $(".image").css("background-image", "url("+e.target.result+")");
+            $("1image-field").css("value", e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+   
+});
     /* REPORT PHOTO */
     $('.flag').click(function() {
         

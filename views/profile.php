@@ -31,11 +31,11 @@
         <link href="../css/cssgram.min.css" rel="stylesheet">
     </head>
 
-    <body>
+    <body data-profile="<?php echo $user->Id; ?>">
 
         <?php include_once("header.php"); ?>
 
-        <div class="profile-header">
+        <div class="profile-header" style="background-image: url(<?php echo $user->Header; ?>);">
             <div class="wrapper">
 
                 <div class="profile-picture" style="background-image: url(<?php echo $profile; ?>)"></div>
@@ -60,19 +60,22 @@
                     <span>Following</span>
                     <span class="amount"><?php echo $user->FollowingCount; ?></span>
                 </div>
+
+                <?php if($user->Id != $_SESSION['user']): ?>
                 <div class="profileFollow">
-                <?php
+                    <?php
 
-                    if($user->checkFollow()){
-                        echo'<input id="follow" name="follow" type="submit" value="follow" >';
-                        echo '<input id="unfollow" name="following" type="submit" value="following" style="display:none;">';
-                    }else{
-                        echo'<input id="follow" name="follow" type="submit" value="follow" style="display:none;">';
-                        echo '<input id="unfollow" name="following" type="submit" value="following">';
-                    }
+                        if($user->checkFollow()){
+                            echo'<input id="follow" name="follow" type="submit" value="follow" >';
+                            echo '<input id="unfollow" name="following" type="submit" value="following" style="display:none;">';
+                        }else{
+                            echo'<input id="follow" name="follow" type="submit" value="follow" style="display:none;">';
+                            echo '<input id="unfollow" name="following" type="submit" value="following">';
+                        }
 
-                ?>
+                    ?>
                 </div>
+                <?php endif; ?>
             </div>
             <div class="overlay"></div>
         </div>
@@ -89,9 +92,9 @@
                 for($i = 0; $i < count($posts); $i++):
                     $filter = $posts[$i]->Filter;
                     if(!empty($filter)){
-                        echo '<div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><figure class="'.$filter.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></figure></div>';
+                        echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><figure class="'.$filter.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></figure></div></a>';
                     }else{
-                        echo '<div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div>';
+                        echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div></a>';
                     }
                     
 
@@ -118,7 +121,7 @@
                 $.ajax({
                     url: "../ajax/followProfile.php",
                     method:"POST",
-                    data:{ userId: <?php echo $_GET['id'] ?> }
+                    data:{ userId: $("body").attr("data-profile") }
                 }).done(function() {
 
                     $("#follow").hide();
@@ -131,7 +134,7 @@
                 $.ajax({
                     url: "../ajax/unfollowProfile.php",
                     method:"POST",
-                    data:{ userId: <?php echo $_GET['id'] ?> }
+                    data:{ userId: $("body").attr("data-profile")}
                 }).done(function() {
                     //alert("het werkt");
                     $("#unfollow").hide();
@@ -139,23 +142,23 @@
                 });
             });
 
-            $(".profile-grid-image-container").click(function () {
-                var data = {
-                    id: $(this).attr("data-index")
-                }
+            // $(".profile-grid-image-container").click(function () {
+            //     var data = {
+            //         id: $(this).attr("data-index")
+            //     }
 
-                $.ajax({
-                    url: "../ajax/showPostInfo.php",
-                    method: "POST",
-                    data: data
-                }).done(function(res) {
-                    var data = $.parseJSON(res);
-                    $(".post-detail").css("display", "flex");
-                    $(".post-detail .picture").css("background-image", "url("+data["path"]+")");
-                    $(".post-detail .username").text(data["username"]);
-                    $(".post-detail .likesCount").text(data["likes"]);
-                });
-            });
+            //     $.ajax({
+            //         url: "../ajax/showPostInfo.php",
+            //         method: "POST",
+            //         data: data
+            //     }).done(function(res) {
+            //         var data = $.parseJSON(res);
+            //         $(".post-detail").css("display", "flex");
+            //         $(".post-detail .picture").css("background-image", "url("+data["path"]+")");
+            //         $(".post-detail .username").text(data["username"]);
+            //         $(".post-detail .likesCount").text(data["likes"]);
+            //     });
+            // });
 
         </script>
 </body>

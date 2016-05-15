@@ -24,3 +24,11 @@
     <script src="../js/search.js"></script>
     
 </nav>
+
+<?php
+    if(!empty($_SESSION['feedback']))
+    {
+        echo '<div class="feedback"><div class="wrapper">'.$_SESSION['feedback'].'</div></div>';
+        unset($_SESSION['feedback']);
+    }
+?>

@@ -12,7 +12,8 @@
 	});
 
     $user = new User(); 
-    $user->getDataFromDatabase($_SESSION['user']);
+    $user->Id = $_SESSION['user'];
+    $user->getDataFromDatabase();
 
     if(!empty($_POST)){
 
@@ -20,7 +21,7 @@
             $_POST['private'] = null;
         }
 
-        $user->changeProfile($_SESSION['user'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['website'], $_POST['phone'], $_POST['private'], $_POST['birthdate_day'], $_POST['birthdate_month'], $_POST['birthdate_year'], $_POST['gender'], $_POST['description'], $_FILES['profilePicture']);
+        $user->changeProfile($_SESSION['user'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['username'], $_POST['website'], $_POST['phone'], $_POST['private'], $_POST['birthdate_day'], $_POST['birthdate_month'], $_POST['birthdate_year'], $_POST['gender'], $_POST['description'], $_FILES['profilePicture'], $_FILES['header'], $_POST['password'], $_POST['password_confirm']);
     }
 
     if(!empty($_GET)){
@@ -135,6 +136,9 @@
                     <label for="profilePicture">Profile picture</label>
                     <input type="file" name="profilePicture" id="profilePicture">
 
+                    <label for="header">Header</label>
+                    <input type="file" name="header" id="header">
+
                     <h2>Contact</h2>
                     <label for="lastname">Website</label>
                     <input type="text" name="website" placeholder="Website" value="<?php echo $user->Website; ?>" class="form-control">
@@ -142,7 +146,13 @@
                     <label for="phone">Phone number</label>
                     <input type="text" name="phone" placeholder="Phone number" value="<?php echo $user->Phone; ?>" class="form-control">
                     
-                    
+                    <h2>Change password</h2>
+                    <label for="lastname">New password</label>
+                    <input type="text" name="password" placeholder="Password" class="form-control">
+
+                    <label for="phone">Comfirm new password</label>
+                    <input type="text" name="password_confirm" placeholder="Confirm password" class="form-control">
+
                     <h2>Danger zone</h2>
 
                     <?php if($user->Private): ?>

@@ -1,5 +1,4 @@
 <?php
-
 	session_start();
     if(empty($_SESSION['user']))
     {
@@ -10,8 +9,16 @@
 	spl_autoload_register(function ($class) {
 		include '../classes/' . $class . '.class.php';
 	});
+        
+    $photo = new Photo();
 
+    if(!empty($_POST['description'])){
+        $photo->Location = $_POST['coordinates'];
+        $photo->Filter = $_POST['filter'];
+        $photo->upload($_POST["description"], $_SESSION['user'], $_FILES['image']);
+    }     
 ?>
+
 
 <html lang="en">
 <head>
@@ -25,43 +32,17 @@
 
     <?php include_once("header.php"); ?>
 
-    <?php 
-        
-    $photo = new Photo();
-
-    $image = $photo->showPhoto();
-    
-    if(!empty($_POST['description'])){
-        $photo->Location = $_POST['coordinates'];
-        $photo->Filter = $_POST['filter'];
-        $photo->upload($_POST["description"], $_SESSION['user']);
-    }
-
-
-    if(!empty($_SESSION['feedback']))
-    {
-        echo '<div class="feedback"><div class="wrapper">'.$_SESSION['feedback'].'</div></div>';
-        unset($_SESSION['feedback']);
-    }
-        
-?>
-
 
     <div class="container-fluid">
                    
         <div class="upload-container">
 
-        <?php if(empty($image)): ?>
                         
             <!-- Photo upload screen -->
             <div class="wrapper upload-form">
                 <h1>Upload your photo</h1>
-                <form action="" method="post" enctype="multipart/form-data" id="form-upload">
-                    <input type="file" id="file" name="image" accept=".jpg,.png">
-                </form>
             </div>
-                            
-        <?php else: ?>
+
                                 
 
             <div class="wrapper-image-filter">
@@ -130,8 +111,9 @@
             <!-- Form to add a description to your uploaded photo -->
             <div class="add-image-info">
                 <div class="content">
-                    <form action="" method="post" id="publish-form">
-                        <input type="text" name="image" hidden value="<?php echo $image; ?>">
+                    <form action="" method="post" id="publish-form" enctype="multipart/form-data">
+                    <input type="file" id="file" name="image" accept=".jpg,.png">
+                        <input type="text" name="image" id="image-field" hidden>
                         <input class="input-filter" type="text" name="filter" hidden value="">
                         <input type="text" name="coordinates" id="coords" hidden>
                         <textarea name="description" class="image-description-field"></textarea>
@@ -143,23 +125,16 @@
                 </div>
             </div>
 
-        <?php endif; ?>
+ 
                         
             <!-- Blurry background of the uploaded image -->
-            <?php if(empty($image)): ?>
+
                 <div class="image-background"></div>
-            <?php else: ?>
-                <div class="image-background" style="background-image: url(<?php echo $image; ?>)"></div>
-            <?php endif; ?>
+  
 
         </div> <!-- END upload-container -->
 
 <script>
-
-            $("#file").change(function () {
-                $("#form-upload").submit();
-            });
-
 
 
     if (navigator.geolocation) {

@@ -93,31 +93,40 @@
 			}
 		} 
 
-		public function upload($description, $user)
+		public function upload($description, $user, $data)
 		{
             
             //TODO: Change this to a javascript alternative
 
-            $img = $_REQUEST['image'];
-            preg_match('~data:(.*?);~', $img, $output);
+            // $img = $_REQUEST['image'];
+            // preg_match('~data:(.*?);~', $img, $output);
 
-            $extension = explode("/", $output[1]);
+            // $extension = explode("/", $output[1]);
 
-            $img = str_replace('data:'.$output[1].';base64,', '', $img);
-            $img = str_replace(' ', '+', $img);
-            $data = base64_decode($img);
-            
-            $date = date("c");
-            
-            $path = "../public/uploads/".$date."." . $extension[1];
-            
-            $success = file_put_contents($path, $data);
-            
-            $filter = $this->m_sFilter;
-            
-            $this->addToDatabase($path, $description, $user, $filter);
-             
-            $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
+            // $img = str_replace('data:'.$output[1].';base64,', '', $img);
+            // $img = str_replace(' ', '+', $img);
+            // $data = base64_decode($img);
+            	$target_dir = "../public/uploads/";
+				$target_file = $target_dir . basename($data["name"]);
+				$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+			    $check = getimagesize($data["tmp_name"]);
+
+			if($check !== false) {
+                    
+	            $date = date("c");
+	            
+	            $path = "../public/uploads/".$date."." . $extension[1];
+	            
+	            $success = file_put_contents($path, $data);
+	            
+	            $filter = $this->m_sFilter;
+	            
+	            $this->addToDatabase($path, $description, $user, $filter);
+	             
+	            $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
+	            header("Location: feed.php");
+
+	        }
             
         }
         
@@ -201,6 +210,35 @@
 				$this->Path = $row['picturePath'];
 				$this->User = $row['userId'];
 				$this->Filter = $row['filter'];
+
+                $strlen = strlen($row['description']);
+                $description = "";
+                $tag = false;
+                for( $i = 0; $i <= $strlen; $i++ ) {
+                    $char = substr( $row['description'], $i, 1 );
+
+                    if($char == "#"){
+                        $tag = true;
+                        $tagname = "";
+                    }else{
+                        if($tag == true){
+
+                            if($char == " " || $char == ""){
+                                $description .= '<a href="search.php?q='.$tagname.'">#'.$tagname.'</a>';
+                                $tag = false;
+                                $tagname = "";
+
+                            }else{
+                                $tagname .= $char;
+                            }
+                        }else{
+                            $description .= $char;
+                        }
+                    }
+                }
+
+                $this->Description = $description;
+
 			}
         }
 
