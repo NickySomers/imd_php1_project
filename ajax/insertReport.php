@@ -9,19 +9,25 @@
     $postId = $_POST['postId'];
 
  	$posts_strike = $conn->query("SELECT * FROM posts_strike WHERE postId = '".$postId."'");
+    $posts_limit = $conn->query("SELECT * FROM posts_strike WHERE postId = '".$postId."' AND userId = '".$user."'");
 
-    //SELECT -> posts_strike -> postId = $postId AND userId = $user
-    // -> IF -> rowCount -> == 0 -> Reporten
-    // -> ELSE -> Niet reporten -> Echo foutmelding
-
- 	if($posts_strike->rowCount() >= 2)
-    {
- 		$conn->query("DELETE FROM posts_strike WHERE userId = '".$user."' AND postId = '".$postId."'");
-        $conn->query("DELETE FROM posts WHERE id = '".$postId."'");
- 	}
+    if($posts_limit->rowCount() == 0)
+    {        
+        if($posts_strike->rowCount() >= 2)
+        {
+            $conn->query("DELETE FROM posts_strike WHERE userId = '".$user."' AND postId = '".$postId."'");
+            $conn->query("DELETE FROM posts WHERE id = '".$postId."'");
+        }
+        else
+        {
+            $conn->query("INSERT INTO posts_strike (userId, postId) VALUES ('".$user."', '".$postId."')");
+        }
+    }
     else
     {
-        $conn->query("INSERT INTO posts_strike (userId, postId) VALUES ('".$user."', '".$postId."')");
- 	}
+        echo $_POST['feedbackLimit'];
+    }
+
+ 	
            
 ?>

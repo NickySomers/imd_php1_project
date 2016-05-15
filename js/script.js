@@ -1,7 +1,6 @@
 $(document).ready(function(){
 
     /* FEED PAGE LIKE BUTTON */
-    // $(".liken").click(function(){
     $('body').delegate('.liken', 'click', function() {
         var like = $(this);
         var data = {
@@ -203,9 +202,9 @@ $(document).ready(function(){
     $('.report').click(function () {
         
         var dataReport = {
-            postId: $(this).closest('.wrap-photo').attr("data-index")
+            postId: $(this).closest('.wrap-photo').attr("data-index"),
+            feedbackLimit: "You can only report a photo once" 
         }
-        
 
         $.post('../ajax/insertReport.php', dataReport);
         

@@ -153,28 +153,30 @@
             <?php endif; ?>
 
         </div> <!-- END upload-container -->
+    </div> <!-- END container-fluid -->
 
-<script>
+    <script>
 
-            $("#file").change(function () {
-                $("#form-upload").submit();
-            });
+        $("#file").change(function () {
+            $("#form-upload").submit();
+        });
 
+        if (navigator.geolocation) 
+        {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } 
+        else 
+        {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
 
+        function showPosition(position) 
+        {
+            var coordinates = position.coords.latitude + ","+ position.coords.longitude; 
+            $("#coords").val(coordinates);
+        }
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-
-function showPosition(position) {
-    var coordinates = position.coords.latitude + ","+ position.coords.longitude; 
-    $("#coords").val(coordinates);
-}
-
-        </script>
-    </body>
+    </script>
 
 
 
