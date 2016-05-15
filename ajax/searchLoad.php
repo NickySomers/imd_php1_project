@@ -23,7 +23,7 @@
 
     while($t = $tag->fetch(PDO::FETCH_ASSOC))
     {
-        $tags[] = "<div class='container-block2'><a href='tag.php?id=".$t['id']."'><div class='wrap-item2'><div class='tagtext'>".$t['tag']."</div></div></a></div>";
+        $tags[] = "<div class='container-block2'><a href='tag.php?id=".$t['id']."'><div class='wrap-item2'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
     }
 
     while($l = $location->fetch(PDO::FETCH_ASSOC))
