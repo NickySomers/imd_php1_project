@@ -2,14 +2,15 @@
       
     session_start();
 
-    if(empty($_SESSION['user'])){
+    if(empty($_SESSION['user']))
+    {
         header("Location: index.php");
-    }else{
-
+    }
+    else
+    {
         spl_autoload_register(function ($class) {
             include_once '../classes/' . $class . '.class.php';
         });   
-
     }
 ?>
 <!DOCTYPE html>
@@ -25,9 +26,7 @@
 
     <body>
        
-        <?php
-            include_once("header.php");
-        ?>
+        <?php include_once("header.php"); ?>
         
         <div class="container">
 
@@ -73,10 +72,9 @@
                     <div class="footer-photo">
                         <div class="likes"><span class="likesCount"><?php echo $posts[$i]->LikesCount; ?></span> likes</div>
                         <div class="wrap-description">
-                            <div class="description-username"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username;  ?></a></div>
+                            <div class="description-username"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                             <div class="description-text"><?php echo $posts[$i]->Description; ?></div>
                         </div>
-
                         <div class="line"></div>
                         <div class="wrap-liken">
                             <?php if($posts[$i]->Liked): ?>
@@ -85,13 +83,16 @@
                                 <div class="liken"></div>
                             <?php endif; ?>
                             <input type="text" name="comment" class="comment" placeholder="Add a comment...">
+                            
                             <div class="flag"></div>
+                            <div class="wrap-limit"></div>
                             <div class="container-report">
                                 <div class="wrap-report">
-                                    <div class="report" data-index="<?php echo $id; ?>">Report</div>
+                                    <div class="report">Report</div>
                                     <div class="report-cancel">Cancel</div>
                                 </div>   
                             </div>
+                            
                         </div>
                     </div>
                 </div>
