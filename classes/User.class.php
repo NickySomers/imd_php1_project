@@ -193,7 +193,7 @@
 
 		public function register()
         {
-            if($this->m_sPassword != $this->m_sConfirm_password || !$this->checkEmail())
+            if($this->m_sPassword != $this->m_sConfirm_password || !$this->checkEmail()|| !$this->checkUsername())
             {
                 throw new Exception("Please fill in all fields and two correct passwords");
             } 
@@ -213,8 +213,8 @@
         {
             $email = $this->m_sEmail;
             
-            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db = new Db();
+            $conn = $db->connect();
             
             $query = $conn->query("SELECT email FROM users WHERE email = '". $email ."'");
                 
@@ -227,6 +227,28 @@
             else
             {
                 throw new Exception("The email you entered is already in use");
+                return false;
+            }
+        }
+        
+        function checkUsername()
+        {
+            $username = $this->m_sUsername;
+            
+            $db = new Db();
+            $conn = $db->connect();
+            
+            $query = $conn->query("SELECT username FROM users WHERE username = '". $username ."'");
+                
+            $count = $query->rowCount();
+        
+            if($count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("The username you entered is already in use");
                 return false;
             }
         }

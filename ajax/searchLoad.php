@@ -23,12 +23,12 @@
 
     while($t = $tag->fetch(PDO::FETCH_ASSOC))
     {
-        $tags[] = "<div class='container-block2'><a href='tag.php?id=".$t['id']."'><div class='wrap-item2'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
+        $tags[] = "<div class='container-block2'><a href='search.php?q=".$t['tag']."'><div class='wrap-item2'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
     }
 
     while($l = $location->fetch(PDO::FETCH_ASSOC))
     {
-        $locations[] = "<div class='container-block3'><a href='tag.php?id=".$l['id']."'><div class='wrap-item3'><div class='locationtext'>".$l['location']."</div></div></a></div>";
+        $locations[] = "<div class='container-block3'><a href='search.php?q=".$l['location']."'><div class='wrap-item3'><div class='locationtext'>".$l['location']."</div></div></a></div>";
     }
 
     $data = array($users, $tags, $locations);
