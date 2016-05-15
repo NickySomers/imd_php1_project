@@ -21,6 +21,7 @@
         <title>IMDstagram</title>
         <link rel="stylesheet" href="../css/style.css">
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/cssgram.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -51,21 +52,23 @@
 
             ?>
                 <div class="wrap-photo" data-index="<?php echo $id; ?>">
+
                     <div class="header-photo">
                         <div class="profile-pic" style="background-image: url(<?php echo $postUser->Avatar; ?>)"></div>
                         <div class="profile-name"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                         <div class="minutes-posted"><?php echo $posts[$i]->Date; ?></div>
                     </div>
-                    <?php if(!empty($posts[$i]->Filter)): ?>
+
+                    <?php  $filter = $posts[$i]->Filter; if(!empty($filter)): ?>
                         
-                        <figure class="<?php echo $posts[$i]->Filter ?>">
+                        <figure class="<?php echo $posts[$i]->Filter; ?>">
                             <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
                         </figure>
                         
                     <?php else: ?>
                        
-                            <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
-                    
+                        <img src="<?php echo $posts[$i]->Path; ?>" alt="Photo" width="100%" height="auto">
+                        
                     <?php endif; ?>
                     <div class="photo-location"><?php echo $posts[$i]->Location; ?></div>
                     <div class="footer-photo">
@@ -74,9 +77,14 @@
                             <div class="description-username"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username;  ?></a></div>
                             <div class="description-text"><?php echo $posts[$i]->Description; ?></div>
                         </div>
+
                         <div class="line"></div>
                         <div class="wrap-liken">
-                            <div class="liken"></div>
+                            <?php if($posts[$i]->Liked): ?>
+                                <div class="liken liked"></div>
+                            <?php else: ?>
+                                <div class="liken"></div>
+                            <?php endif; ?>
                             <input type="text" name="comment" class="comment" placeholder="Add a comment...">
                             <div class="dots"></div>
                         </div>

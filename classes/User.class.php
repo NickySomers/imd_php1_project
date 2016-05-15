@@ -440,8 +440,10 @@
                 if(!empty($row['location'])){
                     
                     $photo->getLocation();
-                                    
+
                 }
+
+                $photo->Filter = $row['filter'];
                 
 
                 $data[] = $photo;
@@ -531,13 +533,13 @@
                 $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$this->Id."'" );
                 $photo->LikesCount = $allLikes->rowCount();
 
-                if(!empty($row['location'])){
+                 if(!empty($row['location'])){
                     
-                    $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$row['location'].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
-                    $json = file_get_contents($url);
-                    $data = json_decode($json, TRUE);
-                    $photo->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];                
+                    $photo->getLocation();
+
                 }
+
+                 $photo->Filter = $row['filter'];
 
                 $data[] = $photo;
             }

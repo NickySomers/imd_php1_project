@@ -25,29 +25,30 @@
 
                 //Getting hashtags from description
             
-                $strlen = strlen($row['pdescription']);
+                $strlen = strlen($row['description']);
                 $description = "";
                 $tag = false;
                 for( $i = 0; $i <= $strlen; $i++ ) {
-                    $char = substr( $row['pdescription'], $i, 1 );
+                    $char = substr( $row['description'], $i, 1 );
 
                     if($char == "#"){
-                        $description .= '<a href="">';
-                        $description .= $char;
                         $tag = true;
+                        $tagname = "";
                     }else{
                         if($tag == true){
-                            if($char == " "){
-                                $description .= '</a>';
+
+                            if($char == " " || $char == ""){
+
+                                $description .= '<a href="search.php?q='.$tagname.'">#'.$tagname.'</a>';
                                 $tag = false;
+                                $tagname = "";
+
                             }else{
-                                $description .= $char;
+                                $tagname .= $char;
                             }
                         }else{
                             $description .= $char;
                         }
-                        
-
                     }
                 }
 
@@ -90,6 +91,8 @@
                     $data = json_decode($json, TRUE);
                     $item[] = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];                
                 }
+
+                $item[] = $row['filter'];
 
                
                 $posts[] = $item;

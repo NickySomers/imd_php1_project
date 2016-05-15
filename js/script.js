@@ -42,7 +42,12 @@ $(document).ready(function(){
                     var header_content = '<div class="profile-pic"></div><div class="profile-name">'+data[1][i][2]+'</div><div class="minutes-posted">'+data[1][i][3]+'</div>';
                     var header = '<div class="header-photo">'+header_content+'</div>';
                     
-                    var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                    if(data[1][i][8] != ""){
+                        var image = '<figure class="'+data[1][i][8]+'"><img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto"></figure>';
+                    }else{
+                        var image = '<img src="'+data[1][i][0]+'" alt="Photo" width="100%" height="auto">';
+                    }
+                    
 
                     var liked = "";
                     if(data[1][i][5] == true){

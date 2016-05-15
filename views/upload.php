@@ -30,14 +30,9 @@
 
     $image = $photo->showPhoto();
     
-    if(!empty($_POST['filter']))
-    {
-        $photo->Filter = $_POST['filter'];
-    }
-            
-
     if(!empty($_POST['description'])){
         $photo->Location = $_POST['coordinates'];
+        $photo->Filter = $_POST['filter'];
         $photo->upload($_POST["description"], $_SESSION['user']);
 
     }
