@@ -25,11 +25,11 @@
 
                 //Getting hashtags from description
             
-                $strlen = strlen($row['description']);
+                $strlen = strlen($row['pdescription']);
                 $description = "";
                 $tag = false;
                 for( $i = 0; $i <= $strlen; $i++ ) {
-                    $char = substr( $row['description'], $i, 1 );
+                    $char = substr( $row['pdescription'], $i, 1 );
 
                     if($char == "#"){
                         $tag = true;

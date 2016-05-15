@@ -96,7 +96,7 @@
                             </div>   
                         </div>
                     </div>
-                </div>
+                
 
             <?php endfor; endif; ?>
 
