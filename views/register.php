@@ -10,7 +10,12 @@
         try
         {  
             $user = new User();
-		    $user->register($_POST['firstname'], $_POST['lastname'], $_POST['register_email'], $_POST['register_password'], $_POST['confirm_register_password']);
+            $user->Firstname = $_POST['firstname'];
+            $user->Lastname = $_POST['lastname'];
+            $user->Email = $_POST['register_email'];
+            $user->Password = $_POST['register_password'];
+            $user->ConfirmPassword = $_POST['confirm_register_password'];
+		    $user->register();
         }
         catch(exception $e)
         {
