@@ -12,6 +12,7 @@
 
     }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +69,15 @@
                         <div class="wrap-liken">
                             <div class="liken"></div>
                             <input type="text" name="comment" class="comment" placeholder="Add a comment...">
-                            <div class="dots"></div>
+                            <div class="flag"></div>
+                        </div>
+                    </div>
+                    
+                        <div class="container-report">
+                            <div class="wrap-report">
+                                <div class="report">Report</div>
+                                <div class="report-cancel">Cancel</div>
+                            </div>   
                         </div>
                     </div>
                 </div>

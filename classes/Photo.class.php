@@ -13,6 +13,8 @@
 		private $m_bLiked;
 		private $m_iLikesCount;
 		private $m_sLocation;
+        private $m_sFilter;
+
 
 		public function __set( $p_sProperty, $p_vValue )
 	    {
@@ -44,6 +46,8 @@
 				break;
 				case 'Location':
 			 		$this->m_sLocation = $p_vValue;
+                case 'Filter':
+			 		$this->m_sFilter = $p_vValue;
 				break;
 			} 
 	    }
@@ -82,6 +86,9 @@
 				case 'Location':
 					return($this->m_sLocation);
 				break;
+                case 'Filter':
+			 		return($this->m_sFilter);
+				break;
 			}
 		} 
 
@@ -105,7 +112,9 @@
             
             $success = file_put_contents($path, $data);
             
-            $this->addToDatabase($path, $description, $user);
+            $filter = $this->m_sFilter;
+            
+            $this->addToDatabase($path, $description, $user, $filter);
              
             $_SESSION['feedback'] = "Hooray! Your photo is uploaded.";
             
@@ -136,12 +145,13 @@
         }
         
         
+
         public function addToDatabase($path, $description, $user){
             
             $db = new Db();
         	$conn = $db->connect();
-			$data = $conn->query("INSERT INTO posts(picturePath, description, userId, location) VALUES ('".$path."', '".$description."', '".$user."', '".$this->Location."')");
-            
+			$data = $conn->query("INSERT INTO posts(picturePath, description, userId, location, filter) VALUES ('".$path."', '".$description."', '".$user."', '".$this->Location."', '".$this->Filter."')");
+
         }
 
         public function getDataFromDatabase()

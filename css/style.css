@@ -181,26 +181,6 @@ header {
     background-position: center;
 }
 
-.image-container {
-    padding-top: 100px;
-    box-sizing: border-box;
-    height: 60vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.image {
-    max-width: 50%;
-    max-height: 90%;
-    display: block;
-    margin: 0 auto;
-    z-index: 9999;
-    -webkit-box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
-    -moz-box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
-    box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
-}
-
 #form-upload {
     display: block;
     margin: 0 auto;
@@ -215,7 +195,7 @@ header {
     box-sizing: border-box;
     border: none;
     outline: none;
-    margin-bottom: 20px;
+    margin-top: 0;
     background-color: rgba(36, 36, 36, 0.2);
     color: #ffffff;
     border-bottom: 3px solid rgba(255, 255, 255, 0.6);
@@ -253,7 +233,6 @@ input {
 .add-image-info {
     position: relative;
     height: 40vh;
-    padding-top: 50px;
     width: 100%;
     box-sizing: border-box;
     bottom: 30px;
@@ -293,6 +272,65 @@ input {
 	height: 100%;
 	width: 100%;
 }
+
+/* FILTERS */
+.wrapper-image-filter
+{
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+#change-filter
+{
+    width: 70%;
+    height: 50%;
+    display: block;
+    z-index: 9999;
+    -webkit-box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
+    -moz-box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
+    box-shadow: 0px 0px 58px -1px rgba(0, 0, 0, 0.55);
+}
+
+.image 
+{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.wrap-filters
+{
+    display: flex;
+    width: 100%;
+    height: 8%;
+    margin-top: 20px;
+    background-color: aqua;
+    z-index: 999999999;
+}
+
+.filter
+{
+    width: 10%;
+    height: 100%;
+    z-index: 999999999999;
+}
+
+.image-filter 
+{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+/* END FILTERS */
 
 .login
 {
@@ -697,6 +735,7 @@ input[type=file] {
 {
     color: #000;
     -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .comment:focus::-webkit-input-placeholder 
@@ -704,23 +743,105 @@ input[type=file] {
     opacity: 0.4;
 }
 
-.dots
+.flag
 {
-    background-image: url("../images/dots.svg");
+    background-image: url("../images/flag-map-marker.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
     right: 0;
     margin-right: 5%;
     cursor: pointer;
     position: absolute;
+    opacity: 0.6;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
+.flag:hover
+{
+    opacity: 1;
+}
 
+.container-report
+{
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+}
 
+.wrap-report
+{
+    position: absolute;
+    width: 40%;
+    height: 150px;
+    top: 0;
+    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+    box-shadow: 0px 0px 81px 3px rgba(0,0,0,1);
+}
 
+.report
+{
+    font-family: "Open Sans", sans-serif;
+	font-size: 2.4rem;
+    color: #323232;
+    text-align: center;
+    line-height: 75px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #323232;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.report:hover
+{
+    background-color: #edeeee;
+}
+
+.report-cancel
+{
+    font-family: "Open Sans", sans-serif;
+	font-size: 2.4rem;
+    color: #323232;
+    text-align: center;
+    line-height: 75px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border: none;
+    border-top: 1px solid #323232;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    cursor: pointer;
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.report-cancel:hover
+{
+    background-color: #edeeee;
+}
 
 .show_more_main {
 margin: 15px 25px;

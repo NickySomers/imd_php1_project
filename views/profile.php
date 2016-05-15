@@ -2,6 +2,7 @@
       
     session_start();
 
+
     if(empty($_SESSION['user'])){
         header("Location: index.php");
     }else{
@@ -150,13 +151,7 @@
                     $(".post-detail .likesCount").text(data["likes"]);
                 });
             });
-
-
-            
-
-
         </script>
-
-    </body>
+</body>
 
 </html>
