@@ -23,6 +23,7 @@
 
     while($t = $tag->fetch(PDO::FETCH_ASSOC))
     {
+
         $tags[] = "<div class='container-block'><a href='search.php?q=".$t['tag']."'><div class='wrap-item full-width'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
     }
 

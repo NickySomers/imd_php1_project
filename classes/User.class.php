@@ -222,14 +222,16 @@
 
 		public function register()
         {
-            if($this->m_sPassword != $this->m_sConfirm_password || !$this->checkEmail())
+            if($this->m_sPassword != $this->m_sConfirm_password || !$this->checkEmail()|| !$this->checkUsername())
             {
                 throw new Exception("Please fill in all fields and two correct passwords");
             } 
             else
             {
                 $db = new Db();
-                    $conn = $db->connect();
+
+                $conn = $db->connect();
+
 
                 $hashedPw = password_hash($this->m_sPassword, PASSWORD_DEFAULT);
 
@@ -243,7 +245,10 @@
             $email = $this->m_sEmail;
             
             $db = new Db();
-                    $conn = $db->connect();
+
+            $conn = $db->connect();
+            
+
             $query = $conn->query("SELECT email FROM users WHERE email = '". $email ."'");
                 
             $count = $query->rowCount();
@@ -259,12 +264,41 @@
             }
         }
         
+        function checkUsername()
+        {
+            $username = $this->m_sUsername;
+            
+            $db = new Db();
+            $conn = $db->connect();
+            
+            $query = $conn->query("SELECT username FROM users WHERE username = '". $username ."'");
+                
+            $count = $query->rowCount();
+        
+            if($count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("The username you entered is already in use");
+                return false;
+            }
+        }
+        
         public function canLogin($p_sEmail, $p_sPassword)
         {
             if (!empty($p_sEmail) && !empty($p_sPassword))
             {
-              $db = new Db();
-                    $conn = $db->connect();
+
+                $db = new Db();
+                $conn = $db->connect();
+                //$hashedPw = password_hash($p_sPassword, PASSWORD_DEFAULT);
+                //$query = "SELECT * FROM users WHERE email = '" :email "' AND password = '" . $conn->quote($hashedPw) . "' ";
+
+                //$result = $conn->query($query);
+                //$row_hash = $result->fetch(PDO::FETCH_ASSOC);
+
                 $query = $conn->prepare('SELECT * FROM users WHERE email = :email');
                 $query->bindParam(':email', $p_sEmail);
                 $query->execute();
@@ -285,7 +319,8 @@
         function getDataFromDatabase()
         {
             $db = new Db();
-                    $conn = $db->connect();
+
+            $conn = $db->connect();
             $data = $conn->query("SELECT * FROM users WHERE id = '".$this->Id."'"); 
             
             foreach ($data as $row) {
@@ -320,8 +355,9 @@
         }
 
         public function checkInDatabase($column, $data){
-$db = new Db();
-                    $conn = $db->connect();
+
+            $db = new Db();
+            $conn = $db->connect();
             $data = $conn->query("SELECT ".$column." FROM users"); 
 
             $result = $data->fetch(PDO::FETCH_NUM);
@@ -437,7 +473,7 @@ $db = new Db();
             if(!empty($header)){
                 $dir = "../public/users/" . $this->Id . "/";
                 $headerPath = "../public/users/" . $this->Id . "/header.png";
-if ( ! is_dir($dir)) {
+                if ( ! is_dir($dir)) {
                     mkdir($dir);
                 }
                 if ($header["size"] > 3145728) {
@@ -463,6 +499,7 @@ if ( ! is_dir($dir)) {
             if(count($this->Errors) == 0){
 
                 //TODO: Change query to $this->PROPERTY
+
      $db = new Db();
                     $conn = $db->connect();
                 if(!empty($password)){
@@ -470,14 +507,15 @@ if ( ! is_dir($dir)) {
                 }else{
                     $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$this->Avatar."', header = '".$headerPath."' WHERE id='".$user."'"); 
                 }
+
             } 
 
         }
 
         function loadFeed(){
 
-$db = new Db();
-                    $conn = $db->connect();
+            $db = new Db();
+            $conn = $db->connect();
 
             $userN = $_SESSION['user'];
             $posts = $conn->query("SELECT DISTINCT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
@@ -570,8 +608,9 @@ $db = new Db();
         public function loadProfile()
         {
 
-$db = new Db();
-                    $conn = $db->connect();
+
+            $db = new Db();
+            $conn = $db->connect();
 
             $posts = $conn->query("SELECT * FROM posts WHERE userId = " . $this->Id . " ORDER BY id DESC");
 
@@ -663,8 +702,11 @@ $db = new Db();
         }
 
         public function deleteAccount(){
+
+
             $db = new Db();
             $conn = $db->connect();
+            
             $statement = $conn->prepare("DELETE FROM users WHERE id = ?");
             $statement->execute(array($this->Id));
             session_destroy();

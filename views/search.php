@@ -37,10 +37,10 @@
                 
                 if($tag->rowCount() > 0)
                 {
-                	echo '<div class="title-tags"><h1>Tags</h1></div>';
+
                     while($row = $tag->fetch(PDO::FETCH_ASSOC))
                     {
-                        
+                        echo '<div class="title-tags">Tags</div>';
                         echo '<div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div>';
                     }
                 }
@@ -57,10 +57,11 @@
 
                 if($location->rowCount() > 0)
                 {
-                	echo '<div class="title-tags"><h1>Locations</h1></div>';
-                	echo '<p id="location">'.$_GET['q'].'</p>';
+
                     while($row = $location->fetch(PDO::FETCH_ASSOC))
                     {
+                        echo '<div class="title-tags">Locations</div>';
+                        echo '<p id="location">'.$_GET['q'].'</p>';
                         echo '<div id="map"></div>';
                         echo '<div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div>';
                     }
@@ -70,9 +71,11 @@
             </div>
         </div>
           
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="../js/script.js"></script>
         <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s&callback=initialize" async defer></script>
+
         <script>
             
             var geocoder;
