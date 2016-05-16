@@ -8,12 +8,12 @@
         try
         {  
             $user = new User();
-            $user->Firstname = $_POST['firstname'];
-            $user->Lastname = $_POST['lastname'];
-            $user->Username = $_POST['username'];
-            $user->Email = $_POST['register_email'];
-            $user->Password = $_POST['register_password'];
-            $user->ConfirmPassword = $_POST['confirm_register_password'];
+            $user->Firstname = htmlspecialchars($_POST['firstname']);
+            $user->Lastname = htmlspecialchars($_POST['lastname']);
+            $user->Username = htmlspecialchars($_POST['username']);
+            $user->Email = htmlspecialchars($_POST['register_email']);
+            $user->Password = htmlspecialchars($_POST['register_password']);
+            $user->ConfirmPassword = htmlspecialchars($_POST['confirm_register_password']);
 		    $user->register();
         }
         catch(exception $e)

@@ -5,7 +5,7 @@
     $db = new Db();
     $conn = $db->connect();
 
-    $key = $_POST['input'];
+    $key = htmlspecialchars($_POST['input']);
     $users = array();
     $tags = array();
     $locations = array();

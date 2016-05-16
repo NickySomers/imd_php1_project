@@ -167,7 +167,7 @@
         	$conn = $db->connect();
 
         	
-
+        	$description = htmlspecialchars($description);
         	$strlen = strlen($description);
                 $output = "";
                 $tag = false;
@@ -254,7 +254,7 @@
         	$conn = $db->connect();
 			$query = $conn->query("SELECT * FROM posts_comments WHERE postId = " . $this->Id );
 			$data = $query->fetch(PDO::FETCH_ASSOC);
-			
+
 			return $data;
         }
 	

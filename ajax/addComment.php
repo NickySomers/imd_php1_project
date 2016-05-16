@@ -18,7 +18,7 @@
     $data = array();
 
     $data[] = $user->Username;
-    $data[] = $comment->Text;
+    $data[] = htmlspecialchars($comment->Text);
 
     echo json_encode($data);
     

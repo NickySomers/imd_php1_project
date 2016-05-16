@@ -398,7 +398,7 @@
             if($this->Email !== $email){
                 if(!empty($email)){
                     if($this->checkInDatabase("email", $email)){
-                        $this->Email = $email;
+                        $this->Email = htmlspecialchars($email);
                     }else{
                         $this->Errors = "Undefined error";
                     }
@@ -410,13 +410,13 @@
             if(empty($firstname)){
                 $this->Errors = "Please fill in your firstname.";
             }else{
-                $this->Firstname = $firstname;
+                $this->Firstname = htmlspecialchars($firstname);
             }
 
             if(empty($lastname)){
                 $this->Errors = "Please fill in your lastname.";
             }else{
-                $this->Lastname = $lastname;
+                $this->Lastname = htmlspecialchars($lastname);
             }
 
             if($username !== $this->Username){
@@ -427,7 +427,7 @@
                         if(strlen($username) < 4){
                             $this->Errors = "Your username must be at least 4 characters long.";
                         }else{
-                            $this->Username = $username;
+                            $this->Username = htmlspecialchars($username);
                         }
                     }else{
                         //TODO: REALTIME CHECK WITH AJAX
@@ -437,8 +437,8 @@
             }
 
             
-            $this->Website = $website;
-            $this->Phone = $phone;
+            $this->Website = htmlspecialchars($website);
+            $this->Phone = htmlspecialchars($phone);
 
             if($private == "on"){
                 $this->Private = 1;

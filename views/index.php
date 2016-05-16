@@ -14,8 +14,8 @@ if (!empty($_POST)) {
 	$username = strip_tags($_POST['login_email']);
 	$password = strip_tags($_POST['login_password']);
 
-	$username = stripslashes($username);
-	$password = stripslashes($password);
+	$username = htmlspecialchars(stripslashes($username));
+	$password = htmlspecialchars(stripslashes($password));
 
 
 

@@ -16,8 +16,8 @@
         $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$_POST['coordinates'].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
         $json = file_get_contents($url);
         $data = json_decode($json, TRUE);
-        $photo->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][6]['long_name'];
-        $photo->Filter = $_POST['filter'];
+        $photo->Location = htmlspecialchars($data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][6]['long_name']);
+        $photo->Filter = htmlspecialchars($_POST['filter']);
         $photo->upload($_POST["description"], $_SESSION['user'], $_FILES['image']);
     }     
 ?>
