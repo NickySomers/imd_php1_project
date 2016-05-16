@@ -685,12 +685,6 @@
                 $allLikes = $conn->query("SELECT * FROM posts_likes WHERE postId = '".$this->Id."'" );
                 $photo->LikesCount = $allLikes->rowCount();
 
-                 if(!empty($row['location'])){
-                    
-                    $photo->getLocation();
-
-                }
-
                  $photo->Filter = $row['filter'];
 
                 $data[] = $photo;

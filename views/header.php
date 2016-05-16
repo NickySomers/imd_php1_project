@@ -13,11 +13,11 @@
         <div class="user-profile" style="background-image: url(<?php echo $current->Avatar; ?>)"></div>
         <div class="user-profile-options">
             <ul>
-                <li><a href="profile.php?id=<?php echo $_SESSION['user']; ?>">My profile <i class="fa fa-user" aria-hidden="true"></i></a></li>
+                <a href="profile.php?id=<?php echo $_SESSION['user']; ?>"><li>My profile <i class="fa fa-user" aria-hidden="true"></i></li></a>
                 <li id="notifications">Notifications<i class="fa fa-upload" aria-hidden="true"></i></li>
-                <li><a href="upload.php">Upload a photo<i class="fa fa-upload" aria-hidden="true"></i></a></li>
-                <li><a href="settings.php">Settings<i class="fa fa-cogs" aria-hidden="true"></i></a></li>
-                <li><a href="logout.php">Log out<i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                <a href="upload.php"><li>Upload a photo<i class="fa fa-upload" aria-hidden="true"></i></li></a>
+                <a href="settings.php"><li>Settings<i class="fa fa-cogs" aria-hidden="true"></i></li></a>
+                <a href="logout.php"><li>Log out<i class="fa fa-sign-out" aria-hidden="true"></i></li></a>
             </ul>
         </div>
 

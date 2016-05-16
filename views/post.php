@@ -68,7 +68,21 @@
                             <div class="description-username"><a href="profile.php?id=<?php echo $user->Id; ?>"><?php echo $user->Username;  ?></a></div>
                             <div class="description-text"><?php echo $photo->Description; ?></div>
                         </div>
+                        <div class="comments">
+                            <?php 
+                                $comments = $photo->getComments();
 
+                                for($j = 0; $j < count($comments); $j++):
+                                    $comment_user = new User();
+                                    $comment_user->Id = $comments["userId"];
+                                    $comment_user->getDataFromDatabase();
+                            ?>
+                                <div class="comment">
+                                    <p><div class="description-username"><a href="profile.php?id=<?php echo $comment_user->Id; ?>"><?php echo $comment_user->Username; ?></a></div> <?php echo $comments["comment"]; ?></p>
+                                </div>
+                                
+                            <?php endfor; ?>
+                        </div>
                         <div class="line"></div>
                         <div class="wrap-liken">
                             <?php if($photo->Liked): ?>
@@ -76,7 +90,7 @@
                             <?php else: ?>
                                 <div class="liken"></div>
                             <?php endif; ?>
-                            <input type="text" name="comment" class="comment" placeholder="Add a comment...">
+                            <input type="text" name="comment" class="comment-input" placeholder="Add a comment...">
                             <div class="flag"></div>
                             <div class="container-report">
                                 <div class="wrap-report">
@@ -91,6 +105,26 @@
         
         <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
         <script src="../js/script.js"></script>
+       <script>
+
+            $(".comment-input").keyup(function (e) {
+                var comment = $(this);
+                if (e.keyCode == 13) {
+
+                    var data = {
+                        postId: comment.closest( ".wrap-photo" ).attr("data-index"),
+                        text: comment.val()
+                    }
+
+                    $.post("../ajax/addComment.php", data, function(res) {
+                        var data = $.parseJSON(res);
+                        comment.parent().parent().find(".comments").append("<div class='comment'><p><div class='description-username'><a href='profile.php?id='>"+data[0]+"</a></div>"+data[1]+"</p></div>");
+                        comment.val("");
+                    });
+                }
+            });
+           
+        </script>
             
     </body>
 </html>

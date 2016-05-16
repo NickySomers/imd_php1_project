@@ -13,8 +13,7 @@
         });   
     }
 
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
     <head>
@@ -131,7 +130,7 @@
 
             <?php endif; ?>
                     
-        </div>
+    </div>
         
         <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
         <script src="../js/script.js"></script>
@@ -155,5 +154,5 @@
                 }
             });
         </script>
-    </body>
+</body>
 </html>

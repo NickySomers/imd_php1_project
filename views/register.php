@@ -66,10 +66,7 @@
 // $loginUrl = $helper->getLoginUrl('http://localhost:8888/views/fb-register.php', $permissions);
 
                             echo '<a href="' . htmlspecialchars($loginUrl) . '" class="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Sign up with Facebook</a>';
-                        ?>
-                        
-
-                    
+                        ?>       
                     
                 </div>
                 <a href="index.php" class="already-signedup">Already signed up?</a>

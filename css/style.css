@@ -19,6 +19,7 @@ body {
     width: 100vw;
     display: flex;
     align-items: center;
+    overflow: hidden;
 }
 
 ::-webkit-input-placeholder {
@@ -92,6 +93,13 @@ header {
     text-align: right;
 }
 
+.user-profile-options ul a
+{
+    text-decoration: none;
+    color: white;
+    font-size: 1.4rem;
+}
+
 .user-profile-options ul
 {
     list-style: none;
@@ -102,17 +110,12 @@ header {
 .user-profile-options ul li
 {
     padding: 30px;
+    cursor: pointer;
 }
 
 .user-profile-options ul li .fa
 {
     margin-left: 10px;
-}
-
-.user-profile-options ul li a
-{
-    color: white;
-    font-size: 1.4rem;
 }
 
 .user-profile-options ul li:hover
@@ -445,12 +448,10 @@ background: linear-gradient(to left, #485563 , #29323c); /* W3C, IE 10+/ Edge, F
 {
     color: white;
     opacity: 0.8;
-    margin-top: 50px;
+    margin-top: 10px;
     display: block;
     font-size: 1.4rem;
 }
-
-
 
 .home .textfield
 {
@@ -477,7 +478,15 @@ background: linear-gradient(to left, #485563 , #29323c); /* W3C, IE 10+/ Edge, F
     margin-bottom: 20px;
 }
 
+.signup label
+{
+    /*height: 10px;*/
+}
 
+.signup .textfield
+{
+    padding: 10px;
+}
 
 .textarea
 {
@@ -503,7 +512,7 @@ select
 .button-group .button
 {
     width: 100%;
-    flew-grow:1;
+    flew-grow: 1;
     margin: 10px;
 }
 

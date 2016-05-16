@@ -37,11 +37,10 @@
                 
                 if($tag->rowCount() > 0)
                 {
-
+                    echo '<div class="title-tags">Tags</div>';
                     while($row = $tag->fetch(PDO::FETCH_ASSOC))
                     {
-                        echo '<div class="title-tags">Tags</div>';
-                        echo '<div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div>';
+                        echo '<a href="post.php?id='.$row['id'].'"><div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div></a>';
                     }
                 }
                 
@@ -57,13 +56,12 @@
 
                 if($location->rowCount() > 0)
                 {
-
+                    echo '<div class="title-tags">Locations</div>';
                     while($row = $location->fetch(PDO::FETCH_ASSOC))
                     {
-                        echo '<div class="title-tags">Locations</div>';
                         echo '<p id="location">'.$_GET['q'].'</p>';
                         echo '<div id="map"></div>';
-                        echo '<div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div>';
+                        echo '<a href="post.php?id='.$row['id'].'"><div class="col-md-4 profile-grid-image-container"><figure class='.$row['filter'].'><div class="profile-grid-image" style="background-image: url('.$row['picturePath'].')"></div></figure></div></a>';
                     }
                 }
 
