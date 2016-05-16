@@ -12,6 +12,7 @@
             include_once '../classes/' . $class . '.class.php';
         });   
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,8 +37,11 @@
 
                 if(count($posts) == 0):
             ?>
-
-                <p>No post founded yet.</p>
+                <div class="noposts-feedback">
+                    <h1>No posts found yet.</h1>
+                    <p>Follow your friends to see their recent photos here.</p>
+                </div>
+                
 
             <?php 
                 else:
@@ -76,6 +80,21 @@
                             <div class="description-username"><a href="profile.php?id=<?php echo $postUser->Id; ?>"><?php echo $postUser->Username; ?></a></div>
                             <div class="description-text"><?php echo $posts[$i]->Description; ?></div>
                         </div>
+                        <div class="comments">
+                            <?php 
+                                $comments = $posts[$i]->getComments();
+
+                                for($j = 0; $j < count($comments); $j++):
+                                    $comment_user = new User();
+                                    $comment_user->Id = $comments["userId"];
+                                    $comment_user->getDataFromDatabase();
+                            ?>
+                                <div class="comment">
+                                    <p><div class="description-username"><a href="profile.php?id=<?php echo $comment_user->Id; ?>"><?php echo $comment_user->Username; ?></a></div> <?php echo $comments["comment"]; ?></p>
+                                </div>
+                                
+                            <?php endfor; ?>
+                        </div>
                         <div class="line"></div>
                         <div class="wrap-liken">
                             <?php if($posts[$i]->Liked): ?>
@@ -83,8 +102,9 @@
                             <?php else: ?>
                                 <div class="liken"></div>
                             <?php endif; ?>
-                            <input type="text" name="comment" class="comment" placeholder="Add a comment...">
-                            
+
+                            <input type="text" name="comment" class="comment-input" placeholder="Add a comment...">
+
                             <div class="flag"></div>
                             <div class="wrap-limit"></div>
                             <div class="container-report">
@@ -97,23 +117,43 @@
                         </div>
                     </div>
                 </div>
-                
+     
 
-            <?php endfor; endif; ?>
-                        
+            <?php endfor; ?>
+
             <div class="show_more_main" id="show_more_main">
                 <div data-index="<?php echo $id; ?>" class="spinner show_more">
-                  <div class="bounce1"></div>
-                  <div class="bounce2"></div>
-                  <div class="bounce3"></div>
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
                 </div>
-            </div>
+            </div>     
 
+            <?php endif; ?>
+                    
         </div>
         
-        <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
         <script src="../js/script.js"></script>
         
-            
+        <script>
+
+            $(".comment-input").keyup(function (e) {
+                var comment = $(this);
+                if (e.keyCode == 13) {
+                    
+                    var data = {
+                        postId: comment.closest( ".wrap-photo" ).attr("data-index"),
+                        text: comment.val()
+                    }
+
+                    $.post("../ajax/addComment.php", data, function(res) {
+                        var data = $.parseJSON(res);
+                        comment.parent().parent().find(".comments").append("<div class='comment'><p><div class='description-username'><a href='profile.php?id='>"+data[0]+"</a></div>"+data[1]+"</p></div>");
+                        comment.val("");
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

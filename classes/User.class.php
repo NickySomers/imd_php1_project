@@ -23,6 +23,7 @@
         private $m_iFollowersCount;
         private $m_iFollowingCount;
         private $m_sHeader;
+        private $m_aNotifications;
 
 
         // SETTER
@@ -197,6 +198,24 @@
                 case 'Header':
                     return($this->m_sHeader);
                 break; 
+                case 'Notifications':
+
+                    $db = new Db();
+                    $this->m_aNotifications = array();
+
+                    $conn = $db->connect();
+                    $query = $conn->query("SELECT * FROM users_notifications WHERE userId = ". $this->Id );
+                    
+                    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                        $data = array();
+                        $data["id"] = $row["id"];
+                        $data["text"] = $row["notification"];
+                        $this->m_aNotifications[] = $data;
+                        
+                    }
+
+                    return($this->m_aNotifications);
+                break; 
                 default: echo("Not existing property: " . $p_sProperty);
             }
         }
@@ -209,8 +228,8 @@
             } 
             else
             {
-                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $db = new Db();
+                    $conn = $db->connect();
 
                 $hashedPw = password_hash($this->m_sPassword, PASSWORD_DEFAULT);
 
@@ -223,9 +242,8 @@
         {
             $email = $this->m_sEmail;
             
-            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
+            $db = new Db();
+                    $conn = $db->connect();
             $query = $conn->query("SELECT email FROM users WHERE email = '". $email ."'");
                 
             $count = $query->rowCount();
@@ -245,7 +263,8 @@
         {
             if (!empty($p_sEmail) && !empty($p_sPassword))
             {
-                $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
+              $db = new Db();
+                    $conn = $db->connect();
                 $query = $conn->prepare('SELECT * FROM users WHERE email = :email');
                 $query->bindParam(':email', $p_sEmail);
                 $query->execute();
@@ -265,8 +284,8 @@
         
         function getDataFromDatabase()
         {
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db = new Db();
+                    $conn = $db->connect();
             $data = $conn->query("SELECT * FROM users WHERE id = '".$this->Id."'"); 
             
             foreach ($data as $row) {
@@ -294,17 +313,15 @@
                 $query = $conn->query("SELECT * FROM users_followers WHERE userId = '".$this->Id."'"); 
                 $count = $query->rowCount();
                 $this->FollowersCount = $count;
-                
 
                 $this->Header = $row['header'];
-
                 
             } 
         }
 
         public function checkInDatabase($column, $data){
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db = new Db();
+                    $conn = $db->connect();
             $data = $conn->query("SELECT ".$column." FROM users"); 
 
             $result = $data->fetch(PDO::FETCH_NUM);
@@ -402,10 +419,13 @@
             
 
             if(!empty($picture)){
-                $profilePicturePath = "../public/users/" . $this->Id . ".png";
-
-                if ($picture["size"] > 500000) {
-                    $this->Errors = "The size of your profile picture is too big. The maximum file size is 50MB.";
+                $dir = "../public/users/" . $this->Id . "/";
+                $this->Avatar = "../public/users/" . $this->Id . "/avatar.png";
+                if ( ! is_dir($dir)) {
+                    mkdir($dir);
+                }
+                if ($picture["size"] > 3145728) {
+                    $this->Errors = "The size of your profile picture is too big. The maximum file size is 3MB.";
                 }else{
                     //TODO: MODIFY IF SO THERE IS NO EMPTY IF STATEMENT
                     if (move_uploaded_file($picture["tmp_name"], $profilePicturePath)) {
@@ -415,10 +435,13 @@
             }
 
             if(!empty($header)){
+                $dir = "../public/users/" . $this->Id . "/";
                 $headerPath = "../public/users/" . $this->Id . "/header.png";
-
-                if ($header["size"] > 500000) {
-                    $this->Errors = "The size of your profile picture is too big. The maximum file size is 50MB.";
+if ( ! is_dir($dir)) {
+                    mkdir($dir);
+                }
+                if ($header["size"] > 3145728) {
+                    $this->Errors = "The size of your profile picture is too big. The maximum file size is 3MB.";
                 }else{
                     //TODO: MODIFY IF SO THERE IS NO EMPTY IF STATEMENT
                     if (move_uploaded_file($header["tmp_name"], $headerPath)) {
@@ -426,29 +449,35 @@
                     } 
                 }
             }
+            if(!empty($password)){
+                if($password == $password_confirm){
 
-            if($password == $password_confirm){
+                    $hashedPw = password_hash($password, PASSWORD_DEFAULT);
+                    $this->Password = $hashedPw;
 
-                $hashedPw = password_hash($password, PASSWORD_DEFAULT);
-
+                }
             }
+            
 
 
             if(count($this->Errors) == 0){
 
                 //TODO: Change query to $this->PROPERTY
-                $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', password = '".$hashedPw."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$profilePicturePath."', header = '".$headerPath."' WHERE id='".$user."'"); 
-            
+     $db = new Db();
+                    $conn = $db->connect();
+                if(!empty($password)){
+                    $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', password = '".$this->Password."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$this->Avatar."', header = '".$headerPath."' WHERE id='".$user."'"); 
+                }else{
+                    $data = $conn->query("UPDATE users SET email='".$email."',  firstname='".$firstname."', lastname='".$lastname."', username='".$username."', website='".$website."', phone='".$phone."', privateAccount='".$this->Private."', birthdate='". $birthdate."', gender='".$gender."', description='".$description."', profilePicture='".$this->Avatar."', header = '".$headerPath."' WHERE id='".$user."'"); 
+                }
             } 
 
         }
 
         function loadFeed(){
 
-            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db = new Db();
+                    $conn = $db->connect();
 
             $userN = $_SESSION['user'];
             $posts = $conn->query("SELECT DISTINCT p . *, u . *, p.description pdescription, p.id pid FROM users_followers uf, posts p, users u WHERE uf.followUserId = '$userN' AND uf.userId = p.userId AND uf.userId = u.id ORDER BY p.id DESC LIMIT 2");
@@ -522,7 +551,7 @@
 
                 if(!empty($row['location'])){
                     
-                    $photo->getLocation();
+                    $photo->Location = $row['location'];
 
                 }
 
@@ -532,15 +561,17 @@
                 $data[] = $photo;
             }
 
-            return $data;
+            if(!empty($data)){
+                return $data;
+            }
 
         }
 
         public function loadProfile()
         {
 
-            $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db = new Db();
+                    $conn = $db->connect();
 
             $posts = $conn->query("SELECT * FROM posts WHERE userId = " . $this->Id . " ORDER BY id DESC");
 
@@ -552,7 +583,6 @@
             $photo = new Photo();
             $photo->Path = $row['picturePath'];
                 
-
                 //Change hashtags to links
                 $strlen = strlen($row['description']);
                 $description = "";
@@ -630,13 +660,11 @@
             if(!empty($data)){
                 return $data;
             }
-            
         }
 
         public function deleteAccount(){
-
-            $conn = new PDO('mysql:host=localhost;dbname=imdstagram', "root", "root");
-            
+            $db = new Db();
+            $conn = $db->connect();
             $statement = $conn->prepare("DELETE FROM users WHERE id = ?");
             $statement->execute(array($this->Id));
             session_destroy();
@@ -666,5 +694,30 @@
                 return true;
             }
         }
+
+        public function checkIfUserFollows()
+        {
+            $db = new Db();
+            $conn = $db->connect();
+            $data = $conn->query("SELECT * FROM users_followers WHERE userId = ". $this->Id . " AND followUserId = ". $_SESSION['user']);
+            if($data->rowCount() == 0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        public function checkForNotifications(){
+
+            $db = new Db();
+            $conn = $db->connect();
+            $data = $conn->query("SELECT * FROM users_notifications WHERE userId = ". $this->Id );
+            if($data->rowCount() == 0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
 }
 ?>

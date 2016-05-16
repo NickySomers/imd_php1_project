@@ -106,18 +106,23 @@
             // $img = str_replace('data:'.$output[1].';base64,', '', $img);
             // $img = str_replace(' ', '+', $img);
             // $data = base64_decode($img);
-            	$target_dir = "../public/uploads/";
+            	$target_dir = "../public/uploads/" . $user . "/";
 				$target_file = $target_dir . basename($data["name"]);
 				$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 			    $check = getimagesize($data["tmp_name"]);
 
 			if($check !== false) {
-                    
+                date_default_timezone_set("UTC"); 
+
 	            $date = date("c");
+	            $dir = "../public/uploads/". $user . "/";
+	            $path = "../public/uploads/". $user . "/". time() .".".$imageFileType;
 	            
-	            $path = "../public/uploads/".$date.".png";
-	            
-	            $success = file_put_contents($path, $data);
+	            if ( ! is_dir($dir)) {
+				    mkdir($dir);
+				}
+
+	            $success = move_uploaded_file($data["tmp_name"], $path);
 	            
 	            $filter = $this->m_sFilter;
 	            
@@ -196,6 +201,7 @@
 
 
 
+
 			$data = $conn->query("INSERT INTO posts(picturePath, description, userId, location, filter) VALUES ('".$path."', '".$description."', '".$user."', '".$this->Location."', '".$this->Filter."')");
 
         }
@@ -242,17 +248,14 @@
 			}
         }
 
-        public function getLocation()
+        public function getComments()
         {
         	$db = new Db();
         	$conn = $db->connect();
-			$query = $conn->query("SELECT location FROM posts WHERE id = " . $this->Id );
+			$query = $conn->query("SELECT * FROM posts_comments WHERE postId = " . $this->Id );
+			$data = $query->fetch(PDO::FETCH_ASSOC);
 			
-			$coords = $query->fetch(PDO::FETCH_NUM);
-			$url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$coords[0].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
-            $json = file_get_contents($url);
-            $data = json_decode($json, TRUE);
-            $this->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][5]['long_name'];
+			return $data;
         }
 	
 	}

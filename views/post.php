@@ -32,7 +32,6 @@
         <div class="container">
 
             <?php
-
                 $photo = new Photo();
                 $user = new User();
 
@@ -88,8 +87,6 @@
                         </div>
                     </div>
                 </div>
-                
-
         </div>
         
         <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>

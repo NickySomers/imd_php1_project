@@ -1,9 +1,12 @@
 <?php
-      
+        spl_autoload_register(function ($class) {
+        include_once '../classes/' . $class . '.class.php';
+    });   
     session_start();
 
-    $conn = new PDO('mysql:host=localhost;dbname=IMDstagram', "root", "root");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db =  new Db();
+    $conn = $db->connect();
+
 
     $userN = $_SESSION['user'];
     $id = $_POST['index'];
@@ -93,7 +96,7 @@
                 }
 
                 $item[] = $row['filter'];
-                $item[] = $row['profilePicture'];
+                $item['avatar'] = $row['profilePicture'];
 
                
                 $posts[] = $item;

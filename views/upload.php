@@ -13,7 +13,10 @@
     $photo = new Photo();
 
     if(!empty($_POST['description'])){
-        $photo->Location = $_POST['coordinates'];
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$_POST['coordinates'].'&key=AIzaSyAh_xS_8wsg53h_8Zb6nPbgj1_j8AMb84s';
+        $json = file_get_contents($url);
+        $data = json_decode($json, TRUE);
+        $photo->Location = $data['results'][0]['address_components'][2]['long_name'] . ", " . $data['results'][0]['address_components'][6]['long_name'];
         $photo->Filter = $_POST['filter'];
         $photo->upload($_POST["description"], $_SESSION['user'], $_FILES['image']);
     }     
@@ -32,26 +35,37 @@
 
     <?php include_once("header.php"); ?>
 
-
     <div class="container-fluid">
                    
         <div class="upload-container">
-
+            
+            <!-- Form to add a description to your uploaded photo -->
+            <div class="add-image-info">
+                <div class="content">
+                <!-- Uploaded image preview -->
+                <figure id="change-filter">
+                    <img class="image" src="<?php echo $image ?>">
+                </figure>
+                    <form action="" method="post" id="publish-form" enctype="multipart/form-data">
+                        <div class="wrapper upload-form">
+                            <h1>Upload your photo</h1>
+                            <label for="file" class="button">Choose a file</label>
+                            <input type="file" name="image" id="file" class="inputfile" />
+                        </div>
                         
-            <!-- Photo upload screen -->
-            <div class="wrapper upload-form">
-                <h1>Upload your photo</h1>
-            </div>
-
-                                
+                        <input type="text" name="image" id="image-field" hidden>
+                        <input class="input-filter" type="text" name="filter" hidden value="">
+                        <input type="text" name="coordinates" id="coords" hidden>
+                        <textarea name="description" class="image-description-field"></textarea>
+                    </form>
+                    <div class="button-group">
+                        <button type="button" id="anotherPhoto" class="button custom-button">Cancel</button>
+                        <button type="button" id="publish" class="button custom-button">Publish</button>
+                    </div>
+                </div>
+            </div>                    
 
             <div class="wrapper-image-filter">
-                                
-                <!-- Uploaded image preview -->
-                <div id="change-filter">
-                    <div class="image" style="background-image:url(<?php echo $image ?>)"></div>
-                </div>
-                            
                 <!-- Filters -->
                 <div class="wrap-filters">
                     <div class="filter filter-1">
@@ -108,22 +122,7 @@
                                 
             </div> <!-- END wrapper-image-filter -->
 
-            <!-- Form to add a description to your uploaded photo -->
-            <div class="add-image-info">
-                <div class="content">
-                    <form action="" method="post" id="publish-form" enctype="multipart/form-data">
-                    <input type="file" id="file" name="image" accept=".jpg,.png">
-                        <input type="text" name="image" id="image-field" hidden>
-                        <input class="input-filter" type="text" name="filter" hidden value="">
-                        <input type="text" name="coordinates" id="coords" hidden>
-                        <textarea name="description" class="image-description-field"></textarea>
-                    </form>
-                    <div class="button-group">
-                        <button type="button" id="anotherPhoto" class="button custom-button">Cancel</button>
-                        <button type="button" id="publish" class="button custom-button">Publish</button>
-                    </div>
-                </div>
-            </div>
+
 
  
                         
@@ -140,7 +139,7 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            alert("Geolocation is not supported by this browser.");
         }
 
         function showPosition(position) {

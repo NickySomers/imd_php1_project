@@ -45,14 +45,17 @@
                     <h1><?php echo $user->Firstname . " " . $user->Lastname; ?> </h1>
                     <div class="profile-follow">
                     <?php
-
-                        if($user->checkFollow()){
-                            echo'<input id="follow" name="follow" type="submit" value="follow"  class="button">';
-                            echo '<input id="unfollow" name="following" type="submit" value="following" style="display:none;" class="button">';
+                        if($user->Id != $_SESSION['user']){
+                            if($user->checkFollow()){
+                                echo'<input id="follow" name="follow" type="submit" value="follow"  class="button">';
+                                echo '<input id="unfollow" name="following" type="submit" value="following" style="display:none;" class="button">';
+                            }else{
+                                echo'<input id=
+                                "follow" name="follow" type="submit" value="follow" style="display:none;" class="button">';
+                                echo '<input id="unfollow" name="following" type="submit" value="following" class="button">';
+                            }
                         }else{
-                            echo'<input id=
-                            "follow" name="follow" type="submit" value="follow" style="display:none;" class="button">';
-                            echo '<input id="unfollow" name="following" type="submit" value="following" class="button">';
+                            echo '<a href="settings.php" class="button"><i class="fa fa-cogs" aria-hidden="true"></i> Your settings</a>';
                         }
 
                     ?>
@@ -89,24 +92,27 @@
         <div class="profile-grid container-fluid">
             <div class="wrapper">
             <?php
+                if($user->Private && $user->checkIfUserFollows() == false && $user->Id != $_SESSION['user']): 
+                    echo "<div class='feed-message'><h1>The account @" . $user->Username . " is private.</h1><p>If you want to see the posts of @" . $user->Username . ", you can ask him for permission by clicking on the follow button.</p></div>";
+                else:
+                    $posts = $user->loadProfile();
 
-                $posts = $user->loadProfile();
-
-                if(count($posts) == 0):
-                    echo "<p>There are no posts at this moment</p>";
-                else: 
-
-                for($i = 0; $i < count($posts); $i++):
-                    $filter = $posts[$i]->Filter;
-                    if(!empty($filter)){
-                        echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><figure class="'.$filter.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></figure></div></a>';
-                    }else{
-                        echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div></a>';
-                    }
-                    
+                    if(count($posts) == 0):
+                        echo "<p>There are no posts at this moment</p>";
+                    else: 
+                        for($i = 0; $i < count($posts); $i++):
+                            $filter = $posts[$i]->Filter;
+                            if(!empty($filter)){
+                                echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><figure class="'.$filter.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></figure></div></a>';
+                            }else{
+                                echo '<a href="post.php?id='.$posts[$i]->Id.'"><div class="col-md-4 profile-grid-image-container" data-index="'.$posts[$i]->Id.'"><div class="profile-grid-image" style="background-image: url('.$posts[$i]->Path.')"></div></div></a>';
+                            }
+                            
 
 
-                endfor; endif;
+                        endfor; 
+                    endif;
+                endif;
 
             ?>
             </div>

@@ -14,7 +14,7 @@
 
     $tag = $conn->query("SELECT * FROM posts_tags WHERE tag LIKE '%{$key}%' LIMIT 10");
 
-    $location = $conn->query("SELECT * FROM posts WHERE location LIKE '%{$key}%' LIMIT 10");
+    $location = $conn->query("SELECT * FROM posts WHERE location LIKE '%".$key."%' LIMIT 10");
 
     while($u = $user->fetch(PDO::FETCH_ASSOC))
     {
@@ -23,12 +23,12 @@
 
     while($t = $tag->fetch(PDO::FETCH_ASSOC))
     {
-        $tags[] = "<div class='container-block'><a href='tag.php?id=".$t['id']."'><div class='wrap-item full-width'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
+        $tags[] = "<div class='container-block'><a href='search.php?q=".$t['tag']."'><div class='wrap-item full-width'><div class='tagtext'>#".$t['tag']."</div></div></a></div>";
     }
 
     while($l = $location->fetch(PDO::FETCH_ASSOC))
     {
-        $locations[] = "<div class='container-block'><a href='tag.php?id=".$l['id']."'><div class='wrap-item full-width'><div class='locationtext'>".$l['location']."</div></div></a></div>";
+        $locations[] = "<div class='container-block'><a href='search.php?q=".$l['location']."'><div class='wrap-item full-width'><div class='locationtext'>".$l['location']."</div></div></a></div>";
     }
 
     $data = array($users, $tags, $locations);

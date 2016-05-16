@@ -41,7 +41,7 @@ $(document).ready(function(){
                     for(var i = 0; i < data[1].length; i++)
                     {
 
-                        var header_content = '<div class="profile-pic" style="background-image: url('+data[1][i][9]+')"></div><div class="profile-name"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="minutes-posted">'+data[1][i][3]+'</div>';
+                        var header_content = '<div class="profile-pic" style="background-image: url('+data[1][i]["avatar"]+')"></div><div class="profile-name"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="minutes-posted">'+data[1][i][3]+'</div>';
                         var header = '<div class="header-photo">'+header_content+'</div>';
                         
                         if(data[1][i][8] != ""){
@@ -62,7 +62,7 @@ $(document).ready(function(){
                             liked = "";
                         }
 
-                        var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment" placeholder="Add a comment..."><div class="flag"></div></div>';
+                        var footer_content = '<div class="likes"><span class="likesCount">' + data[1][i][6] + '</span> likes</div><div class="wrap-description"><div class="description-username"><a href="profile.php?id='+data[1][i][3]+'">'+data[1][i][2]+'</a></div><div class="description-text">'+data[1][i][1]+'</div></div><div class="line"></div><div class="wrap-liken"><div class="liken '+liked+'"></div><input type="text" name="comment" class="comment-input" placeholder="Add a comment..."><div class="flag"></div></div>';
                         var footer = '<div class="footer-photo">'+footer_content+'</div>';
                         var post = '<div class="wrap-photo" data-index="' + data[1][i][4] + '">' + header + image + footer + '</div>';            
 
@@ -177,16 +177,23 @@ $("#file").change(function(){
     var input = this;
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-
+        reader.readAsDataURL(input.files[0]);
         reader.onload = function (e) {
+
             $(".upload-form").hide();
+            $(".add-image-info").css("height", "80vh");
             $(".image-background").css("background-image", "url("+e.target.result+")");
             $(".image-filter").css("background-image", "url("+e.target.result+")");
-            $(".image").css("background-image", "url("+e.target.result+")");
-            $("1image-field").css("value", e.target.result);
+            $(".image").attr("src", e.target.result);
+            $(".wrapper-image-filter").show();
+            $(".image").show();
+            $("#change-filter").show();
+            $(".add-image-info .button-group").css("display", "flex");
+            $(".image-description-field").show();
+            $(".image-field").css("value", e.target.result);
         }
 
-        reader.readAsDataURL(input.files[0]);
+        
     }
    
 });
