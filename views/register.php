@@ -1,24 +1,28 @@
 <?php 
 
     include_once("../classes/User.class.php");
-
+    include_once('../php/facebook/src/Facebook/autoload.php');
+    session_start();
     if(!empty($_POST))
     {
         try
-        {   
+        {  
             $user = new User();
-            $user->FullName = $_POST['full_name'];
-            $user->Email = $_POST['register_email'];
-            $password = $_POST['register_password'];
-            $confirm_password = $_POST['confirm_register_password'];
-            $user->Register($password, $confirm_password);
+            $user->Firstname = htmlspecialchars($_POST['firstname']);
+            $user->Lastname = htmlspecialchars($_POST['lastname']);
+            $user->Username = htmlspecialchars($_POST['username']);
+            $user->Email = htmlspecialchars($_POST['register_email']);
+            $user->Password = htmlspecialchars($_POST['register_password']);
+            $user->ConfirmPassword = htmlspecialchars($_POST['confirm_register_password']);
+		    $user->register();
         }
-        catch(Exception $e)
+        catch(exception $e)
         {
             $error = $e->getMessage();
         }
-    }
-    
+	}
+
+
 ?><!DOCTYPE html>
 <html>
 	<head>
@@ -28,15 +32,17 @@
 	</head>
 	<body class="home">
 		<div class="overlay"></div>
-		<div class="login">			
-            <form action="" method="post">
-                <?php if(isset($error)): ?>
-                    <div class="error">
-                        <?php echo $error; ?>
-                    </div>
+		<div class="signup">
+			<form action="" method="post">
+                <?php if(isset($error) && !empty($error)): ?>
+                    <div class="error"><?php echo $error; ?></div>
                 <?php endif; ?>
-                <label for="full_name">Full name</label>
-				<input type="text" name="full_name" class="textfield" placeholder="Full name">
+                <label for="firstname">First name</label>
+				<input type="text" name="firstname" class="textfield" placeholder="First name">
+                <label for="lastname">Last name</label>
+				<input type="text" name="lastname" class="textfield" placeholder="Last name">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="textfield" placeholder="Username">
 				<label for="register_email">E-mail</label>
 				<input type="text" name="register_email" class="textfield" placeholder="E-mail">
 				<label for="register_password">Password</label>
@@ -44,6 +50,28 @@
                 <label for="confirm_register_password">Confirm password</label>
 				<input type="password" name="confirm_register_password" class="textfield" placeholder="Confirm password">
 				<input type="submit" class="button" value="Register">
+				
+                <div class="button-group">
+     
+                        <input type="submit" class="button" value="Register">
+                        <?php
+                            $fb = new Facebook\Facebook([
+                              'app_id' => '1020966631330308', // Replace {app-id} with your app id
+                              'app_secret' => '82ec1625a31d76812feeeab549b7c8c9',
+                              'default_graph_version' => 'v2.2',
+                              ]);
+
+                            $helper = $fb->getRedirectLoginHelper();
+
+                            $permissions = ['email']; // Optional permissions
+                           $loginUrl = $helper->getLoginUrl('http://imdstagram.wearestrong.be/views/fb-register.php', $permissions);
+// $loginUrl = $helper->getLoginUrl('http://localhost:8888/views/fb-register.php', $permissions);
+
+                            echo '<a href="' . htmlspecialchars($loginUrl) . '" class="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Sign up with Facebook</a>';
+                        ?>       
+                    
+                </div>
+                <a href="index.php" class="already-signedup">Already signed up?</a>
 			</form>
 		</div>
 	</body>
